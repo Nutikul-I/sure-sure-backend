@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var logFile = "/tmp/payso-external-api.log"
+var logFile = "./logs/payso-external-api.log"
 var logLevel = "DEBUG"
 
 func Init() {

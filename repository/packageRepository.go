@@ -43,7 +43,7 @@ func GetPackageByID(id int) (model.SureSurePackage, error) {
 	if err != nil {
 		return model.SureSurePackage{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_PACKAGE_GET_BYID, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_PACKAGE_GET_BYID, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return model.SureSurePackage{}, err
@@ -51,8 +51,8 @@ func GetPackageByID(id int) (model.SureSurePackage, error) {
 	var pkg model.SureSurePackage
 	err = scan.Row(&pkg, rows)
 	defer rows.Close()
-	if pkg.ID == 0 {
-		log.Errorf("Not Found: %v", err)
+	if err != nil {
+		log.Errorf("Error scanning row: %v", err)
 		return model.SureSurePackage{}, err
 	}
 
@@ -237,11 +237,10 @@ func DeletePackage(id int) error {
 	if err != nil {
 		return err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_PACKAGE_DELETE, sql.Named("ID", id))
+	_, err = conn.ExecContext(ctx, model.SQL_PACKAGE_DELETE, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return err
 	}
-	defer rows.Close()
 	return nil
 }

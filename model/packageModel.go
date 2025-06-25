@@ -22,8 +22,8 @@ COALESCE (Amount,0.00) AS Amount,
 COALESCE (Ordered,0) AS Ordered,
 COALESCE (Duration,0) AS Duration,
 COALESCE (IsActive,0) AS IsActive,
-COALESCE (CreatedDate,'') AS CreatedDate,
-COALESCE (UpdatedDate,'') AS UpdatedDate
+COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
+COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
  FROM SureSurePackage`
 var SQL_PACKAGE_GET_BYID = `SELECT 
 ID,
@@ -34,10 +34,10 @@ COALESCE (Amount,0.00) AS Amount,
 COALESCE (Ordered,0) AS Ordered,
 COALESCE (Duration,0) AS Duration,
 COALESCE (IsActive,0) AS IsActive,
-COALESCE (CreatedDate,'') AS CreatedDate,
-COALESCE (UpdatedDate,'') AS UpdatedDate
- FROM SureSurePackage WHERE ID = @ID`
-var SQL_PACKAGE_DELETE = "DELETE FROM SureSurePackage WHERE ID = @ID"
+COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
+COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
+ FROM SureSurePackage WHERE ID = $1`
+var SQL_PACKAGE_DELETE = "DELETE FROM SureSurePackage WHERE ID = $1"
 var SQL_PACKAGE_FROM_ORDER_UPDATE = `
 UPDATE SureSurePackage
 SET

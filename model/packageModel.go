@@ -15,27 +15,27 @@ type SureSurePackage struct {
 
 var SQL_PACKAGE_GET = `SELECT 
 ID,
-ISNULL (PackageName,'') AS PackageName,
-ISNULL (PackagePrice,0.00) AS PackagePrice,
-ISNULL (QuotaLimit,0) AS QuotaLimit,
-ISNULL (Amount,0.00) AS Amount,
-ISNULL (Ordered,0) AS Ordered,
-ISNULL (Duration,0) AS Duration,
-ISNULL (IsActive,0) AS IsActive,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (PackageName,'') AS PackageName,
+COALESCE (PackagePrice,0.00) AS PackagePrice,
+COALESCE (QuotaLimit,0) AS QuotaLimit,
+COALESCE (Amount,0.00) AS Amount,
+COALESCE (Ordered,0) AS Ordered,
+COALESCE (Duration,0) AS Duration,
+COALESCE (IsActive,0) AS IsActive,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
  FROM SureSurePackage`
 var SQL_PACKAGE_GET_BYID = `SELECT 
 ID,
-ISNULL (PackageName,'') AS PackageName,
-ISNULL (PackagePrice,0.00) AS PackagePrice,
-ISNULL (QuotaLimit,0) AS QuotaLimit,
-ISNULL (Amount,0.00) AS Amount,
-ISNULL (Ordered,0) AS Ordered,
-ISNULL (Duration,0) AS Duration,
-ISNULL (IsActive,0) AS IsActive,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (PackageName,'') AS PackageName,
+COALESCE (PackagePrice,0.00) AS PackagePrice,
+COALESCE (QuotaLimit,0) AS QuotaLimit,
+COALESCE (Amount,0.00) AS Amount,
+COALESCE (Ordered,0) AS Ordered,
+COALESCE (Duration,0) AS Duration,
+COALESCE (IsActive,0) AS IsActive,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
  FROM SureSurePackage WHERE ID = @ID`
 var SQL_PACKAGE_DELETE = "DELETE FROM SureSurePackage WHERE ID = @ID"
 var SQL_PACKAGE_FROM_ORDER_UPDATE = `

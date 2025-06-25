@@ -16,28 +16,28 @@ type SureSureBank struct {
 
 var SQL_BANK_ACCOUNT_GET = `SELECT 
 ID,
-ISNULL (UserID,0) AS UserID,
-ISNULL (BankCode,'') AS BankCode,
-ISNULL (PromptPayType,'') AS PromptPayType,
-ISNULL (AccountNo,'') AS AccountNo,
-ISNULL (AccountType,'') AS AccountType,
-ISNULL (NameTH,'') AS NameTH,
-ISNULL (NameEN,'') AS NameEN,
-ISNULL (IsActive,0) AS IsActive,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (UserID,0) AS UserID,
+COALESCE (BankCode,'') AS BankCode,
+COALESCE (PromptPayType,'') AS PromptPayType,
+COALESCE (AccountNo,'') AS AccountNo,
+COALESCE (AccountType,'') AS AccountType,
+COALESCE (NameTH,'') AS NameTH,
+COALESCE (NameEN,'') AS NameEN,
+COALESCE (IsActive,0) AS IsActive,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
  FROM SureSureBank`
 var SQL_BANK_ACCOUNT_GET_BYID = `SELECT 
 ID,
-ISNULL (UserID,0) AS UserID,
-ISNULL (BankCode,'') AS BankCode,
-ISNULL (PromptPayType,'') AS PromptPayType,
-ISNULL (AccountNo,'') AS AccountNo,
-ISNULL (AccountType,'') AS AccountType,
-ISNULL (NameTH,'') AS NameTH,
-ISNULL (NameEN,'') AS NameEN,
-ISNULL (IsActive,0) AS IsActive,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (UserID,0) AS UserID,
+COALESCE (BankCode,'') AS BankCode,
+COALESCE (PromptPayType,'') AS PromptPayType,
+COALESCE (AccountNo,'') AS AccountNo,
+COALESCE (AccountType,'') AS AccountType,
+COALESCE (NameTH,'') AS NameTH,
+COALESCE (NameEN,'') AS NameEN,
+COALESCE (IsActive,0) AS IsActive,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
  FROM SureSureBank WHERE UserID = @ID`
 var SQL_BANK_ACCOUNT_DELETE = "DELETE FROM SureSureBank WHERE ID = @ID"

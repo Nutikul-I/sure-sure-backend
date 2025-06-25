@@ -13,21 +13,21 @@ type SureSureLog struct {
 
 var SQL_LOG_GET = `SELECT 
 ID,
-ISNULL (Action,'') AS Action,
-ISNULL (MethodName,'') AS MethodName,
-ISNULL (UserID,'') AS UserID,
-ISNULL (NameTH,'') AS NameTH,
-ISNULL (DataRequest,'') AS DataRequest,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (Action,'') AS Action,
+COALESCE (MethodName,'') AS MethodName,
+COALESCE (UserID,'') AS UserID,
+COALESCE (NameTH,'') AS NameTH,
+COALESCE (DataRequest,'') AS DataRequest,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
 FROM SureSureLog`
 var SQL_LOG_GET_BYID = `SELECT 
 ID,
-ISNULL (Action,'') AS Action,
-ISNULL (MethodName,'') AS MethodName,
-ISNULL (UserID,'') AS UserID,
-ISNULL (NameTH,'') AS NameTH,
-ISNULL (DataRequest,'') AS DataRequest,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate FROM SureSureLog WHERE UserID = @ID`
+COALESCE (Action,'') AS Action,
+COALESCE (MethodName,'') AS MethodName,
+COALESCE (UserID,'') AS UserID,
+COALESCE (NameTH,'') AS NameTH,
+COALESCE (DataRequest,'') AS DataRequest,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate FROM SureSureLog WHERE UserID = @ID`
 var SQL_LOG_DELETE = "DELETE FROM SureSureLog WHERE ID = @ID"

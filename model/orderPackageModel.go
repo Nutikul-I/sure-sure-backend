@@ -40,43 +40,43 @@ type OrderDetailPost struct {
 
 var SQL_ORDER_PACKAGE_GET = `SELECT 
 ID,
-ISNULL (RefNo,'') AS RefNo,
-ISNULL (UserID,0) AS UserID,
-ISNULL (PackageID,0) AS PackageID,
-ISNULL (Price,0.00) AS Price,
-ISNULL (Status,'') AS Status,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (RefNo,'') AS RefNo,
+COALESCE (UserID,0) AS UserID,
+COALESCE (PackageID,0) AS PackageID,
+COALESCE (Price,0.00) AS Price,
+COALESCE (Status,'') AS Status,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
 FROM SureSureOrderPackage`
 var SQL_ORDER_PACKAGE_PENDING_GET = `SELECT 
 ID,
-ISNULL (RefNo,'') AS RefNo,
-ISNULL (UserID,0) AS UserID,
-ISNULL (PackageID,0) AS PackageID,
-ISNULL (Price,0.00) AS Price,
-ISNULL (Status,'') AS Status,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (RefNo,'') AS RefNo,
+COALESCE (UserID,0) AS UserID,
+COALESCE (PackageID,0) AS PackageID,
+COALESCE (Price,0.00) AS Price,
+COALESCE (Status,'') AS Status,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
 FROM SureSureOrderPackage
 WHERE Status = 'PENDING'`
 var SQL_ORDER_PACKAGE_GET_BYID = `SELECT 
 ID,
-ISNULL (RefNo,'') AS RefNo,
-ISNULL (UserID,0) AS UserID,
-ISNULL (PackageID,0) AS PackageID,
-ISNULL (Price,0.00) AS Price,
-ISNULL (Status,'') AS Status,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (RefNo,'') AS RefNo,
+COALESCE (UserID,0) AS UserID,
+COALESCE (PackageID,0) AS PackageID,
+COALESCE (Price,0.00) AS Price,
+COALESCE (Status,'') AS Status,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
 FROM SureSureOrderPackage WHERE UserID = @ID`
 var SQL_ORDER_PACKAGE_GET_BYREFNO = `SELECT 
 ID,
-ISNULL (RefNo,'') AS RefNo,
-ISNULL (UserID,0) AS UserID,
-ISNULL (PackageID,0) AS PackageID,
-ISNULL (Price,0.00) AS Price,
-ISNULL (Status,'') AS Status,
-ISNULL (CreatedDate,'') AS CreatedDate,
-ISNULL (UpdatedDate,'') AS UpdatedDate
+COALESCE (RefNo,'') AS RefNo,
+COALESCE (UserID,0) AS UserID,
+COALESCE (PackageID,0) AS PackageID,
+COALESCE (Price,0.00) AS Price,
+COALESCE (Status,'') AS Status,
+COALESCE (CreatedDate,'') AS CreatedDate,
+COALESCE (UpdatedDate,'') AS UpdatedDate
 FROM SureSureOrderPackage WHERE RefNo = @RefNo`
 var SQL_ORDER_PACKAGE_DELETE = "DELETE FROM SureSureOrderPackage WHERE ID = @ID"

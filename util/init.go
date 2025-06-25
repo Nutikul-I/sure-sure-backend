@@ -94,13 +94,28 @@ func Init() {
 		log.SetLevel(log.ErrorLevel)
 	}
 
-	//Log Stash
-	hook, err := logrus_logstash.NewHook("tcp", viper.GetString("LOGSTASH"), "simple-noti")
-	if err != nil {
-		log.Error(err)
+	// //Log Stash
+	// hook, err := logrus_logstash.NewHook("tcp", viper.GetString("LOGSTASH"), "simple-noti")
+	// if err != nil {
+	//     log.Error(err)
+	// } else {
+	//     log.Info("==-- Add Log Stash --==")
+	//     log.AddHook(hook)
+	// }
+
+	//Log Stash - ปิดการใช้งานใน development
+	logstashAddr := viper.GetString("LOGSTASH")
+	if logstashAddr != "" && logstashAddr != "disabled" {
+		log.Info("==-- Connecting to Logstash --==")
+		hook, err := logrus_logstash.NewHook("tcp", logstashAddr, "simple-noti")
+		if err != nil {
+			log.Warnf("Cannot connect to Logstash at %s: %v - continuing without Logstash", logstashAddr, err)
+		} else {
+			log.Info("==-- Add Log Stash Successfully --==")
+			log.AddHook(hook)
+		}
 	} else {
-		log.Info("==-- Add Log Stash --==")
-		log.AddHook(hook)
+		log.Info("==-- Logstash disabled (development mode) --==")
 	}
 
 }

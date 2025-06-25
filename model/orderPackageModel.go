@@ -68,7 +68,7 @@ COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
 COALESCE (CreatedDate,'') AS CreatedDate,
 COALESCE (UpdatedDate,'') AS UpdatedDate
-FROM SureSureOrderPackage WHERE UserID = @ID`
+FROM SureSureOrderPackage WHERE UserID = $1`
 var SQL_ORDER_PACKAGE_GET_BYREFNO = `SELECT 
 ID,
 COALESCE (RefNo,'') AS RefNo,
@@ -78,5 +78,5 @@ COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
 COALESCE (CreatedDate,'') AS CreatedDate,
 COALESCE (UpdatedDate,'') AS UpdatedDate
-FROM SureSureOrderPackage WHERE RefNo = @RefNo`
-var SQL_ORDER_PACKAGE_DELETE = "DELETE FROM SureSureOrderPackage WHERE ID = @ID"
+FROM SureSureOrderPackage WHERE RefNo = $1`
+var SQL_ORDER_PACKAGE_DELETE = "DELETE FROM SureSureOrderPackage WHERE ID = $1"

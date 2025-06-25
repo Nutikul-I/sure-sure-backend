@@ -64,7 +64,7 @@ func GetOrderPackageByID(id int) ([]model.SureSureOrderPackage, error) {
 	if err != nil {
 		return []model.SureSureOrderPackage{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_ORDER_PACKAGE_GET_BYID, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_ORDER_PACKAGE_GET_BYID, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return []model.SureSureOrderPackage{}, err
@@ -83,7 +83,7 @@ func GetOrderPackageByRefNo(RefNo string) (model.SureSureOrderPackage, error) {
 	if err != nil {
 		return model.SureSureOrderPackage{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_ORDER_PACKAGE_GET_BYREFNO, sql.Named("RefNo", RefNo))
+	rows, err := conn.QueryContext(ctx, model.SQL_ORDER_PACKAGE_GET_BYREFNO, RefNo)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return model.SureSureOrderPackage{}, err
@@ -102,94 +102,47 @@ func CreateOrderPackage(pkg model.SureSureOrderPackage) (int, error) {
 		return 0, err
 	}
 	log.Info("CreateOrderPackage")
-	// Build query dynamically
-	query := "INSERT INTO SureSureOrderPackage ("
-	values := "VALUES ("
-	params := []interface{}{}
-	counter := 1
 
-	if pkg.RefNo != "" {
-		query += "RefNo, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.RefNo))
-		counter++
+	// Simplified query with all required fields - ใช้ PostgreSQL syntax
+	query := `INSERT INTO SureSureOrderPackage 
+		(RefNo, UserID, PackageID, Price, Status, CreatedDate, UpdatedDate) 
+		VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
+		RETURNING ID`
+
+	params := []interface{}{
+		pkg.RefNo,
+		pkg.UserID,
+		pkg.PackageID,
+		pkg.Price,
+		pkg.Status,
 	}
 
-	if pkg.UserID != 0 {
-		query += "UserID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.UserID))
-		counter++
-	}
+	log.Infof("CreateOrderPackage query: %s", query)
+	log.Infof("CreateOrderPackage params: %v", params)
 
-	if pkg.PackageID != 0 {
-		query += "PackageID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.PackageID))
-		counter++
-	}
-
-	if pkg.Price != 0 {
-		query += "Price, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Price))
-		counter++
-	}
-
-	if pkg.Status != "" {
-		query += "Status, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Status))
-		counter++
-	}
-
-	if pkg.CreatedDate != "" {
-		query += "CreatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.CreatedDate))
-		counter++
-	}
-
-	if pkg.UpdatedDate != "" {
-		query += "UpdatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.UpdatedDate))
-		counter++
-	}
-
-	query = query[:len(query)-2] + ") "
-	values = values[:len(values)-2] + ")"
-	finalQuery := query + " " + values
-
-	log.Infof("finalQuery: %v", finalQuery)
-	result, err := conn.ExecContext(ctx, finalQuery, params...)
+	var newID int
+	err = conn.QueryRowContext(ctx, query, params...).Scan(&newID)
 	if err != nil {
-		log.Errorf("Error executing query: %v", err)
+		log.Errorf("Error executing create query: %v", err)
 		return 0, err
 	}
 
-	log.Infof("result: %v", result)
+	log.Infof("Successfully created order package with ID: %d", newID)
+
 	if pkg.Status == "SUCCESS" {
-		_, err = conn.ExecContext(ctx, model.SQL_PACKAGE_FROM_ORDER_UPDATE, sql.Named("RefNo", pkg.RefNo))
+		_, err = conn.ExecContext(ctx, model.SQL_PACKAGE_FROM_ORDER_UPDATE, pkg.RefNo)
 		if err != nil {
-			log.Errorf("Error executing query: %v", err)
+			log.Errorf("Error executing package update query: %v", err)
 			return 0, err
 		}
-		_, err = conn.ExecContext(ctx, model.SQL_USER_FROM_ORDER_UPDATE, sql.Named("RefNo", pkg.RefNo))
+		_, err = conn.ExecContext(ctx, model.SQL_USER_FROM_ORDER_UPDATE, pkg.RefNo)
 		if err != nil {
-			log.Errorf("Error executing query: %v", err)
+			log.Errorf("Error executing user update query: %v", err)
 			return 0, err
 		}
-
 	}
-	// Retrieve the last inserted ID
-	// lastInsertedID, err := result.LastInsertId()
-	// if err != nil {
-	// 	log.Errorf("Error retrieving last insert ID: %v", err)
-	// 	return 0, err
-	// }
 
-	return 0, nil
+	return newID, nil
 }
 
 func UpdateOrderPackage(pkg model.SureSureOrderPackage) error {
@@ -199,63 +152,63 @@ func UpdateOrderPackage(pkg model.SureSureOrderPackage) error {
 	if err != nil {
 		return err
 	}
-	// Initialize query parts
+
+	// Initialize query parts - ใช้ PostgreSQL syntax
 	query := "UPDATE SureSureOrderPackage SET "
 	params := []interface{}{}
 	counter := 1
 
 	// Dynamically add fields and values
-
 	if pkg.UserID != 0 {
-		query += fmt.Sprintf("UserID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.UserID))
+		query += fmt.Sprintf("UserID = $%d, ", counter)
+		params = append(params, pkg.UserID)
 		counter++
 	}
 
 	if pkg.PackageID != 0 {
-		query += fmt.Sprintf("PackageID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.PackageID))
+		query += fmt.Sprintf("PackageID = $%d, ", counter)
+		params = append(params, pkg.PackageID)
 		counter++
 	}
 
 	if pkg.Price != 0 {
-		query += fmt.Sprintf("Price = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Price))
+		query += fmt.Sprintf("Price = $%d, ", counter)
+		params = append(params, pkg.Price)
 		counter++
 	}
 
 	if pkg.Status != "" {
-		query += fmt.Sprintf("Status = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Status))
+		query += fmt.Sprintf("Status = $%d, ", counter)
+		params = append(params, pkg.Status)
 		counter++
 	}
 
-	if pkg.UpdatedDate != "" {
-		query += fmt.Sprintf("UpdatedDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.UpdatedDate))
-		counter++
-	}
+	// Always update UpdatedDate to current timestamp
+	query += "UpdatedDate = CURRENT_TIMESTAMP, "
 
 	// Remove trailing comma and space, add WHERE clause
-	query = query[:len(query)-2] + " WHERE RefNo = @p" + fmt.Sprintf("%d", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.RefNo))
+	query = query[:len(query)-2] + fmt.Sprintf(" WHERE RefNo = $%d", counter)
+	params = append(params, pkg.RefNo)
+
+	log.Infof("UpdateOrderPackage query: %s", query)
+	log.Infof("UpdateOrderPackage params: %v", params)
 
 	// Execute query
 	_, err = conn.ExecContext(ctx, query, params...)
 	if err != nil {
-		log.Errorf("Error executing query: %v", err)
+		log.Errorf("Error executing update query: %v", err)
 		return err
 	}
 
 	if pkg.Status == "SUCCESS" {
-		_, err = conn.ExecContext(ctx, model.SQL_PACKAGE_FROM_ORDER_UPDATE, sql.Named("RefNo", pkg.RefNo))
+		_, err = conn.ExecContext(ctx, model.SQL_PACKAGE_FROM_ORDER_UPDATE, pkg.RefNo)
 		if err != nil {
-			log.Errorf("Error executing query: %v", err)
+			log.Errorf("Error executing package update query: %v", err)
 			return err
 		}
-		_, err = conn.ExecContext(ctx, model.SQL_USER_FROM_ORDER_UPDATE, sql.Named("RefNo", pkg.RefNo))
+		_, err = conn.ExecContext(ctx, model.SQL_USER_FROM_ORDER_UPDATE, pkg.RefNo)
 		if err != nil {
-			log.Errorf("Error executing query: %v", err)
+			log.Errorf("Error executing user update query: %v", err)
 			return err
 		}
 	}
@@ -270,11 +223,10 @@ func DeleteOrderPackage(id int) error {
 	if err != nil {
 		return err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_ORDER_PACKAGE_DELETE, sql.Named("ID", id))
+	_, err = conn.ExecContext(ctx, model.SQL_ORDER_PACKAGE_DELETE, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return err
 	}
-	defer rows.Close()
 	return nil
 }

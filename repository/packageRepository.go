@@ -21,18 +21,46 @@ func GetPackageAll() ([]model.SureSurePackage, error) {
 	if err != nil {
 		return []model.SureSurePackage{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_PACKAGE_GET)
 
+	log.Infof("Executing query: %s", model.SQL_PACKAGE_GET)
+	rows, err := conn.QueryContext(ctx, model.SQL_PACKAGE_GET)
 	if err != nil {
 		log.Errorf("ERROR: %#v", err)
 		return []model.SureSurePackage{}, err
 	}
+	defer rows.Close()
 
 	var packages []model.SureSurePackage
-	err = scan.Rows(&packages, rows)
 
-	defer rows.Close()
-	log.Infof("packages: %d", len(packages))
+	// Manual scanning for debugging
+	for rows.Next() {
+		var pkg model.SureSurePackage
+		err := rows.Scan(
+			&pkg.ID,
+			&pkg.PackageName,
+			&pkg.PackagePrice,
+			&pkg.QuotaLimit,
+			&pkg.Amount,
+			&pkg.Ordered,
+			&pkg.Duration,
+			&pkg.IsActive,
+			&pkg.CreatedDate,
+			&pkg.UpdatedDate,
+		)
+		if err != nil {
+			log.Errorf("Error scanning row: %v", err)
+			continue
+		}
+		log.Infof("Scanned package: ID=%d, Name=%s, Price=%.2f", pkg.ID, pkg.PackageName, pkg.PackagePrice)
+		packages = append(packages, pkg)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Errorf("Rows error: %v", err)
+		return []model.SureSurePackage{}, err
+	}
+
+	log.Infof("Total packages found: %d", len(packages))
 	return packages, nil
 }
 
@@ -64,97 +92,40 @@ func CreatePackage(pkg model.SureSurePackage) (int, error) {
 	ctx := context.Background()
 	err := conn.PingContext(ctx)
 	if err != nil {
+		log.Errorf("Database ping failed: %v", err)
 		return 0, err
 	}
-	// Build query dynamically
-	query := "INSERT INTO SureSurePackage ("
-	values := "VALUES ("
-	params := []interface{}{}
-	counter := 1
 
-	if pkg.PackageName != "" {
-		query += "PackageName, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.PackageName))
-		counter++
+	log.Infof("Creating package: %+v", pkg)
+
+	// Simplified query with all required fields
+	query := `INSERT INTO SureSurePackage 
+		(PackageName, PackagePrice, QuotaLimit, Duration, IsActive, Amount, Ordered, CreatedDate, UpdatedDate) 
+		VALUES ($1, $2, $3, $4, $5, $6, $7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
+		RETURNING ID`
+
+	params := []interface{}{
+		pkg.PackageName,
+		pkg.PackagePrice,
+		pkg.QuotaLimit,
+		pkg.Duration,
+		pkg.IsActive,
+		pkg.Amount,
+		pkg.Ordered,
 	}
 
-	if pkg.PackagePrice != 0 {
-		query += "PackagePrice, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.PackagePrice))
-		counter++
-	}
+	log.Infof("CreatePackage query: %s", query)
+	log.Infof("CreatePackage params: %v", params)
 
-	if pkg.QuotaLimit != 0 {
-		query += "QuotaLimit, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.QuotaLimit))
-		counter++
-	}
-
-	if pkg.Amount != 0 {
-		query += "Amount, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Amount))
-		counter++
-	}
-
-	if pkg.Ordered != 0 {
-		query += "Ordered, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Ordered))
-		counter++
-	}
-
-	if pkg.Duration != 0 {
-		query += "Duration, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Duration))
-		counter++
-	}
-
-	if pkg.IsActive {
-		query += "IsActive, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.IsActive))
-		counter++
-	}
-
-	if pkg.CreatedDate != "" {
-		query += "CreatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.CreatedDate))
-		counter++
-	}
-
-	if pkg.UpdatedDate != "" {
-		query += "UpdatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.UpdatedDate))
-		counter++
-	}
-
-	query = query[:len(query)-2] + ") "
-	values = values[:len(values)-2] + ")"
-	finalQuery := query + " " + values
-
-	log.Infof("finalQuery: %v", finalQuery)
-	result, err := conn.ExecContext(ctx, finalQuery, params...)
+	var newID int
+	err = conn.QueryRowContext(ctx, query, params...).Scan(&newID)
 	if err != nil {
-		log.Errorf("Error executing query: %v", err)
+		log.Errorf("Error executing create query: %v", err)
 		return 0, err
 	}
 
-	log.Infof("result: %v", result)
-	// Retrieve the last inserted ID
-	// lastInsertedID, err := result.LastInsertId()
-	// if err != nil {
-	// 	log.Errorf("Error retrieving last insert ID: %v", err)
-	// 	return 0, err
-	// }
-
-	return 0, nil
+	log.Infof("Successfully created package with ID: %d", newID)
+	return newID, nil
 }
 
 func UpdatePackage(pkg model.SureSurePackage) error {
@@ -171,54 +142,55 @@ func UpdatePackage(pkg model.SureSurePackage) error {
 
 	// Dynamically add fields and values
 	if pkg.PackageName != "" {
-		query += fmt.Sprintf("PackageName = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.PackageName))
+		query += fmt.Sprintf("PackageName = $%d, ", counter)
+		params = append(params, pkg.PackageName)
 		counter++
 	}
 
 	if pkg.PackagePrice != 0 {
-		query += fmt.Sprintf("PackagePrice = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.PackagePrice))
+		query += fmt.Sprintf("PackagePrice = $%d, ", counter)
+		params = append(params, pkg.PackagePrice)
 		counter++
 	}
 
 	if pkg.QuotaLimit != 0 {
-		query += fmt.Sprintf("QuotaLimit = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.QuotaLimit))
+		query += fmt.Sprintf("QuotaLimit = $%d, ", counter)
+		params = append(params, pkg.QuotaLimit)
 		counter++
 	}
 
 	if pkg.Amount != 0 {
-		query += fmt.Sprintf("Amount = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Amount))
+		query += fmt.Sprintf("Amount = $%d, ", counter)
+		params = append(params, pkg.Amount)
 		counter++
 	}
 
 	if pkg.Ordered != 0 {
-		query += fmt.Sprintf("Ordered = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Ordered))
+		query += fmt.Sprintf("Ordered = $%d, ", counter)
+		params = append(params, pkg.Ordered)
 		counter++
 	}
 
 	if pkg.Duration != 0 {
-		query += fmt.Sprintf("Duration = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.Duration))
+		query += fmt.Sprintf("Duration = $%d, ", counter)
+		params = append(params, pkg.Duration)
 		counter++
 	}
 
-	query += fmt.Sprintf("IsActive = @p%d, ", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.IsActive))
+	// Always update IsActive
+	query += fmt.Sprintf("IsActive = $%d, ", counter)
+	params = append(params, pkg.IsActive)
 	counter++
 
-	if pkg.UpdatedDate != "" {
-		query += fmt.Sprintf("UpdatedDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.UpdatedDate))
-		counter++
-	}
+	// Add UpdatedDate
+	query += "UpdatedDate = CURRENT_TIMESTAMP, "
 
 	// Remove trailing comma and space, add WHERE clause
-	query = query[:len(query)-2] + " WHERE ID = @p" + fmt.Sprintf("%d", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), pkg.ID))
+	query = query[:len(query)-2] + fmt.Sprintf(" WHERE ID = $%d", counter)
+	params = append(params, pkg.ID)
+
+	log.Infof("UpdatePackage query: %s", query)
+	log.Infof("UpdatePackage params: %v", params)
 
 	// Execute query
 	_, err = conn.ExecContext(ctx, query, params...)

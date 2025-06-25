@@ -49,12 +49,12 @@ func (ctrl *packageController) GetPackageByID(c *fiber.Ctx) error {
 func (ctrl *packageController) CreatePackage(c *fiber.Ctx) error {
 	var pkg model.SureSurePackage
 	if err := c.BodyParser(&pkg); err != nil {
-		util.JSONResponse(c, fiber.StatusBadRequest, 4000, nil)
+		util.JSONResponse(c, fiber.StatusBadRequest, 4000, err.Error())
 		return nil
 	}
 	id, err := ctrl.PackageService.CreatePackage(pkg)
 	if err != nil {
-		util.JSONResponse(c, fiber.StatusInternalServerError, 5000, nil)
+		util.JSONResponse(c, fiber.StatusInternalServerError, 5000, err.Error())
 		return nil
 	}
 	util.JSONResponse(c, fiber.StatusOK, 2006, fiber.Map{"id": id})
@@ -64,11 +64,11 @@ func (ctrl *packageController) CreatePackage(c *fiber.Ctx) error {
 func (ctrl *packageController) UpdatePackage(c *fiber.Ctx) error {
 	var pkg model.SureSurePackage
 	if err := c.BodyParser(&pkg); err != nil {
-		util.JSONResponse(c, fiber.StatusBadRequest, 4000, nil)
+		util.JSONResponse(c, fiber.StatusBadRequest, 4000, err.Error())
 		return nil
 	}
 	if err := ctrl.PackageService.UpdatePackage(pkg); err != nil {
-		util.JSONResponse(c, fiber.StatusInternalServerError, 5000, nil)
+		util.JSONResponse(c, fiber.StatusInternalServerError, 5000, err.Error())
 		return nil
 	}
 	util.JSONResponse(c, fiber.StatusOK, 2006, nil)

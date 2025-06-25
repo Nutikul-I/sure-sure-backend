@@ -1,16 +1,16 @@
 package model
 
 type SureSurePackage struct {
-	ID           int     `json:"id"`
-	PackageName  string  `json:"package_name"`
-	PackagePrice float64 `json:"package_price"`
-	QuotaLimit   int     `json:"quota_limit"`
-	Amount       float64 `json:"amount"`
-	Ordered      int     `json:"ordered"`
-	Duration     int     `json:"duration"`
-	IsActive     bool    `json:"is_active"`
-	CreatedDate  string  `json:"created_date"`
-	UpdatedDate  string  `json:"updated_date"`
+	ID           int     `json:"id" db:"ID"`
+	PackageName  string  `json:"package_name" db:"PackageName"`
+	PackagePrice float64 `json:"package_price" db:"PackagePrice"`
+	QuotaLimit   int     `json:"quota_limit" db:"QuotaLimit"`
+	Amount       float64 `json:"amount" db:"Amount"`
+	Ordered      int     `json:"ordered" db:"Ordered"`
+	Duration     int     `json:"duration" db:"Duration"`
+	IsActive     int     `json:"is_active" db:"IsActive"`
+	CreatedDate  string  `json:"created_date" db:"CreatedDate"`
+	UpdatedDate  string  `json:"updated_date" db:"UpdatedDate"`
 }
 
 var SQL_PACKAGE_GET = `SELECT 
@@ -44,51 +44,55 @@ SET
     Amount = Amount - 1,
     Ordered = Ordered + 1
 WHERE ID = (
-    SELECT TOP 1 PackageID
+    SELECT PackageID
     FROM SureSureOrderPackage
-    WHERE RefNo = @RefNo
+    WHERE RefNo = $1
+    LIMIT 1
 );`
 
 var SQL_USER_FROM_ORDER_UPDATE = `
-
 UPDATE SureSureUser
 SET
     PackageID = (
-        SELECT TOP 1 PackageID
+        SELECT PackageID
         FROM SureSureOrderPackage
-        WHERE RefNo = @RefNo
+        WHERE RefNo = $1
+        LIMIT 1
     ),
     QuotaUsage = 0,
     QuotaLeft = (
             SELECT COALESCE(QuotaLimit, 0)
             FROM SureSurePackage
             WHERE ID = (
-                SELECT TOP 1 PackageID
+                SELECT PackageID
                 FROM SureSureOrderPackage
-                WHERE RefNo = @RefNo
+                WHERE RefNo = $1
+                LIMIT 1
             )
         ),
     QuotaAll = (
             SELECT COALESCE(QuotaLimit, 0)
             FROM SureSurePackage
             WHERE ID = (
-                SELECT TOP 1 PackageID
+                SELECT PackageID
                 FROM SureSureOrderPackage
-                WHERE RefNo = @RefNo
+                WHERE RefNo = $1
+                LIMIT 1
             )
         ),
-    PackageChangeDate = DATEADD(DAY, (
+    PackageChangeDate = CURRENT_DATE + INTERVAL '1 day' * (
         SELECT COALESCE(Duration, 0)
         FROM SureSurePackage
         WHERE ID = (
-            SELECT TOP 1 PackageID
+            SELECT PackageID
             FROM SureSureOrderPackage
-            WHERE RefNo = @RefNo
+            WHERE RefNo = $1
+            LIMIT 1
         )
-    ), GETDATE())
+    )
 WHERE ID = (
-    SELECT TOP 1 UserID
+    SELECT UserID
     FROM SureSureOrderPackage
-    WHERE RefNo = @RefNo
-);
-`
+    WHERE RefNo = $1
+    LIMIT 1
+);`

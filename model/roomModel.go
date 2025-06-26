@@ -28,8 +28,8 @@ COALESCE (MinRecieve,0.00) AS MinRecieve,
 COALESCE (ShowTransferor,0) AS ShowTransferor,
 COALESCE (ShowRecipient,0) AS ShowRecipient,
 COALESCE (ListBank,'') AS ListBank,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
  FROM SureSureRoom`
 var SQL_ROOM_GET_BYUSERID = `SELECT 
 ID,
@@ -42,8 +42,8 @@ COALESCE (MinRecieve,0.00) AS MinRecieve,
 COALESCE (ShowTransferor,0) AS ShowTransferor,
 COALESCE (ShowRecipient,0) AS ShowRecipient,
 COALESCE (ListBank,'') AS ListBank,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate 
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate 
 FROM SureSureRoom WHERE UserID = $1`
 var SQL_ROOM_GET_BYID = `SELECT 
 ID,
@@ -56,7 +56,7 @@ COALESCE (MinRecieve,0.00) AS MinRecieve,
 COALESCE (ShowTransferor,0) AS ShowTransferor,
 COALESCE (ShowRecipient,0) AS ShowRecipient,
 COALESCE (ListBank,'') AS ListBank,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate 
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate 
 FROM SureSureRoom WHERE ID = $1`
 var SQL_ROOM_DELETE = "DELETE FROM SureSureRoom WHERE ID = $1"

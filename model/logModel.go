@@ -20,8 +20,8 @@ COALESCE (MethodName,'') AS MethodName,
 COALESCE (UserID,'') AS UserID,
 COALESCE (NameTH,'') AS NameTH,
 COALESCE (DataRequest,'') AS DataRequest,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate
+COALESCE (CreatedDate,'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate,'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
 FROM SureSureLog`
 var SQL_LOG_GET_BYID = `SELECT 
 ID,
@@ -30,6 +30,6 @@ COALESCE (MethodName,'') AS MethodName,
 COALESCE (UserID,'') AS UserID,
 COALESCE (NameTH,'') AS NameTH,
 COALESCE (DataRequest,'') AS DataRequest,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate FROM SureSureLog WHERE UserID = $1`
+COALESCE (CreatedDate,'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate,'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate FROM SureSureLog WHERE UserID = $1`
 var SQL_LOG_DELETE = "DELETE FROM SureSureLog WHERE ID = $1"

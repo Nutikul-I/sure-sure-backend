@@ -47,8 +47,8 @@ COALESCE (UserID,0) AS UserID,
 COALESCE (PackageID,0) AS PackageID,
 COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
 FROM SureSureOrderPackage`
 var SQL_ORDER_PACKAGE_PENDING_GET = `SELECT 
 ID,
@@ -57,8 +57,8 @@ COALESCE (UserID,0) AS UserID,
 COALESCE (PackageID,0) AS PackageID,
 COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
 FROM SureSureOrderPackage
 WHERE Status = 'PENDING'`
 var SQL_ORDER_PACKAGE_GET_BYID = `SELECT 
@@ -68,8 +68,8 @@ COALESCE (UserID,0) AS UserID,
 COALESCE (PackageID,0) AS PackageID,
 COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
 FROM SureSureOrderPackage WHERE UserID = $1`
 var SQL_ORDER_PACKAGE_GET_BYREFNO = `SELECT 
 ID,
@@ -78,7 +78,7 @@ COALESCE (UserID,0) AS UserID,
 COALESCE (PackageID,0) AS PackageID,
 COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
-COALESCE (CreatedDate, NOW()) AS CreatedDate,
-COALESCE (UpdatedDate, NOW()) AS UpdatedDate
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
 FROM SureSureOrderPackage WHERE RefNo = $1`
 var SQL_ORDER_PACKAGE_DELETE = "DELETE FROM SureSureOrderPackage WHERE ID = $1"

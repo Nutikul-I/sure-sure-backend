@@ -60,8 +60,8 @@ COALESCE (StatusCode,'') AS StatusCode,
 COALESCE (Status,'') AS Status,
 COALESCE (TransDate,'') AS TransDate,
 COALESCE (TransTime,'') AS TransTime,
-COALESCE (CreatedDate, GETDATE()) AS CreatedDate,
-COALESCE (UpdatedDate, GETDATE()) AS UpdatedDate
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
  FROM SureSureTransaction`
 var SQL_GET_TRANSACTION_BY_ID = `SELECT 
 ID,
@@ -90,7 +90,7 @@ COALESCE (StatusCode,'') AS StatusCode,
 COALESCE (Status,'') AS Status,
 COALESCE (TransDate,'') AS TransDate,
 COALESCE (TransTime,'') AS TransTime,
-COALESCE (CreatedDate, GETDATE()) AS CreatedDate,
-COALESCE (UpdatedDate, GETDATE()) AS UpdatedDate
+COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
+COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
  FROM SureSureTransaction WHERE UserID = @ID`
 var SQL_DELETE_TRANSACTION = "DELETE FROM SureSureTransaction WHERE ID = $1"

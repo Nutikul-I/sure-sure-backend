@@ -104,7 +104,7 @@ COALESCE(Step, 0) AS Step,
 PackageChangeDate AS PackageChangeDate, 
 BillDate AS BillDate, 
 CreatedDate AS CreatedDate, 
-UpdatedDate AS UpdatedDate FROM SureSureUser WHERE UID = @ID`
+UpdatedDate AS UpdatedDate FROM SureSureUser WHERE UID = $1`
 var SQL_USER_GET_BY_USERNAME = `SELECT 
 ID, 
 UID, 
@@ -134,9 +134,9 @@ COALESCE(Step, 0) AS Step,
 PackageChangeDate AS PackageChangeDate, 
 BillDate AS BillDate, 
 CreatedDate AS CreatedDate, 
-UpdatedDate AS UpdatedDate FROM SureSureUser WHERE Username = @Username AND Password = @Password`
-var SQL_USER_DELETE = "DELETE FROM SureSureUser WHERE UID = @ID"
-var SQL_USER_GET_DUPLICATE = "SELECT COUNT(StoreName) FROM SureSureUser ssu WHERE  StoreName = @StoreName AND StorePhone = @StorePhone AND StoreEmail = @StoreEmail AND ID != @ID"
+UpdatedDate AS UpdatedDate FROM SureSureUser WHERE Username =  $1 AND Password = $2`
+var SQL_USER_DELETE = "DELETE FROM SureSureUser WHERE UID = $1"
+var SQL_USER_GET_DUPLICATE = "SELECT COUNT(StoreName) FROM SureSureUser ssu WHERE  StoreName = $1 AND StorePhone = $2 AND StoreEmail = $3 AND ID != $4"
 
 var SQL_CATEGORY_GET = `SELECT 
 CatID, 

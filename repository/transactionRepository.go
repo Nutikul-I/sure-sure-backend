@@ -43,7 +43,7 @@ func GetTransactionByID(id int) ([]model.SureSureTransaction, error) {
 	if err != nil {
 		return []model.SureSureTransaction{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_GET_TRANSACTION_BY_ID, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_GET_TRANSACTION_BY_ID, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return []model.SureSureTransaction{}, err
@@ -69,187 +69,182 @@ func CreateTransaction(t model.SureSureTransaction) (int, error) {
 
 	if t.UserID != 0 {
 		query += "UserID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.UserID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.UserID)
 		counter++
 	}
 	if t.QrCode != "" {
 		query += "QrCode, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.QrCode))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.QrCode)
 		counter++
 	}
 	if t.RefNo != "" {
 		query += "RefNo, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.RefNo))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.RefNo)
 		counter++
 	}
 	if t.LineUserID != "" {
 		query += "LineUserID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.LineUserID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.LineUserID)
 		counter++
 	}
 	if t.LineGroupID != "" {
 		query += "LineGroupID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.LineGroupID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.LineGroupID)
 		counter++
 	}
 	if t.Amount != 0 {
 		query += "Amount, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Amount))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.Amount)
 		counter++
 	}
 	if t.CSTID != "" {
 		query += "CSTID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.CSTID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.CSTID)
 		counter++
 	}
 	if t.RQUID != "" {
 		query += "RQUID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.RQUID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.RQUID)
 		counter++
 	}
 	if t.TXID != "" {
 		query += "TXID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.TXID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.TXID)
 		counter++
 	}
 	if t.SenderBankCode != "" {
 		query += "SenderBankCode, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.SenderBankCode))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.SenderBankCode)
 		counter++
 	}
 	if t.SenderAccountNo != "" {
 		query += "SenderAccountNo, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.SenderAccountNo))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.SenderAccountNo)
 		counter++
 	}
 	if t.SenderName != "" {
 		query += "SenderName, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.SenderName))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.SenderName)
 		counter++
 	}
 	if t.SenderName2 != "" {
 		query += "SenderName2, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.SenderName2))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.SenderName2)
 		counter++
 	}
 	if t.ReceiveBankCode != "" {
 		query += "ReceiveBankCode, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ReceiveBankCode))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.ReceiveBankCode)
 		counter++
 	}
 	if t.ReceiveAccountNo != "" {
 		query += "ReceiveAccountNo, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ReceiveAccountNo))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.ReceiveAccountNo)
 		counter++
 	}
 
 	if t.ProxyAccountNo != "" {
 		query += "ProxyAccountNo, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ProxyAccountNo))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.ProxyAccountNo)
 		counter++
 	}
 	if t.Ref1 != "" {
 		query += "Ref1, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Ref1))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.Ref1)
 		counter++
 	}
 	if t.Ref2 != "" {
 		query += "Ref2, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Ref2))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.Ref2)
 		counter++
 	}
 	if t.ReceiveName != "" {
 		query += "ReceiveName, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ReceiveName))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.ReceiveName)
 		counter++
 	}
 	if t.ReceiveName2 != "" {
 		query += "ReceiveName2, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ReceiveName2))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.ReceiveName2)
 		counter++
 	}
 	if t.Message != "" {
 		query += "Message, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Message))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.Message)
 		counter++
 	}
 	if t.StatusCode != "" {
 		query += "StatusCode, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.StatusCode))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.StatusCode)
 		counter++
 	}
 	if t.Status != "" {
 		query += "Status, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Status))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.Status)
 		counter++
 	}
 	if t.TransDate != "" {
 		query += "TransDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.TransDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.TransDate)
 		counter++
 	}
 	if t.TransTime != "" {
 		query += "TransTime, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.TransTime))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.TransTime)
 		counter++
 	}
 	if t.CreatedDate != "" {
 		query += "CreatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.CreatedDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.CreatedDate)
 		counter++
 	}
 	if t.UpdatedDate != "" {
 		query += "UpdatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.UpdatedDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, t.UpdatedDate)
 		counter++
 	}
 	query = query[:len(query)-2] + ") "
 	values = values[:len(values)-2] + ")"
-	finalQuery := query + " " + values
+	finalQuery := query + values + " RETURNING ID"
 
 	log.Infof("finalQuery: %v", finalQuery)
-	result, err := conn.ExecContext(ctx, finalQuery, params...)
-	if err != nil {
-		log.Errorf("Error executing query: %v", err)
+	result := conn.QueryRowContext(ctx, finalQuery, params...)
+
+	// Retrieve the last inserted ID
+	var lastInsertedID int64
+	if err := result.Scan(&lastInsertedID); err != nil {
+		log.Errorf("Error retrieving last inserted ID: %v", err)
 		return 0, err
 	}
 
-	log.Infof("result: %v", result)
-	// Retrieve the last inserted ID
-	// lastInsertedID, err := result.LastInsertId()
-	// if err != nil {
-	// 	log.Errorf("Error retrieving last insert ID: %v", err)
-	// 	return 0, err
-	// }
-
-	return 0, nil
+	return int(lastInsertedID), nil
 }
 
 func UpdateTransaction(t model.SureSureTransaction) error {
@@ -267,144 +262,144 @@ func UpdateTransaction(t model.SureSureTransaction) error {
 
 	// Dynamically add fields and values
 	if t.UserID != 0 {
-		query += fmt.Sprintf("UserID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.UserID))
+		query += fmt.Sprintf("UserID = $%d, ", counter)
+		params = append(params, t.UserID)
 		counter++
 	}
 	if t.QrCode != "" {
-		query += fmt.Sprintf("QrCode = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.QrCode))
+		query += fmt.Sprintf("QrCode = $%d, ", counter)
+		params = append(params, t.QrCode)
 		counter++
 	}
 	if t.RefNo != "" {
-		query += fmt.Sprintf("RefNo = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.RefNo))
+		query += fmt.Sprintf("RefNo = $%d, ", counter)
+		params = append(params, t.RefNo)
 		counter++
 	}
 	if t.LineUserID != "" {
-		query += fmt.Sprintf("LineUserID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.LineUserID))
+		query += fmt.Sprintf("LineUserID = $%d, ", counter)
+		params = append(params, t.LineUserID)
 		counter++
 	}
 	if t.LineGroupID != "" {
-		query += fmt.Sprintf("LineGroupID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.LineGroupID))
+		query += fmt.Sprintf("LineGroupID = $%d, ", counter)
+		params = append(params, t.LineGroupID)
 		counter++
 	}
 	if t.Amount != 0 {
-		query += fmt.Sprintf("Amount = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Amount))
+		query += fmt.Sprintf("Amount = $%d, ", counter)
+		params = append(params, t.Amount)
 		counter++
 	}
 	if t.CSTID != "" {
-		query += fmt.Sprintf("CSTID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.CSTID))
+		query += fmt.Sprintf("CSTID = $%d, ", counter)
+		params = append(params, t.CSTID)
 		counter++
 	}
 	if t.RQUID != "" {
-		query += fmt.Sprintf("RQUID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.RQUID))
+		query += fmt.Sprintf("RQUID = $%d, ", counter)
+		params = append(params, t.RQUID)
 		counter++
 	}
 	if t.TXID != "" {
-		query += fmt.Sprintf("TXID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.TXID))
+		query += fmt.Sprintf("TXID = $%d, ", counter)
+		params = append(params, t.TXID)
 		counter++
 	}
 	if t.SenderBankCode != "" {
-		query += fmt.Sprintf("SenderBankCode = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.SenderBankCode))
+		query += fmt.Sprintf("SenderBankCode = $%d, ", counter)
+		params = append(params, t.SenderBankCode)
 		counter++
 	}
 	if t.SenderAccountNo != "" {
-		query += fmt.Sprintf("SenderAccountNo = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.SenderAccountNo))
+		query += fmt.Sprintf("SenderAccountNo = $%d, ", counter)
+		params = append(params, t.SenderAccountNo)
 		counter++
 	}
 	if t.SenderName != "" {
-		query += fmt.Sprintf("SenderName = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.SenderName))
+		query += fmt.Sprintf("SenderName = $%d, ", counter)
+		params = append(params, t.SenderName)
 		counter++
 	}
 	if t.SenderName2 != "" {
-		query += fmt.Sprintf("SenderName2 = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.SenderName2))
+		query += fmt.Sprintf("SenderName2 = $%d, ", counter)
+		params = append(params, t.SenderName2)
 		counter++
 	}
 	if t.ReceiveBankCode != "" {
-		query += fmt.Sprintf("ReceiveBankCode = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ReceiveBankCode))
+		query += fmt.Sprintf("ReceiveBankCode = $%d, ", counter)
+		params = append(params, t.ReceiveBankCode)
 		counter++
 	}
 	if t.ReceiveAccountNo != "" {
-		query += fmt.Sprintf("ReceiveAccountNo = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ReceiveAccountNo))
+		query += fmt.Sprintf("ReceiveAccountNo = $%d, ", counter)
+		params = append(params, t.ReceiveAccountNo)
 		counter++
 	}
 	if t.ProxyAccountNo != "" {
-		query += fmt.Sprintf("ProxyAccountNo = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ProxyAccountNo))
+		query += fmt.Sprintf("ProxyAccountNo = $%d, ", counter)
+		params = append(params, t.ProxyAccountNo)
 		counter++
 	}
 	if t.Ref1 != "" {
-		query += fmt.Sprintf("Ref1 = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Ref1))
+		query += fmt.Sprintf("Ref1 = $%d, ", counter)
+		params = append(params, t.Ref1)
 		counter++
 	}
 	if t.Ref2 != "" {
-		query += fmt.Sprintf("Ref2 = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Ref2))
+		query += fmt.Sprintf("Ref2 = $%d, ", counter)
+		params = append(params, t.Ref2)
 		counter++
 	}
 	if t.ReceiveName != "" {
-		query += fmt.Sprintf("ReceiveName = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ReceiveName))
+		query += fmt.Sprintf("ReceiveName = $%d, ", counter)
+		params = append(params, t.ReceiveName)
 		counter++
 	}
 	if t.ReceiveName2 != "" {
-		query += fmt.Sprintf("ReceiveName2 = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ReceiveName2))
+		query += fmt.Sprintf("ReceiveName2 = $%d, ", counter)
+		params = append(params, t.ReceiveName2)
 		counter++
 	}
 	if t.Message != "" {
-		query += fmt.Sprintf("Message = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Message))
+		query += fmt.Sprintf("Message = $%d, ", counter)
+		params = append(params, t.Message)
 		counter++
 	}
 	if t.StatusCode != "" {
-		query += fmt.Sprintf("StatusCode = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.StatusCode))
+		query += fmt.Sprintf("StatusCode = $%d, ", counter)
+		params = append(params, t.StatusCode)
 		counter++
 	}
 	if t.Status != "" {
-		query += fmt.Sprintf("Status = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.Status))
+		query += fmt.Sprintf("Status = $%d, ", counter)
+		params = append(params, t.Status)
 		counter++
 	}
 	if t.TransDate != "" {
-		query += fmt.Sprintf("TransDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.TransDate))
+		query += fmt.Sprintf("TransDate = $%d, ", counter)
+		params = append(params, t.TransDate)
 		counter++
 	}
 	if t.TransTime != "" {
-		query += fmt.Sprintf("TransTime = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.TransTime))
+		query += fmt.Sprintf("TransTime = $%d, ", counter)
+		params = append(params, t.TransTime)
 		counter++
 	}
 	if t.CreatedDate != "" {
-		query += fmt.Sprintf("CreatedDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.CreatedDate))
+		query += fmt.Sprintf("CreatedDate = $%d, ", counter)
+		params = append(params, t.CreatedDate)
 		counter++
 	}
 	if t.UpdatedDate != "" {
-		query += fmt.Sprintf("UpdatedDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.UpdatedDate))
+		query += fmt.Sprintf("UpdatedDate = $%d, ", counter)
+		params = append(params, t.UpdatedDate)
 		counter++
 	}
 
 	// Remove trailing comma and space, add WHERE clause
-	query = query[:len(query)-2] + " WHERE ID = @p" + fmt.Sprintf("%d", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), t.ID))
+	query = query[:len(query)-2] + " WHERE ID = $" + fmt.Sprintf("%d", counter)
+	params = append(params, t.ID)
 
 	// Execute query
 	_, err = conn.ExecContext(ctx, query, params...)
@@ -423,7 +418,7 @@ func DeleteTransaction(id int) error {
 	if err != nil {
 		return err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_DELETE_TRANSACTION, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_DELETE_TRANSACTION, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return err

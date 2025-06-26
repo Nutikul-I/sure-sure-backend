@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 
 	"github.com/textures1245/payso-check-slip-backend/model"
@@ -40,7 +39,7 @@ func GetBankByID(id int) ([]model.SureSureBank, error) {
 	if err != nil {
 		return []model.SureSureBank{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_BANK_ACCOUNT_GET_BYID, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_BANK_ACCOUNT_GET_BYID, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return []model.SureSureBank{}, err
@@ -66,94 +65,89 @@ func CreateBank(account model.SureSureBank) (int, error) {
 
 	if account.UserID != 0 {
 		query += "UserID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.UserID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.UserID)
 		counter++
 	}
 
 	if account.BankCode != "" {
 		query += "BankCode, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.BankCode))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.BankCode)
 		counter++
 	}
 
 	if account.PromptPayType != "" {
 		query += "PromptPayType, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.PromptPayType))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.PromptPayType)
 		counter++
 	}
 
 	if account.AccountNo != "" {
 		query += "AccountNo, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.AccountNo))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.AccountNo)
 		counter++
 	}
 
 	if account.AccountType != "" {
 		query += "AccountType, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.AccountType))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.AccountType)
 		counter++
 	}
 
 	if account.NameTH != "" {
 		query += "NameTH, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.NameTH))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.NameTH)
 		counter++
 	}
 
 	if account.NameEN != "" {
 		query += "NameEN, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.NameEN))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.NameEN)
 		counter++
 	}
 
 	if account.IsActive {
 		query += "IsActive, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.IsActive))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.IsActive)
 		counter++
 	}
 
 	if account.CreatedDate != "" {
 		query += "CreatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.CreatedDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.CreatedDate)
 		counter++
 	}
 
 	if account.UpdatedDate != "" {
 		query += "UpdatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.UpdatedDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, account.UpdatedDate)
 		counter++
 	}
 
 	query = query[:len(query)-2] + ") "
 	values = values[:len(values)-2] + ")"
-	finalQuery := query + " " + values
+	finalQuery := query + values + " RETURNING ID"
 
 	log.Infof("finalQuery: %v", finalQuery)
-	result, err := conn.ExecContext(ctx, finalQuery, params...)
-	if err != nil {
-		log.Errorf("Error executing query: %v", err)
+	result := conn.QueryRowContext(ctx, finalQuery, params...)
+
+	// Retrieve the last inserted ID
+	var lastInsertedID int64
+	if err := result.Scan(&lastInsertedID); err != nil {
+		log.Errorf("Error retrieving last inserted ID: %v", err)
 		return 0, err
 	}
 
-	log.Infof("result: %v", result)
-	// Retrieve the last inserted ID
-	// lastInsertedID, err := result.LastInsertId()
-	// if err != nil {
-	// 	log.Errorf("Error retrieving last insert ID: %v", err)
-	// 	return 0, err
-	// }
-
-	return 0, nil
+	return int(lastInsertedID), nil
 }
 
 func UpdateBank(account model.SureSureBank) error {
@@ -170,62 +164,62 @@ func UpdateBank(account model.SureSureBank) error {
 
 	// Dynamically add fields and values
 	if account.UserID != 0 {
-		query += fmt.Sprintf("UserID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.UserID))
+		query += fmt.Sprintf("UserID = $%d, ", counter)
+		params = append(params, account.UserID)
 		counter++
 	}
 
 	if account.BankCode != "" {
-		query += fmt.Sprintf("BankCode = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.BankCode))
+		query += fmt.Sprintf("BankCode = $%d, ", counter)
+		params = append(params, account.BankCode)
 		counter++
 	}
 
 	if account.PromptPayType != "" {
-		query += fmt.Sprintf("PromptPayType = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.PromptPayType))
+		query += fmt.Sprintf("PromptPayType = $%d, ", counter)
+		params = append(params, account.PromptPayType)
 		counter++
 	}
 
 	if account.AccountNo != "" {
-		query += fmt.Sprintf("AccountNo = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.AccountNo))
+		query += fmt.Sprintf("AccountNo = $%d, ", counter)
+		params = append(params, account.AccountNo)
 		counter++
 	}
 
 	if account.AccountType != "" {
-		query += fmt.Sprintf("AccountType = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.AccountType))
+		query += fmt.Sprintf("AccountType = $%d, ", counter)
+		params = append(params, account.AccountType)
 		counter++
 	}
 
 	if account.NameTH != "" {
-		query += fmt.Sprintf("NameTH = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.NameTH))
+		query += fmt.Sprintf("NameTH = $%d, ", counter)
+		params = append(params, account.NameTH)
 		counter++
 	}
 
 	if account.NameEN != "" {
-		query += fmt.Sprintf("NameEN = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.NameEN))
+		query += fmt.Sprintf("NameEN = $%d, ", counter)
+		params = append(params, account.NameEN)
 		counter++
 	}
 
 	if account.IsActive {
-		query += fmt.Sprintf("IsActive = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.IsActive))
+		query += fmt.Sprintf("IsActive = $%d, ", counter)
+		params = append(params, account.IsActive)
 		counter++
 	}
 
 	if account.UpdatedDate != "" {
-		query += fmt.Sprintf("UpdatedDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.UpdatedDate))
+		query += fmt.Sprintf("UpdatedDate = $%d, ", counter)
+		params = append(params, account.UpdatedDate)
 		counter++
 	}
 
 	// Remove trailing comma and space, add WHERE clause
-	query = query[:len(query)-2] + " WHERE ID = @p" + fmt.Sprintf("%d", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), account.ID))
+	query = query[:len(query)-2] + " WHERE ID = $" + fmt.Sprintf("%d", counter)
+	params = append(params, account.ID)
 
 	// Execute query
 	_, err = conn.ExecContext(ctx, query, params...)
@@ -244,7 +238,7 @@ func DeleteBank(id int) error {
 	if err != nil {
 		return err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_BANK_ACCOUNT_DELETE, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_BANK_ACCOUNT_DELETE, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return err

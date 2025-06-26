@@ -1,36 +1,34 @@
 package model
 
-import "time"
-
 type SureSureTransaction struct {
-	ID               int64     `json:"id"`
-	UserID           int64     `json:"user_id"`
-	QrCode           string    `json:"qr_code"`
-	RefNo            string    `json:"ref_no"`
-	LineUserID       string    `json:"line_user_id"`
-	LineGroupID      string    `json:"line_group_id"`
-	Amount           float64   `json:"amount"`
-	CSTID            string    `json:"cstid"`
-	RQUID            string    `json:"rquid"`
-	TXID             string    `json:"txid"`
-	SenderBankCode   string    `json:"sender_bank_code"`
-	SenderAccountNo  string    `json:"sender_account_no"`
-	SenderName       string    `json:"sender_name"`
-	SenderName2      string    `json:"sender_name2"`
-	ReceiveBankCode  string    `json:"receive_bank_code"`
-	ReceiveAccountNo string    `json:"receive_account_no"`
-	ProxyAccountNo   string    `json:"proxy_account_no"`
-	Ref1             string    `json:"ref1"`
-	Ref2             string    `json:"ref2"`
-	ReceiveName      string    `json:"receive_name"`
-	ReceiveName2     string    `json:"receive_name2"`
-	Message          string    `json:"message"`
-	StatusCode       string    `json:"status_code"`
-	Status           string    `json:"status"`
-	TransDate        string    `json:"trans_date"`
-	TransTime        string    `json:"trans_time"`
-	CreatedDate      time.Time `json:"created_date"`
-	UpdatedDate      time.Time `json:"updated_date"`
+	ID               int64   `json:"id"`
+	UserID           int64   `json:"user_id"`
+	QrCode           string  `json:"qr_code"`
+	RefNo            string  `json:"ref_no"`
+	LineUserID       string  `json:"line_user_id"`
+	LineGroupID      string  `json:"line_group_id"`
+	Amount           float64 `json:"amount"`
+	CSTID            string  `json:"cstid"`
+	RQUID            string  `json:"rquid"`
+	TXID             string  `json:"txid"`
+	SenderBankCode   string  `json:"sender_bank_code"`
+	SenderAccountNo  string  `json:"sender_account_no"`
+	SenderName       string  `json:"sender_name"`
+	SenderName2      string  `json:"sender_name2"`
+	ReceiveBankCode  string  `json:"receive_bank_code"`
+	ReceiveAccountNo string  `json:"receive_account_no"`
+	ProxyAccountNo   string  `json:"proxy_account_no"`
+	Ref1             string  `json:"ref1"`
+	Ref2             string  `json:"ref2"`
+	ReceiveName      string  `json:"receive_name"`
+	ReceiveName2     string  `json:"receive_name2"`
+	Message          string  `json:"message"`
+	StatusCode       string  `json:"status_code"`
+	Status           string  `json:"status"`
+	TransDate        string  `json:"trans_date"`
+	TransTime        string  `json:"trans_time"`
+	CreatedDate      string  `json:"created_date"`
+	UpdatedDate      string  `json:"updated_date"`
 }
 
 var SQL_GET_ALL_TRANSACTIONS = `SELECT 
@@ -60,9 +58,8 @@ COALESCE (StatusCode,'') AS StatusCode,
 COALESCE (Status,'') AS Status,
 COALESCE (TransDate,'') AS TransDate,
 COALESCE (TransTime,'') AS TransTime,
-COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
-COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
- FROM SureSureTransaction`
+COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
+COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate FROM SureSureTransaction`
 var SQL_GET_TRANSACTION_BY_ID = `SELECT 
 ID,
 COALESCE (UserID,0) AS UserID,
@@ -90,7 +87,7 @@ COALESCE (StatusCode,'') AS StatusCode,
 COALESCE (Status,'') AS Status,
 COALESCE (TransDate,'') AS TransDate,
 COALESCE (TransTime,'') AS TransTime,
-COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
-COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
+COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
+COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
  FROM SureSureTransaction WHERE UserID = @ID`
 var SQL_DELETE_TRANSACTION = "DELETE FROM SureSureTransaction WHERE ID = $1"

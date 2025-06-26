@@ -1,16 +1,14 @@
 package model
 
-import "time"
-
 type SureSureOrderPackage struct {
-	ID          int       `json:"id"`
-	RefNo       string    `json:"ref_no"`
-	UserID      int       `json:"user_id"`
-	PackageID   int       `json:"package_id"`
-	Price       float64   `json:"price"`
-	Status      string    `json:"status"`
-	CreatedDate time.Time `json:"created_date"`
-	UpdatedDate time.Time `json:"updated_date"`
+	ID          int     `json:"id"`
+	RefNo       string  `json:"ref_no"`
+	UserID      int     `json:"user_id"`
+	PackageID   int     `json:"package_id"`
+	Price       float64 `json:"price"`
+	Status      string  `json:"status"`
+	CreatedDate string  `json:"created_date"`
+	UpdatedDate string  `json:"updated_date"`
 }
 type OrderDetailPost struct {
 	ReferenceNo             string `json:"ReferenceNo"`
@@ -47,8 +45,8 @@ COALESCE (UserID,0) AS UserID,
 COALESCE (PackageID,0) AS PackageID,
 COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
-COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
-COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
+COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
+COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
 FROM SureSureOrderPackage`
 var SQL_ORDER_PACKAGE_PENDING_GET = `SELECT 
 ID,
@@ -57,8 +55,8 @@ COALESCE (UserID,0) AS UserID,
 COALESCE (PackageID,0) AS PackageID,
 COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
-COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
-COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
+COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
+COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
 FROM SureSureOrderPackage
 WHERE Status = 'PENDING'`
 var SQL_ORDER_PACKAGE_GET_BYID = `SELECT 
@@ -68,8 +66,8 @@ COALESCE (UserID,0) AS UserID,
 COALESCE (PackageID,0) AS PackageID,
 COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
-COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
-COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
+COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
+COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
 FROM SureSureOrderPackage WHERE UserID = $1`
 var SQL_ORDER_PACKAGE_GET_BYREFNO = `SELECT 
 ID,
@@ -78,7 +76,7 @@ COALESCE (UserID,0) AS UserID,
 COALESCE (PackageID,0) AS PackageID,
 COALESCE (Price,0.00) AS Price,
 COALESCE (Status,'') AS Status,
-COALESCE (CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS CreatedDate,
-COALESCE (UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS UpdatedDate
+COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
+COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
 FROM SureSureOrderPackage WHERE RefNo = $1`
 var SQL_ORDER_PACKAGE_DELETE = "DELETE FROM SureSureOrderPackage WHERE ID = $1"

@@ -29,5 +29,5 @@ COALESCE (UserID,'') AS UserID,
 COALESCE (NameTH,'') AS NameTH,
 COALESCE (DataRequest,'') AS DataRequest,
 COALESCE (CreatedDate,'') AS CreatedDate,
-COALESCE (UpdatedDate,'') AS UpdatedDate FROM SureSureLog WHERE UserID = @ID`
-var SQL_LOG_DELETE = "DELETE FROM SureSureLog WHERE ID = @ID"
+COALESCE (UpdatedDate,'') AS UpdatedDate FROM SureSureLog WHERE UserID = $1`
+var SQL_LOG_DELETE = "DELETE FROM SureSureLog WHERE ID = $1"

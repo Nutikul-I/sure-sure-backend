@@ -42,7 +42,7 @@ COALESCE (ShowRecipient,0) AS ShowRecipient,
 COALESCE (ListBank,'') AS ListBank,
 COALESCE (CreatedDate,'') AS CreatedDate,
 COALESCE (UpdatedDate,'') AS UpdatedDate 
-FROM SureSureRoom WHERE UserID = @ID`
+FROM SureSureRoom WHERE UserID = $1`
 var SQL_ROOM_GET_BYID = `SELECT 
 ID,
 COALESCE (UserID,0) AS UserID,
@@ -56,5 +56,5 @@ COALESCE (ShowRecipient,0) AS ShowRecipient,
 COALESCE (ListBank,'') AS ListBank,
 COALESCE (CreatedDate,'') AS CreatedDate,
 COALESCE (UpdatedDate,'') AS UpdatedDate 
-FROM SureSureRoom WHERE ID = @ID`
-var SQL_ROOM_DELETE = "DELETE FROM SureSureRoom WHERE ID = @ID"
+FROM SureSureRoom WHERE ID = $1`
+var SQL_ROOM_DELETE = "DELETE FROM SureSureRoom WHERE ID = $1"

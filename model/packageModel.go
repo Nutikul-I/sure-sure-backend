@@ -1,16 +1,18 @@
 package model
 
+import "time"
+
 type SureSurePackage struct {
-	ID           int     `json:"id" db:"ID"`
-	PackageName  string  `json:"package_name" db:"PackageName"`
-	PackagePrice float64 `json:"package_price" db:"PackagePrice"`
-	QuotaLimit   int     `json:"quota_limit" db:"QuotaLimit"`
-	Amount       float64 `json:"amount" db:"Amount"`
-	Ordered      int     `json:"ordered" db:"Ordered"`
-	Duration     int     `json:"duration" db:"Duration"`
-	IsActive     int     `json:"is_active" db:"IsActive"`
-	CreatedDate  string  `json:"created_date" db:"CreatedDate"`
-	UpdatedDate  string  `json:"updated_date" db:"UpdatedDate"`
+	ID           int       `json:"id" db:"ID"`
+	PackageName  string    `json:"package_name" db:"PackageName"`
+	PackagePrice float64   `json:"package_price" db:"PackagePrice"`
+	QuotaLimit   int       `json:"quota_limit" db:"QuotaLimit"`
+	Amount       float64   `json:"amount" db:"Amount"`
+	Ordered      int       `json:"ordered" db:"Ordered"`
+	Duration     int       `json:"duration" db:"Duration"`
+	IsActive     int       `json:"is_active" db:"IsActive"`
+	CreatedDate  time.Time `json:"created_date" db:"CreatedDate"`
+	UpdatedDate  time.Time `json:"updated_date" db:"UpdatedDate"`
 }
 
 var SQL_PACKAGE_GET = `SELECT 
@@ -22,8 +24,8 @@ COALESCE (Amount,0.00) AS Amount,
 COALESCE (Ordered,0) AS Ordered,
 COALESCE (Duration,0) AS Duration,
 COALESCE (IsActive,0) AS IsActive,
-COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
-COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
+COALESCE (CreatedDate, NOW()) AS CreatedDate,
+COALESCE (UpdatedDate, NOW()) AS UpdatedDate
  FROM SureSurePackage`
 var SQL_PACKAGE_GET_BYID = `SELECT 
 ID,
@@ -34,8 +36,8 @@ COALESCE (Amount,0.00) AS Amount,
 COALESCE (Ordered,0) AS Ordered,
 COALESCE (Duration,0) AS Duration,
 COALESCE (IsActive,0) AS IsActive,
-COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
-COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
+COALESCE (CreatedDate, NOW()) AS CreatedDate,
+COALESCE (UpdatedDate, NOW()) AS UpdatedDate
  FROM SureSurePackage WHERE ID = $1`
 var SQL_PACKAGE_DELETE = "DELETE FROM SureSurePackage WHERE ID = $1"
 var SQL_PACKAGE_FROM_ORDER_UPDATE = `

@@ -3,7 +3,6 @@ package repository
 import (
 	"bytes"
 	"context"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -45,7 +44,7 @@ func GetRoomByID(id int) ([]model.SureSureRoom, error) {
 	if err != nil {
 		return []model.SureSureRoom{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_ROOM_GET_BYUSERID, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_ROOM_GET_BYUSERID, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return []model.SureSureRoom{}, err
@@ -71,100 +70,96 @@ func CreateRoom(room model.SureSureRoom) (int, error) {
 	counter := 1
 	if room.UserID != 0 {
 		query += "UserID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.UserID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.UserID)
 		counter++
 	}
 
 	if room.LineGroupID != "" {
 		query += "LineGroupID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.LineGroupID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.LineGroupID)
 		counter++
 	}
 
 	if room.RoomName != "" {
 		query += "RoomName, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.RoomName))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.RoomName)
 		counter++
 	}
 
 	if room.QRToken != "" {
 		query += "QRToken, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.QRToken))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.QRToken)
 		counter++
 	}
 
 	if room.QuotaUsed != 0 {
 		query += "QuotaUsed, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.QuotaUsed))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.QuotaUsed)
 		counter++
 	}
 
 	if room.MinRecieve != 0 {
 		query += "MinRecieve, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.MinRecieve))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.MinRecieve)
 		counter++
 	}
 
 	if room.ShowTransferor {
 		query += "ShowTransferor, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.ShowTransferor))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.ShowTransferor)
 		counter++
 	}
 
 	if room.ShowRecipient {
 		query += "ShowRecipient, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.ShowRecipient))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.ShowRecipient)
 		counter++
 	}
 
 	if room.ListBank != "" {
 		query += "ListBank, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.ListBank))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.ListBank)
 		counter++
 	}
 
 	if room.CreatedDate != "" {
 		query += "CreatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.CreatedDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.CreatedDate)
 		counter++
 	}
 
 	if room.UpdatedDate != "" {
 		query += "UpdatedDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.UpdatedDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, room.UpdatedDate)
 		counter++
 	}
 
 	query = query[:len(query)-2] + ") "
 	values = values[:len(values)-2] + ")"
-	finalQuery := query + " " + values + ";select ID = convert(bigint, SCOPE_IDENTITY())"
+	finalQuery := query + values + " RETURNING ID"
 
 	log.Infof("finalQuery: %v", finalQuery)
-	result, err := conn.ExecContext(ctx, finalQuery, params...)
-	if err != nil {
-		log.Errorf("Error executing query: %v", err)
+	result := conn.QueryRowContext(ctx, finalQuery, params...)
+
+	// Retrieve the last inserted ID
+	var lastInsertedID int64
+	if err := result.Scan(&lastInsertedID); err != nil {
+		log.Errorf("Error retrieving last inserted ID: %v", err)
 		return 0, err
 	}
-	log.Infof("result: %v", result)
-	// Retrieve the last inserted ID
-	// lastInsertedID, err := result.LastInsertId()
-	// if err != nil {
-	// 	log.Errorf("Error retrieving last insert ID: %v", err)
-	// 	return 0, err
-	// }
 
-	return 0, nil
+	return int(lastInsertedID), nil
 }
 
 func UpdateRoom(room model.SureSureRoom) error {
@@ -181,68 +176,68 @@ func UpdateRoom(room model.SureSureRoom) error {
 
 	// Dynamically add fields and values
 	if room.UserID != 0 {
-		query += fmt.Sprintf("UserID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.UserID))
+		query += fmt.Sprintf("UserID = $%d, ", counter)
+		params = append(params, room.UserID)
 		counter++
 	}
 
 	if room.LineGroupID != "" {
-		query += fmt.Sprintf("LineGroupID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.LineGroupID))
+		query += fmt.Sprintf("LineGroupID = $%d, ", counter)
+		params = append(params, room.LineGroupID)
 		counter++
 	}
 
 	if room.RoomName != "" {
-		query += fmt.Sprintf("RoomName = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.RoomName))
+		query += fmt.Sprintf("RoomName = $%d, ", counter)
+		params = append(params, room.RoomName)
 		counter++
 	}
 
 	if room.QRToken != "" {
-		query += fmt.Sprintf("QRToken = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.QRToken))
+		query += fmt.Sprintf("QRToken = $%d, ", counter)
+		params = append(params, room.QRToken)
 		counter++
 	}
 
 	if room.QuotaUsed != 0 {
-		query += fmt.Sprintf("QuotaUsed = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.QuotaUsed))
+		query += fmt.Sprintf("QuotaUsed = $%d, ", counter)
+		params = append(params, room.QuotaUsed)
 		counter++
 	}
 
 	if room.MinRecieve != 0 {
-		query += fmt.Sprintf("MinRecieve = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.MinRecieve))
+		query += fmt.Sprintf("MinRecieve = $%d, ", counter)
+		params = append(params, room.MinRecieve)
 		counter++
 	}
 
 	if room.ShowTransferor != false {
-		query += fmt.Sprintf("ShowTransferor = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.ShowTransferor))
+		query += fmt.Sprintf("ShowTransferor = $%d, ", counter)
+		params = append(params, room.ShowTransferor)
 		counter++
 	}
 
 	if room.ShowRecipient != false {
-		query += fmt.Sprintf("ShowRecipient = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.ShowRecipient))
+		query += fmt.Sprintf("ShowRecipient = $%d, ", counter)
+		params = append(params, room.ShowRecipient)
 		counter++
 	}
 
 	if room.ListBank != "" {
-		query += fmt.Sprintf("ListBank = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.ListBank))
+		query += fmt.Sprintf("ListBank = $%d, ", counter)
+		params = append(params, room.ListBank)
 		counter++
 	}
 
 	if room.UpdatedDate != "" {
-		query += fmt.Sprintf("UpdatedDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.UpdatedDate))
+		query += fmt.Sprintf("UpdatedDate = $%d, ", counter)
+		params = append(params, room.UpdatedDate)
 		counter++
 	}
 
 	// Remove trailing comma and space, add WHERE clause
-	query = query[:len(query)-2] + " WHERE ID = @p" + fmt.Sprintf("%d", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), room.ID))
+	query = query[:len(query)-2] + " WHERE ID = $" + fmt.Sprintf("%d", counter)
+	params = append(params, room.ID)
 
 	// Execute query
 	_, err = conn.ExecContext(ctx, query, params...)
@@ -262,7 +257,7 @@ func DeleteRoom(id int) error {
 		return err
 	}
 	log.Infof("id: %d", id)
-	rows, err := conn.QueryContext(ctx, model.SQL_ROOM_DELETE, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_ROOM_DELETE, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return err
@@ -279,7 +274,7 @@ func HowTo(id int, user_id string) error {
 		return err
 	}
 	// ROOM
-	rows, err := conn.QueryContext(ctx, model.SQL_ROOM_GET_BYID, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_ROOM_GET_BYID, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return err
@@ -289,7 +284,7 @@ func HowTo(id int, user_id string) error {
 	defer rows.Close()
 
 	// USER
-	rows, err = conn.QueryContext(ctx, model.SQL_USER_GET_BYID, sql.Named("ID", room.UserID))
+	rows, err = conn.QueryContext(ctx, model.SQL_USER_GET_BYID, room.UserID)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return err

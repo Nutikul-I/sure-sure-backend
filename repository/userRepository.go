@@ -29,8 +29,8 @@ func GetOrCreateUser(user model.SureSureUser) (model.SureSureUser, error) {
 	log.Infof("Checking user with Username: %s and Password: %s", user.Username, user.Password)
 
 	rows, err := conn.QueryContext(ctx, model.SQL_USER_GET_BY_USERNAME,
-		sql.Named("Username", user.Username),
-		sql.Named("Password", user.Password),
+		user.Username,
+		user.Password,
 	)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
@@ -107,7 +107,7 @@ func GetUserByID(id string) (model.SureSureUser, error) {
 	if err != nil {
 		return model.SureSureUser{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_USER_GET_BYID, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_USER_GET_BYID, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return model.SureSureUser{}, err
@@ -139,165 +139,165 @@ func CreateUser(user model.SureSureUser) (string, error) {
 	counter := 1
 
 	query += "UID, "
-	values += fmt.Sprintf("@p%d, ", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), uid))
+	values += fmt.Sprintf("$%d, ", counter)
+	params = append(params, uid)
 	counter++
 	if user.MerchantID != 0 {
 		query += "MerchantID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.MerchantID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.MerchantID)
 		counter++
 	}
 	if user.PackageID != 0 {
 		query += "PackageID, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.PackageID))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.PackageID)
 		counter++
 	}
 	if user.UserType != "" {
 		query += "UserType, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.UserType))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.UserType)
 		counter++
 	} else {
 		query += "UserType, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), "merchant-register"))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, "merchant-register")
 		counter++
 	}
 	if user.Picture != "" {
 		query += "Picture, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Picture))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.Picture)
 		counter++
 	}
 	if user.NameTH != "" {
 		query += "NameTH, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.NameTH))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.NameTH)
 		counter++
 	}
 	if user.NameEN != "" {
 		query += "NameEN, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.NameEN))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.NameEN)
 		counter++
 	}
 	if user.Phone != "" {
 		query += "Phone, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Phone))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.Phone)
 		counter++
 	}
 	if user.Website != "" {
 		query += "Website, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Website))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.Website)
 		counter++
 	}
 	if user.UserRole != "" {
 		query += "UserRole, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.UserRole))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.UserRole)
 		counter++
 	} else {
 		query += "UserRole, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), "merchant-register"))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, "merchant-register")
 		counter++
 	}
 	if user.Address != "" {
 		query += "Address, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Address))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.Address)
 		counter++
 	}
 	if user.Email != "" {
 		query += "Email, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Email))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.Email)
 		counter++
 	}
 	if user.Username != "" {
 		query += "Username, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Username))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.Username)
 		counter++
 	}
 	if user.Password != "" {
 		query += "Password, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Password))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.Password)
 		counter++
 	}
 	if user.IsActive {
 		query += "IsActive, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.IsActive))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.IsActive)
 		counter++
 	}
 	if user.StoreName != "" {
 		query += "StoreName, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.StoreName))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.StoreName)
 		counter++
 	}
 	if user.StoreCategoryType != "" {
 		query += "StoreCategoryType, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.StoreCategoryType))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.StoreCategoryType)
 		counter++
 	}
 	if user.StorePhone != "" {
 		query += "StorePhone, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.StorePhone))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.StorePhone)
 		counter++
 	}
 	if user.StoreEmail != "" {
 		query += "StoreEmail, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.StoreEmail))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.StoreEmail)
 		counter++
 	}
 	if user.QuotaLeft > 0 {
 		query += "QuotaLeft, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.QuotaLeft))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.QuotaLeft)
 		counter++
 	}
 	if user.QuotaALL > 0 {
 		query += "QuotaALL, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.QuotaALL))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.QuotaALL)
 		counter++
 	}
 	if user.Step > 0 {
 		query += "Step, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Step))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.Step)
 		counter++
 	}
 	if user.PackageChangeDate != "" {
 		query += "PackageChangeDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.PackageChangeDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.PackageChangeDate)
 		counter++
 	}
 	if user.BillDate != "" {
 		query += "BillDate, "
-		values += fmt.Sprintf("@p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.BillDate))
+		values += fmt.Sprintf("$%d, ", counter)
+		params = append(params, user.BillDate)
 		counter++
 	}
 	query += "AccessToken, "
-	values += fmt.Sprintf("@p%d, ", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), util.GenerateRandomText(24)))
+	values += fmt.Sprintf("$%d, ", counter)
+	params = append(params, util.GenerateRandomText(24))
 	counter++
 
 	query = query[:len(query)-2] + ") "
 	values = values[:len(values)-2] + ")"
-	finalQuery := query + " OUTPUT INSERTED.ID " + values
+	finalQuery := query + values + " RETURNING ID"
 
 	log.Infof("finalQuery: %v", finalQuery)
 	result := conn.QueryRowContext(ctx, finalQuery, params...)
@@ -320,7 +320,7 @@ func UpdateUser(user model.SureSureUser) error {
 	}
 	// CHECK DUPLICATE
 	if user.StoreName != "" && user.StorePhone != "" && user.StoreEmail != "" {
-		rows, err := conn.QueryContext(ctx, model.SQL_USER_GET_DUPLICATE, sql.Named("StoreName", user.StoreName), sql.Named("StorePhone", user.StorePhone), sql.Named("StoreEmail", user.StoreEmail), sql.Named("ID", user.ID))
+		rows, err := conn.QueryContext(ctx, model.SQL_USER_GET_DUPLICATE, user.StoreName, user.StorePhone, user.StoreEmail, user.ID)
 
 		if err != nil {
 			log.Errorf("Error executing query: %v", err)
@@ -341,109 +341,109 @@ func UpdateUser(user model.SureSureUser) error {
 
 	// Dynamically add fields and values
 	if user.PackageID != 0 {
-		query += fmt.Sprintf("PackageID = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.PackageID))
+		query += fmt.Sprintf("PackageID = $%d, ", counter)
+		params = append(params, user.PackageID)
 		counter++
 	}
 	if user.Picture != "" {
-		query += fmt.Sprintf("Picture = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Picture))
+		query += fmt.Sprintf("Picture = $%d, ", counter)
+		params = append(params, user.Picture)
 		counter++
 	}
 	if user.NameTH != "" {
-		query += fmt.Sprintf("NameTH = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.NameTH))
+		query += fmt.Sprintf("NameTH = $%d, ", counter)
+		params = append(params, user.NameTH)
 		counter++
 	}
 	if user.NameEN != "" {
-		query += fmt.Sprintf("NameEN = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.NameEN))
+		query += fmt.Sprintf("NameEN = $%d, ", counter)
+		params = append(params, user.NameEN)
 		counter++
 	}
 	if user.Phone != "" {
-		query += fmt.Sprintf("Phone = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Phone))
+		query += fmt.Sprintf("Phone = $%d, ", counter)
+		params = append(params, user.Phone)
 		counter++
 	}
 	if user.Website != "" {
-		query += fmt.Sprintf("Website = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Website))
+		query += fmt.Sprintf("Website = $%d, ", counter)
+		params = append(params, user.Website)
 		counter++
 	}
 	if user.Address != "" {
-		query += fmt.Sprintf("Address = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Address))
+		query += fmt.Sprintf("Address = $%d, ", counter)
+		params = append(params, user.Address)
 		counter++
 	}
 	if user.Email != "" {
-		query += fmt.Sprintf("Email = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Email))
+		query += fmt.Sprintf("Email = $%d, ", counter)
+		params = append(params, user.Email)
 		counter++
 	}
 	if user.Username != "" {
-		query += fmt.Sprintf("Username = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Username))
+		query += fmt.Sprintf("Username = $%d, ", counter)
+		params = append(params, user.Username)
 		counter++
 	}
 	if user.Password != "" {
-		query += fmt.Sprintf("Password = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Password))
+		query += fmt.Sprintf("Password = $%d, ", counter)
+		params = append(params, user.Password)
 		counter++
 	}
 	if user.IsActive {
-		query += fmt.Sprintf("IsActive = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.IsActive))
+		query += fmt.Sprintf("IsActive = $%d, ", counter)
+		params = append(params, user.IsActive)
 		counter++
 	}
 	if user.StoreName != "" {
-		query += fmt.Sprintf("StoreName = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.StoreName))
+		query += fmt.Sprintf("StoreName = $%d, ", counter)
+		params = append(params, user.StoreName)
 		counter++
 	}
 	if user.StoreCategoryType != "" {
-		query += fmt.Sprintf("StoreCategoryType = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.StoreCategoryType))
+		query += fmt.Sprintf("StoreCategoryType = $%d, ", counter)
+		params = append(params, user.StoreCategoryType)
 		counter++
 	}
 	if user.StorePhone != "" {
-		query += fmt.Sprintf("StorePhone = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.StorePhone))
+		query += fmt.Sprintf("StorePhone = $%d, ", counter)
+		params = append(params, user.StorePhone)
 		counter++
 	}
 	if user.StoreEmail != "" {
-		query += fmt.Sprintf("StoreEmail = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.StoreEmail))
+		query += fmt.Sprintf("StoreEmail = $%d, ", counter)
+		params = append(params, user.StoreEmail)
 		counter++
 	}
 	if user.QuotaLeft > 0 {
-		query += fmt.Sprintf("QuotaLeft = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.QuotaLeft))
+		query += fmt.Sprintf("QuotaLeft = $%d, ", counter)
+		params = append(params, user.QuotaLeft)
 		counter++
 	}
 	if user.QuotaALL > 0 {
-		query += fmt.Sprintf("QuotaALL = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.QuotaALL))
+		query += fmt.Sprintf("QuotaALL = $%d, ", counter)
+		params = append(params, user.QuotaALL)
 		counter++
 	}
 	if user.Step > 0 {
-		query += fmt.Sprintf("Step = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.Step))
+		query += fmt.Sprintf("Step = $%d, ", counter)
+		params = append(params, user.Step)
 		counter++
 	}
 	if user.PackageChangeDate != "" {
-		query += fmt.Sprintf("PackageChangeDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.PackageChangeDate))
+		query += fmt.Sprintf("PackageChangeDate = $%d, ", counter)
+		params = append(params, user.PackageChangeDate)
 		counter++
 	}
 	if user.BillDate != "" {
-		query += fmt.Sprintf("BillDate = @p%d, ", counter)
-		params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.BillDate))
+		query += fmt.Sprintf("BillDate = $%d, ", counter)
+		params = append(params, user.BillDate)
 		counter++
 	}
 
 	// Remove trailing comma and space, add WHERE clause
-	query = query[:len(query)-2] + " WHERE ID = @p" + fmt.Sprintf("%d", counter)
-	params = append(params, sql.Named(fmt.Sprintf("p%d", counter), user.ID))
+	query = query[:len(query)-2] + " WHERE ID = $" + fmt.Sprintf("%d", counter)
+	params = append(params, user.ID)
 
 	// Execute query
 	_, err = conn.ExecContext(ctx, query, params...)
@@ -462,7 +462,7 @@ func DeleteUser(id string) error {
 	if err != nil {
 		return err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_USER_DELETE, sql.Named("ID", id))
+	rows, err := conn.QueryContext(ctx, model.SQL_USER_DELETE, id)
 	if err != nil {
 		log.Errorf("Error executing query: %v", err)
 		return err

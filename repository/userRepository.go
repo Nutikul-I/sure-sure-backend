@@ -479,21 +479,26 @@ func GetCategoryAll() ([]model.MerchantCategory, error) {
 		return []model.MerchantCategory{}, err
 	}
 	log.Info("GetCategoryAll")
-	rows, err := conn.QueryContext(ctx, model.SQL_CATEGORY_GET)
+	log.Infof("SQL Query: %s", model.SQL_CATEGORY_GET)
 
+	rows, err := conn.QueryContext(ctx, model.SQL_CATEGORY_GET)
 	if err != nil {
-		log.Errorf("ERROR: %#v", err)
+		log.Errorf("Query ERROR: %#v", err)
 		return []model.MerchantCategory{}, err
 	}
+	defer rows.Close()
 
 	var category []model.MerchantCategory
 	err = scan.Rows(&category, rows)
 	if err != nil {
-		log.Errorf("ERROR: %#v", err)
+		log.Errorf("Scan ERROR: %#v", err)
 		return []model.MerchantCategory{}, err
 	}
-	defer rows.Close()
-	log.Infof("category: %d", len(category))
+
+	log.Infof("category count: %d", len(category))
+	if len(category) > 0 {
+		log.Infof("First category: %+v", category[0])
+	}
 	return category, nil
 }
 

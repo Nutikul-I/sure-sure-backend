@@ -51,7 +51,6 @@ func GetPackageAll() ([]model.SureSurePackage, error) {
 			log.Errorf("Error scanning row: %v", err)
 			continue
 		}
-		log.Infof("Scanned package: ID=%d, Name=%s, Price=%.2f", pkg.ID, pkg.PackageName, pkg.PackagePrice)
 		packages = append(packages, pkg)
 	}
 

@@ -233,7 +233,14 @@ func CreateUser(user model.SureSureUser) (string, error) {
 	if user.IsActive {
 		query += "IsActive, "
 		values += fmt.Sprintf("$%d, ", counter)
-		params = append(params, user.IsActive)
+		// Convert boolean to integer for PostgreSQL
+		var isActiveInt int
+		if user.IsActive {
+			isActiveInt = 1
+		} else {
+			isActiveInt = 0
+		}
+		params = append(params, isActiveInt)
 		counter++
 	}
 	if user.StoreName != "" {
@@ -392,7 +399,14 @@ func UpdateUser(user model.SureSureUser) error {
 	}
 	if user.IsActive {
 		query += fmt.Sprintf("IsActive = $%d, ", counter)
-		params = append(params, user.IsActive)
+		// Convert boolean to integer for PostgreSQL
+		var isActiveInt int
+		if user.IsActive {
+			isActiveInt = 1
+		} else {
+			isActiveInt = 0
+		}
+		params = append(params, isActiveInt)
 		counter++
 	}
 	if user.StoreName != "" {
@@ -496,9 +510,6 @@ func GetCategoryAll() ([]model.MerchantCategory, error) {
 	}
 
 	log.Infof("category count: %d", len(category))
-	if len(category) > 0 {
-		log.Infof("First category: %+v", category[0])
-	}
 	return category, nil
 }
 

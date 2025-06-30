@@ -96,12 +96,11 @@ func CreateRoom(room model.SureSureRoom) (int, error) {
 		counter++
 	}
 
-	if room.QuotaUsed != 0 {
-		query += "QuotaUsed, "
-		values += fmt.Sprintf("$%d, ", counter)
-		params = append(params, room.QuotaUsed)
-		counter++
-	}
+	// Always include QuotaUsed (allow 0 value)
+	query += "QuotaUsed, "
+	values += fmt.Sprintf("$%d, ", counter)
+	params = append(params, room.QuotaUsed)
+	counter++
 
 	if room.MinRecieve != 0 {
 		query += "MinRecieve, "
@@ -110,19 +109,25 @@ func CreateRoom(room model.SureSureRoom) (int, error) {
 		counter++
 	}
 
+	// Always include ShowTransferor (convert boolean to integer)
+	query += "ShowTransferor, "
+	values += fmt.Sprintf("$%d, ", counter)
 	if room.ShowTransferor {
-		query += "ShowTransferor, "
-		values += fmt.Sprintf("$%d, ", counter)
-		params = append(params, room.ShowTransferor)
-		counter++
+		params = append(params, 1)
+	} else {
+		params = append(params, 0)
 	}
+	counter++
 
+	// Always include ShowRecipient (convert boolean to integer)
+	query += "ShowRecipient, "
+	values += fmt.Sprintf("$%d, ", counter)
 	if room.ShowRecipient {
-		query += "ShowRecipient, "
-		values += fmt.Sprintf("$%d, ", counter)
-		params = append(params, room.ShowRecipient)
-		counter++
+		params = append(params, 1)
+	} else {
+		params = append(params, 0)
 	}
+	counter++
 
 	if room.ListBank != "" {
 		query += "ListBank, "
@@ -199,11 +204,10 @@ func UpdateRoom(room model.SureSureRoom) error {
 		counter++
 	}
 
-	if room.QuotaUsed != 0 {
-		query += fmt.Sprintf("QuotaUsed = $%d, ", counter)
-		params = append(params, room.QuotaUsed)
-		counter++
-	}
+	// Always update QuotaUsed (allow 0 value)
+	query += fmt.Sprintf("QuotaUsed = $%d, ", counter)
+	params = append(params, room.QuotaUsed)
+	counter++
 
 	if room.MinRecieve != 0 {
 		query += fmt.Sprintf("MinRecieve = $%d, ", counter)
@@ -211,17 +215,23 @@ func UpdateRoom(room model.SureSureRoom) error {
 		counter++
 	}
 
-	if room.ShowTransferor != false {
-		query += fmt.Sprintf("ShowTransferor = $%d, ", counter)
-		params = append(params, room.ShowTransferor)
-		counter++
+	// Always update ShowTransferor (convert boolean to integer)
+	query += fmt.Sprintf("ShowTransferor = $%d, ", counter)
+	if room.ShowTransferor {
+		params = append(params, 1)
+	} else {
+		params = append(params, 0)
 	}
+	counter++
 
-	if room.ShowRecipient != false {
-		query += fmt.Sprintf("ShowRecipient = $%d, ", counter)
-		params = append(params, room.ShowRecipient)
-		counter++
+	// Always update ShowRecipient (convert boolean to integer)
+	query += fmt.Sprintf("ShowRecipient = $%d, ", counter)
+	if room.ShowRecipient {
+		params = append(params, 1)
+	} else {
+		params = append(params, 0)
 	}
+	counter++
 
 	if room.ListBank != "" {
 		query += fmt.Sprintf("ListBank = $%d, ", counter)
@@ -393,7 +403,27 @@ func HowTo(id int, user_id string) error {
 		log.Errorf("Error creating request: %v", err)
 		return err
 	}
+	// Check if Mock Mode is enabled
+	if os.Getenv("MOCK_LINE_API") == "true" {
+		log.Infof("🎭 MOCK MODE: LINE Message would be sent to user: %s", user_id)
+		log.Infof("📝 MOCK DATA:")
+		log.Infof("   - Store Name: %s", user.StoreName)
+		log.Infof("   - Room Name: %s", room.RoomName)
+		log.Infof("   - Room ID: #%05d", room.ID)
+		log.Infof("   - Status: %s", status)
+		log.Infof("   - Line Group ID: %s", room.LineGroupID)
+		log.Infof("💌 MOCK MESSAGE: Successfully sent HowTo message (Mock)")
+		return nil
+	}
+
 	accessToken := os.Getenv("LINE_CHANNEL_ACCESS_TOKEN")
+
+	// Check if access token exists
+	if accessToken == "" {
+		log.Errorf("❌ LINE_CHANNEL_ACCESS_TOKEN is not set")
+		return fmt.Errorf("LINE_CHANNEL_ACCESS_TOKEN is required")
+	}
+
 	// Set headers for the LINE Messaging API
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
@@ -413,6 +443,8 @@ func HowTo(id int, user_id string) error {
 		log.Errorf("Error sending message, status code: %d, response: %s", resp.StatusCode, string(bodyBytes))
 		return fmt.Errorf("failed to send message, status code: %d", resp.StatusCode)
 	}
+
+	log.Infof("✅ LINE Message sent successfully to user: %s", user_id)
 
 	return nil
 }

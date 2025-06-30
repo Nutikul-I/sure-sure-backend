@@ -1,34 +1,34 @@
 package model
 
 type SureSureTransaction struct {
-	ID               int64   `json:"id"`
-	UserID           int64   `json:"user_id"`
-	QrCode           string  `json:"qr_code"`
-	RefNo            string  `json:"ref_no"`
-	LineUserID       string  `json:"line_user_id"`
-	LineGroupID      string  `json:"line_group_id"`
-	Amount           float64 `json:"amount"`
-	CSTID            string  `json:"cstid"`
-	RQUID            string  `json:"rquid"`
-	TXID             string  `json:"txid"`
-	SenderBankCode   string  `json:"sender_bank_code"`
-	SenderAccountNo  string  `json:"sender_account_no"`
-	SenderName       string  `json:"sender_name"`
-	SenderName2      string  `json:"sender_name2"`
-	ReceiveBankCode  string  `json:"receive_bank_code"`
-	ReceiveAccountNo string  `json:"receive_account_no"`
-	ProxyAccountNo   string  `json:"proxy_account_no"`
-	Ref1             string  `json:"ref1"`
-	Ref2             string  `json:"ref2"`
-	ReceiveName      string  `json:"receive_name"`
-	ReceiveName2     string  `json:"receive_name2"`
-	Message          string  `json:"message"`
-	StatusCode       string  `json:"status_code"`
-	Status           string  `json:"status"`
-	TransDate        string  `json:"trans_date"`
-	TransTime        string  `json:"trans_time"`
-	CreatedDate      string  `json:"created_date"`
-	UpdatedDate      string  `json:"updated_date"`
+	ID               int64   `json:"id" db:"id"`
+	UserID           int64   `json:"user_id" db:"userid"`
+	QrCode           string  `json:"qr_code" db:"qrcode"`
+	RefNo            string  `json:"ref_no" db:"refno"`
+	LineUserID       string  `json:"line_user_id" db:"lineuserid"`
+	LineGroupID      string  `json:"line_group_id" db:"linegroupid"`
+	Amount           float64 `json:"amount" db:"amount"`
+	CSTID            string  `json:"cstid" db:"cstid"`
+	RQUID            string  `json:"rquid" db:"rquid"`
+	TXID             string  `json:"txid" db:"txid"`
+	SenderBankCode   string  `json:"sender_bank_code" db:"senderbankcode"`
+	SenderAccountNo  string  `json:"sender_account_no" db:"senderaccountno"`
+	SenderName       string  `json:"sender_name" db:"sendername"`
+	SenderName2      string  `json:"sender_name2" db:"sendername2"`
+	ReceiveBankCode  string  `json:"receive_bank_code" db:"receivebankcode"`
+	ReceiveAccountNo string  `json:"receive_account_no" db:"receiveaccountno"`
+	ProxyAccountNo   string  `json:"proxy_account_no" db:"proxyaccountno"`
+	Ref1             string  `json:"ref1" db:"ref1"`
+	Ref2             string  `json:"ref2" db:"ref2"`
+	ReceiveName      string  `json:"receive_name" db:"receivename"`
+	ReceiveName2     string  `json:"receive_name2" db:"receivename2"`
+	Message          string  `json:"message" db:"message"`
+	StatusCode       string  `json:"status_code" db:"statuscode"`
+	Status           string  `json:"status" db:"status"`
+	TransDate        string  `json:"trans_date" db:"transdate"`
+	TransTime        string  `json:"trans_time" db:"transtime"`
+	CreatedDate      string  `json:"created_date" db:"createddate"`
+	UpdatedDate      string  `json:"updated_date" db:"updateddate"`
 }
 
 var SQL_GET_ALL_TRANSACTIONS = `SELECT 

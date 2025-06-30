@@ -1,14 +1,14 @@
 package model
 
 type SureSureLog struct {
-	ID          int    `json:"id"`
-	Action      string `json:"action"`
-	MethodName  string `json:"method_name"`
-	UserID      int    `json:"user_id"`
-	NameTH      string `json:"name_th"`
-	DataRequest string `json:"data_request"`
-	CreatedDate string `json:"created_date"`
-	UpdatedDate string `json:"updated_date"`
+	ID          int    `json:"id" db:"id"`
+	Action      string `json:"action" db:"action"`
+	MethodName  string `json:"method_name" db:"methodname"`
+	UserID      int    `json:"user_id" db:"userid"`
+	NameTH      string `json:"name_th" db:"nameth"`
+	DataRequest string `json:"data_request" db:"datarequest"`
+	CreatedDate string `json:"created_date" db:"createddate"`
+	UpdatedDate string `json:"updated_date" db:"updateddate"`
 }
 
 var SQL_LOG_GET = `SELECT 

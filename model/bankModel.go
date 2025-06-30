@@ -1,17 +1,17 @@
 package model
 
 type SureSureBank struct {
-	ID            int    `json:"id"`
-	UserID        int    `json:"user_id"`
-	BankCode      string `json:"bank_code"`
-	PromptPayType string `json:"prompt_pay_type"`
-	AccountNo     string `json:"account_no"`
-	AccountType   string `json:"account_type"`
-	NameTH        string `json:"name_th"`
-	NameEN        string `json:"name_en"`
-	IsActive      bool   `json:"is_active"`
-	CreatedDate   string `json:"created_date"`
-	UpdatedDate   string `json:"updated_date"`
+	ID            int    `json:"id" db:"id"`
+	UserID        int    `json:"user_id" db:"userid"`
+	BankCode      string `json:"bank_code" db:"bankcode"`
+	PromptPayType string `json:"prompt_pay_type" db:"promptpaytype"`
+	AccountNo     string `json:"account_no" db:"accountno"`
+	AccountType   string `json:"account_type" db:"accounttype"`
+	NameTH        string `json:"name_th" db:"nameth"`
+	NameEN        string `json:"name_en" db:"nameen"`
+	IsActive      bool   `json:"is_active" db:"isactive"`
+	CreatedDate   string `json:"created_date" db:"createddate"`
+	UpdatedDate   string `json:"updated_date" db:"updateddate"`
 }
 
 var SQL_BANK_ACCOUNT_GET = `SELECT 

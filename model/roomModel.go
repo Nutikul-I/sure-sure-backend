@@ -1,18 +1,18 @@
 package model
 
 type SureSureRoom struct {
-	ID             int     `json:"id"`
-	UserID         int     `json:"user_id"`
-	LineGroupID    string  `json:"line_group_id"`
-	RoomName       string  `json:"room_name"`
-	QRToken        string  `json:"qr_token"`
-	QuotaUsed      int     `json:"quota_used"`
-	MinRecieve     float64 `json:"min_receive"`
-	ShowTransferor bool    `json:"show_transferor"`
-	ShowRecipient  bool    `json:"show_recipient"`
-	ListBank       string  `json:"list_bank"`
-	CreatedDate    string  `json:"created_date"`
-	UpdatedDate    string  `json:"updated_date"`
+	ID             int     `json:"id" db:"id"`
+	UserID         int     `json:"user_id" db:"userid"`
+	LineGroupID    string  `json:"line_group_id" db:"linegroupid"`
+	RoomName       string  `json:"room_name" db:"roomname"`
+	QRToken        string  `json:"qr_token" db:"qrtoken"`
+	QuotaUsed      int     `json:"quota_used" db:"quotaused"`
+	MinRecieve     float64 `json:"min_receive" db:"minrecieve"`
+	ShowTransferor bool    `json:"show_transferor" db:"showtransferor"`
+	ShowRecipient  bool    `json:"show_recipient" db:"showrecipient"`
+	ListBank       string  `json:"list_bank" db:"listbank"`
+	CreatedDate    string  `json:"created_date" db:"createddate"`
+	UpdatedDate    string  `json:"updated_date" db:"updateddate"`
 }
 
 var SQL_ROOM_GET = `SELECT 

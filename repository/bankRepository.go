@@ -112,7 +112,7 @@ func CreateBank(account model.SureSureBank) (int, error) {
 		counter++
 	}
 
-	if account.IsActive {
+	if account.IsActive == 1 {
 		query += "IsActive, "
 		values += fmt.Sprintf("$%d, ", counter)
 		params = append(params, account.IsActive)
@@ -205,7 +205,7 @@ func UpdateBank(account model.SureSureBank) error {
 		counter++
 	}
 
-	if account.IsActive {
+	if account.IsActive == 1 {
 		query += fmt.Sprintf("IsActive = $%d, ", counter)
 		params = append(params, account.IsActive)
 		counter++

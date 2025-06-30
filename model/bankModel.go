@@ -9,7 +9,7 @@ type SureSureBank struct {
 	AccountType   string `json:"account_type" db:"accounttype"`
 	NameTH        string `json:"name_th" db:"nameth"`
 	NameEN        string `json:"name_en" db:"nameen"`
-	IsActive      bool   `json:"is_active" db:"isactive"`
+	IsActive      int    `json:"is_active" db:"isactive"`
 	CreatedDate   string `json:"created_date" db:"createddate"`
 	UpdatedDate   string `json:"updated_date" db:"updateddate"`
 }

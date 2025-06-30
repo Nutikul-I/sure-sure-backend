@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	fiberSwagger "github.com/swaggo/fiber-swagger"
 	_ "github.com/textures1245/payso-check-slip-backend/docs"
 
 	log "github.com/sirupsen/logrus"
@@ -25,6 +26,9 @@ func main() {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 	}))
+
+	// Swagger UI Route
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 	log.Info("-= Start External Service =-")
 	router.RouterInit(app)

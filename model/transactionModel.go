@@ -89,5 +89,5 @@ COALESCE (TransDate,'') AS TransDate,
 COALESCE (TransTime,'') AS TransTime,
 COALESCE (TO_CHAR(CreatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS CreatedDate,
 COALESCE (TO_CHAR(UpdatedDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),'') AS UpdatedDate
- FROM SureSureTransaction WHERE UserID = @ID`
+ FROM SureSureTransaction WHERE UserID = $1`
 var SQL_DELETE_TRANSACTION = "DELETE FROM SureSureTransaction WHERE ID = $1"

@@ -105,7 +105,7 @@ COALESCE (step, 0) AS step,
 packagechangedate AS packagechangedate, 
 billdate AS billdate, 
 createddate AS createddate, 
-updateddate AS updateddate FROM suresureuser WHERE id = $1`
+updateddate AS updateddate FROM suresureuser WHERE uid = $1`
 
 var SQL_USER_GET_BY_USERNAME = `SELECT 
 id, 

@@ -230,17 +230,10 @@ func CreateUser(user model.SureSureUser) (string, error) {
 		params = append(params, user.Password)
 		counter++
 	}
-	if user.IsActive {
+	if user.IsActive != 0 {
 		query += "IsActive, "
 		values += fmt.Sprintf("$%d, ", counter)
-		// Convert boolean to integer for PostgreSQL
-		var isActiveInt int
-		if user.IsActive {
-			isActiveInt = 1
-		} else {
-			isActiveInt = 0
-		}
-		params = append(params, isActiveInt)
+		params = append(params, user.IsActive)
 		counter++
 	}
 	if user.StoreName != "" {
@@ -397,16 +390,10 @@ func UpdateUser(user model.SureSureUser) error {
 		params = append(params, user.Password)
 		counter++
 	}
-	if user.IsActive {
+	if user.ID != 0 {
 		query += fmt.Sprintf("IsActive = $%d, ", counter)
-		// Convert boolean to integer for PostgreSQL
-		var isActiveInt int
-		if user.IsActive {
-			isActiveInt = 1
-		} else {
-			isActiveInt = 0
-		}
-		params = append(params, isActiveInt)
+		// ส่ง int ตรงๆ ไม่ต้องแปลง
+		params = append(params, user.IsActive)
 		counter++
 	}
 	if user.StoreName != "" {

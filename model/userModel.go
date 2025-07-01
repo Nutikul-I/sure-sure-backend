@@ -18,7 +18,7 @@ type SureSureUser struct {
 	Email             string `json:"email" db:"email"`
 	Username          string `json:"username" db:"username"`
 	Password          string `json:"password" db:"password"`
-	IsActive          bool   `json:"is_active" db:"isactive"`
+	IsActive          int    `json:"is_active" db:"isactive"`
 	StoreName         string `json:"store_name" db:"storename"`
 	StoreCategoryType string `json:"store_category_type" db:"storecategorytype"`
 	StorePhone        string `json:"store_phone" db:"storephone"`

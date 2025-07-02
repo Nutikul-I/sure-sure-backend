@@ -403,19 +403,6 @@ func HowTo(id int, user_id string) error {
 		log.Errorf("Error creating request: %v", err)
 		return err
 	}
-	// Check if Mock Mode is enabled
-	if os.Getenv("MOCK_LINE_API") == "true" {
-		log.Infof("🎭 MOCK MODE: LINE Message would be sent to user: %s", user_id)
-		log.Infof("📝 MOCK DATA:")
-		log.Infof("   - Store Name: %s", user.StoreName)
-		log.Infof("   - Room Name: %s", room.RoomName)
-		log.Infof("   - Room ID: #%05d", room.ID)
-		log.Infof("   - Status: %s", status)
-		log.Infof("   - Line Group ID: %s", room.LineGroupID)
-		log.Infof("💌 MOCK MESSAGE: Successfully sent HowTo message (Mock)")
-		return nil
-	}
-
 	accessToken := os.Getenv("LINE_CHANNEL_ACCESS_TOKEN")
 
 	// Check if access token exists

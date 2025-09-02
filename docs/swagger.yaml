@@ -1,1945 +1,1224 @@
 basePath: /api/v1
 definitions:
-  github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError:
+  model.SureSureBank:
     properties:
-      message:
+      account_no:
         type: string
-      result:
-        description: ใช้ interface{} สำหรับผลลัพธ์ที่ไม่แน่นอน
-      status:
+      account_type:
         type: string
-      status_code:
-        type: integer
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseSuccess:
-    properties:
-      message:
-        description: ข้อความแจ้งเตือนหรือสถานะ
+      bank_code:
         type: string
-      result:
-        description: ผลลัพธ์ของข้อมูล
-      status:
-        description: สถานะข้อความ เช่น "OK"
+      created_date:
         type: string
-      status_code:
-        description: รหัสสถานะ HTTP
-        type: integer
-      total:
-        description: จำนวนข้อมูลทั้งหมด
-        type: integer
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseError:
-    properties:
-      message:
-        type: string
-      result:
-        description: ใช้ interface{} สำหรับผลลัพธ์ที่ไม่แน่นอน
-      status:
-        type: string
-      status_code:
-        type: integer
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseSuccess:
-    properties:
-      message:
-        description: ข้อความแจ้งเตือนหรือสถานะ
-        type: string
-      result:
-        description: ผลลัพธ์ของข้อมูล
-      status:
-        description: สถานะข้อความ เช่น "OK"
-        type: string
-      status_code:
-        description: รหัสสถานะ HTTP
-        type: integer
-      total:
-        description: จำนวนข้อมูลทั้งหมด
-        type: integer
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError:
-    properties:
-      message:
-        type: string
-      result:
-        description: ใช้ interface{} สำหรับผลลัพธ์ที่ไม่แน่นอน
-      status:
-        type: string
-      status_code:
-        type: integer
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess:
-    properties:
-      message:
-        description: ข้อความแจ้งเตือนหรือสถานะ
-        type: string
-      result:
-        description: ผลลัพธ์ของข้อมูล
-      status:
-        description: สถานะข้อความ เช่น "OK"
-        type: string
-      status_code:
-        description: รหัสสถานะ HTTP
-        type: integer
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.AdminReq:
-    properties:
-      Password:
-        type: string
-      Username:
-        type: string
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response:
-    properties:
-      message:
-        type: string
-      result: {}
-      status:
-        type: string
-      status_code:
-        type: integer
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response:
-    properties:
-      message:
-        type: string
-      result: {}
-      status:
-        type: string
-      status_code:
-        type: integer
-    type: object
-  github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response:
-    properties:
-      message:
-        type: string
-      result: {}
-      status:
-        type: string
-      status_code:
-        type: integer
-    type: object
-  model.CheckslipPackage:
-    properties:
-      AmountLimit:
-        type: integer
-      CreatedAt:
-        type: string
-      DaysDueDuration:
-        type: integer
-      Id:
-        type: integer
-      Name:
-        type: string
-      OrderAmount:
-        description: shouldn't be updated manually
-        type: integer
-      Price:
-        type: number
-      QuotaLimit:
-        type: integer
-      Status:
-        type: string
-      TotalCount:
-        description: utils
-        type: integer
-      UpdatedAt:
-        type: string
-      Visibility:
-        type: boolean
-    type: object
-  model.CreateBankRequest:
-    properties:
-      bank:
-        $ref: '#/definitions/model.LinkBank'
-      idroomall:
-        items:
-          type: integer
-        type: array
-      rooms:
-        items:
-          type: integer
-        type: array
-    type: object
-  model.LinkBank:
-    properties:
-      AccountNo:
-        type: string
-      Active:
-        type: boolean
-      BankCode:
-        type: string
-      Id:
-        type: string
-      MerchantId:
-        type: string
-      NameEN:
-        type: string
-      NameTH:
-        type: string
-      PPTYPE:
-        type: string
-      TotalCount:
-        type: integer
-      TypeAccount:
-        type: string
-    type: object
-  model.MerchantCredentialAuth:
-    properties:
-      Email:
-        type: string
-      MerchantName:
-        type: string
-      Type:
-        type: string
-    type: object
-  model.MerchantCredentialAuthPayso:
-    properties:
-      MerchantId:
-        type: string
-      MerchantName:
-        type: string
-    type: object
-  model.MerchantReq:
-    properties:
-      AvatarUrl:
-        type: string
-      Email:
-        type: string
-      MerchantId:
-        type: integer
-      MerchantName:
-        type: string
-      MerchantRole:
-        type: string
-      Name:
-        type: string
-      Roles:
-        type: string
-      Status:
-        type: string
-      SuperUserLineId:
-        type: string
-      Type:
-        type: string
-    type: object
-  model.PostbackCreateReq:
-    properties:
-      CreatedAt:
-        type: string
-      MerchantId:
-        type: string
-      ProductId:
-        type: string
-      ProductType:
-        type: string
-      RefNo:
-        type: string
-      Status:
-        type: string
-      Total:
-        type: string
-    type: object
-  model.PostbackReq:
-    properties:
-      CreatedAt:
-        type: string
-      MerchantId:
-        type: string
-      ProductId:
-        type: string
-      ProductType:
-        type: string
-      RefNo:
-        type: string
-      Status:
-        type: string
-    type: object
-  model.ResponseStatus:
-    properties:
-      message:
-        description: ข้อความที่ให้ข้อมูลเพิ่มเติมเกี่ยวกับการตอบกลับ
-        type: string
-      status:
-        description: status (success หรือ error)
-        type: string
-    type: object
-  model.Room:
-    properties:
-      bank:
-        items:
-          type: string
-        type: array
-      hideReceiverDetail:
-        type: boolean
-      hideSenderDetail:
-        type: boolean
       id:
         type: integer
-      lineGroupId:
-        type: string
-      merchantId:
+      is_active:
         type: integer
-      minAmountReceive:
+      name_en:
+        type: string
+      name_th:
+        type: string
+      prompt_pay_type:
+        type: string
+      updated_date:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.SureSureLog:
+    properties:
+      action:
+        type: string
+      created_date:
+        type: string
+      data_request:
+        type: string
+      id:
+        type: integer
+      method_name:
+        type: string
+      name_th:
+        type: string
+      updated_date:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.SureSureOrderPackage:
+    properties:
+      created_date:
+        type: string
+      id:
+        type: integer
+      package_id:
+        type: integer
+      price:
         type: number
-      notiOnInvalid:
+      ref_no:
         type: string
-      notiOnInvalidMinAmount:
+      status:
         type: string
-      notiOnInvalidReceiverBankAccount:
+      updated_date:
         type: string
-      notiOnInvalidUnverified:
-        type: string
-      notiOnLineGroupId:
-        type: string
-      notiOnQuotaLimitExceed:
-        type: string
-      notiOnSlipDuplicated:
-        type: string
-      notiOnValid:
-        type: string
-      qrToken:
-        type: string
-      registeredAt:
-        type: string
-      roomName:
-        type: string
-      totalQuotaUsed:
+      user_id:
         type: integer
-      transactionSummary:
+    type: object
+  model.SureSurePackage:
+    properties:
+      amount:
+        type: number
+      created_date:
+        type: string
+      duration:
+        type: integer
+      id:
+        type: integer
+      is_active:
+        type: integer
+      ordered:
+        type: integer
+      package_name:
+        type: string
+      package_price:
+        type: number
+      quota_limit:
+        type: integer
+      updated_date:
         type: string
     type: object
-  model.UpdateProfile:
+  model.SureSureRoom:
     properties:
-      actor:
+      created_date:
+        type: string
+      id:
+        type: integer
+      line_group_id:
+        type: string
+      list_bank:
+        type: string
+      min_receive:
+        type: number
+      qr_token:
+        type: string
+      quota_used:
+        type: integer
+      room_name:
+        type: string
+      show_recipient:
+        type: boolean
+      show_transferor:
+        type: boolean
+      updated_date:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.SureSureTransaction:
+    properties:
+      amount:
+        type: number
+      created_date:
+        type: string
+      cstid:
+        type: string
+      id:
+        type: integer
+      line_group_id:
+        type: string
+      line_user_id:
+        type: string
+      message:
+        type: string
+      proxy_account_no:
+        type: string
+      qr_code:
+        type: string
+      receive_account_no:
+        type: string
+      receive_bank_code:
+        type: string
+      receive_name:
+        type: string
+      receive_name2:
+        type: string
+      ref_no:
+        type: string
+      ref1:
+        type: string
+      ref2:
+        type: string
+      rquid:
+        type: string
+      sender_account_no:
+        type: string
+      sender_bank_code:
+        type: string
+      sender_name:
+        type: string
+      sender_name2:
+        type: string
+      status:
+        type: string
+      status_code:
+        type: string
+      trans_date:
+        type: string
+      trans_time:
+        type: string
+      txid:
+        type: string
+      updated_date:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.SureSureUser:
+    properties:
+      access_token:
         type: string
       address:
         type: string
+      bill_date:
+        type: string
+      created_date:
+        type: string
       email:
         type: string
-      merchantId:
+      id:
+        type: integer
+      is_active:
+        type: integer
+      merchant_id:
+        type: integer
+      name_en:
+        type: string
+      name_th:
+        type: string
+      package_change_date:
+        type: string
+      package_id:
+        type: integer
+      password:
         type: string
       phone:
         type: string
-      storeName:
+      picture:
+        type: string
+      quota_all:
+        type: integer
+      quota_left:
+        type: integer
+      quota_usage:
+        type: integer
+      step:
+        type: integer
+      store_category_type:
+        type: string
+      store_email:
+        type: string
+      store_name:
+        type: string
+      store_phone:
+        type: string
+      token:
+        type: string
+      uid:
+        type: string
+      updated_date:
+        type: string
+      user_role:
+        type: string
+      user_type:
+        type: string
+      username:
+        type: string
+      website:
         type: string
     type: object
-  model.UpdateRoomRequest:
+  util.APIResponse:
     properties:
-      bank:
-        items:
-          type: string
-        type: array
-      email:
+      data: {}
+      message:
         type: string
-      rooms:
-        $ref: '#/definitions/model.Room'
-    type: object
-  model.UpdateUIDReq:
-    properties:
-      AvatarUrl:
-        type: string
-      LineUserId:
-        type: string
-      MerchantId:
-        type: string
-      Roles:
-        type: string
-      UserName:
+      status_code:
+        type: integer
+      timestamp:
         type: string
     type: object
-host: localhost:4567
 info:
-  contact:
-    email: fiber@swagger.io
-    name: API Support
-  description: Backend Dashboard API for managing merchant transactions and services
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Backend Dashboard
+  contact: {}
+  description: Public API for SureSure services
+  title: SureSure Public API
   version: "1.0"
 paths:
-  /admin/getRoomMerchantReport:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูลรายชื่อห้องของลูกค้า โดยสามารถกรองด้วยคีย์เวิร์ดค้นหาเช่น
-        ราชื่อห้องหรือรายชื่อลูกค้า
-      parameters:
-      - description: คำค้นหา (ชื่อของลูกค้าหรือรายชื่อห้อง)
-        in: query
-        name: searchkeyword
-        type: string
-      - description: 'Pagination offset (ค่าเริ่มต้น: 1)'
-        in: query
-        name: offset
-        type: integer
-      - description: 'Pagination limit (ค่าเริ่มต้น: 10)'
-        in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Success response with room data and total count
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseSuccess'
-        "400":
-          description: Invalid request parameters
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError'
-      summary: GetRoomMerchant
-      tags:
-      - ReportRoomMerchant
-  /admin/getbankresandtransection:
-    get:
-      consumes:
-      - application/json
-      description: เป็นการส่งค่าข้อมูลของการตอบกลับของ bank
-      parameters:
-      - description: Start date in RFC3339 format (e.g., 2024-01-01T00:00:00Z)
-        in: query
-        name: startDate
-        type: string
-      - description: End date in RFC3339 format (e.g., 2024-01-01T23:59:59Z)
-        in: query
-        name: endDate
-        type: string
-      - description: Filter by merchant name
-        in: query
-        name: merchantname
-        type: string
-      - description: Filter by transaction status
-        in: query
-        name: transectionStatus
-        type: string
-      - description: 'Pagination offset (default: 0)'
-        in: query
-        name: offset
-        type: integer
-      - description: 'Pagination limit (default: 10)'
-        in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Success response with results and total count
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseSuccess'
-        "400":
-          description: Invalid request parameters
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError'
-      summary: Get bank responses and transactions between dates
-      tags:
-      - BankResponse
-  /admin/logadmin/search:
-    get:
-      consumes:
-      - application/json
-      description: เป็นการดึงข้อมูล log ทั้งหมดและมีตัวกรองระหว่างวันที่ที่กำหนดและตัวกรองอื่นๆ
-        คือ action, actorName, และ actorRole
-      parameters:
-      - description: Start date in RFC3339 format (e.g., 2024-01-01T00:00:00Z)
-        in: query
-        name: startDate
-        type: string
-      - description: End date in RFC3339 format (e.g., 2024-01-01T23:59:59Z)
-        in: query
-        name: endDate
-        type: string
-      - description: Filter by action method name
-        in: query
-        name: action
-        type: string
-      - description: Filter by actor's name
-        in: query
-        name: actorName
-        type: string
-      - description: Filter by actor's role
-        in: query
-        name: actorRole
-        type: string
-      - description: 'Pagination offset (default: 0)'
-        in: query
-        name: offset
-        type: integer
-      - description: 'Pagination limit (default: 10)'
-        in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Success response with logs data and total count
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseSuccess'
-        "400":
-          description: Invalid request parameters
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseError'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseError'
-      summary: Get logs between dates
-      tags:
-      - Logs
-  /bankdata/{Id}/{Offset}/{Limit}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูลธนาคารที่เชื่อมกับบัญชีหลัก
-      parameters:
-      - description: ID Merchant
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: Offset ( กรณีไม่อยากจำกัดการแสดงผลให้ใส่ -1 ทั้ง Limitและ Offset)
-        in: path
-        name: Offset
-        type: string
-      - description: Limit จำนวนที่ต้องการดึง (กรณีไม่อยากจำกัดการแสดงผลให้ใส่ -1
-          ทั้ง Limitและ Offset)
-        in: path
-        name: Limit
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Bank link retrieved successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Get Bank With Id
-      tags:
-      - merchant
-  /createbanklink:
+  /bank2/create:
     post:
       consumes:
       - application/json
-      description: สร้างธนาคารเพื่อเชื่อมกับบัญชีหลัก.
       parameters:
-      - description: Bank link details
+      - description: Bank payload
         in: body
-        name: body
+        name: bank
         required: true
         schema:
-          $ref: '#/definitions/model.CreateBankRequest'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Bank link created successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Create Bank
-      tags:
-      - merchant
-  /createroom:
-    post:
-      consumes:
-      - application/json
-      description: Create a room with the provided details based on the request body.
-      parameters:
-      - description: Room details to create
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.UpdateRoomRequest'
+          $ref: '#/definitions/model.SureSureBank'
       produces:
       - application/json
       responses:
         "200":
-          description: Room created successfully
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "400":
-          description: Bad request
+          description: Bad Request
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Create Room by ID
+            $ref: '#/definitions/util.APIResponse'
+      summary: Create bank
       tags:
-      - merchant
-  /createuid:
-    post:
-      consumes:
-      - application/json
-      description: ทำการเชื่อม Line Sub User เข้ากับ บัญชีหลัก โดยทำงานอยู่ที่ปุ่ม
-        login line หน้า profile
-      parameters:
-      - description: Update UID request
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.UpdateUIDReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: UID updated successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Line Sub User เข้ากับ บัญชีหลัก
-      tags:
-      - merchant
-  /delete/bankdata/{Id}/{Actor}/{Type}/{MerchantId}:
+      - Bank
+  /bank2/delete/{id}:
     delete:
-      consumes:
-      - application/json
-      description: Delete the bank link associated with the specified ID.
       parameters:
-      - description: ID Bank
+      - description: Bank ID
         in: path
-        name: Id
-        required: true
-        type: string
-      - description: 'Line User ID '
-        in: path
-        name: Actor
-        required: true
-        type: string
-      - description: Type of Account (Line/facebook/google)
-        in: path
-        name: Type
-        required: true
-        type: string
-      - description: Merchant ID
-        in: path
-        name: MerchantId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Bank link deleted successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Delete Bank Link Account with ID
-      tags:
-      - merchant
-  /delete/linedata/{Id}/{Actor}/{Type}:
-    delete:
-      consumes:
-      - application/json
-      description: ลบ sub user ที่เชื่อมกับบัญชีหลัก
-      parameters:
-      - description: ID sub user
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: Actor เป็น Email / Line User Id ของคนที่ทำ
-        in: path
-        name: Actor
-        required: true
-        type: string
-      - description: Type login ของคนที่ทำ
-        in: path
-        name: Type
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Link deleted successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Delete sub user with Id Merchant
-      tags:
-      - merchant
-  /freetrial/{Id}:
-    get:
-      consumes:
-      - application/json
-      description: Get a free trial receipt based on the routing code parameter provided
-        to indicate the purchase amount of the free trial package. By limiting page
-        purchases to once a month..
-      parameters:
-      - description: ID Merchant
-        in: path
-        name: Id
+        name: id
         required: true
         type: integer
       produces:
       - application/json
       responses:
         "200":
-          description: Room created successfully
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Get Free Trial Receipt
+            $ref: '#/definitions/util.APIResponse'
+      summary: Delete bank by ID
       tags:
-      - merchant
-  /linedata/{Id}/{Role}:
+      - Bank
+  /bank2/get:
     get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูล sub user ที่เชื่อมกับบัญชีตาม Id ที่ input
-      parameters:
-      - description: ID ของบัญชีที่ทำ
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: Role ประเภทของบัญชีlogin
-        in: path
-        name: Role
-        required: true
-        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: Link retrieved successfully
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Get Sub User with Id Merchant
+            $ref: '#/definitions/util.APIResponse'
+      summary: List banks
       tags:
-      - merchant
-  /merchant/create:
-    post:
-      consumes:
-      - application/json
-      description: สร้างบัญชีเมื่อมีการ login ครั้งแรก ของ facebook google loginPayso
-        *** ไม่ได้ใช้งานแล้ว
-      parameters:
-      - description: Merchant request
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.MerchantReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: User  created successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: CreateUser facebook google loginPayso *** ไม่ได้ใช้งานแล้ว
-      tags:
-      - merchant
-  /merchant/createwithLine:
-    post:
-      consumes:
-      - application/json
-      description: เป็นเส้นที่ไว้สำหรับการสร้าง Merchant ที่ Login ด้วย Line ลงฐานข้อมูล
-      parameters:
-      - description: User details
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.MerchantReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: User  created successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Create account Line first login
-      tags:
-      - merchant
-  /merchant/login:
-    post:
-      consumes:
-      - application/json
-      description: Login สำหรับ google *** ไม่ได้ใช้แล้ว.
-      parameters:
-      - description: Merchant credentials
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.MerchantCredentialAuth'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Login successful
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Login google *** ไม่ได้ใช้แล้ว
-      tags:
-      - merchant
-  /merchant/loginPayso:
-    post:
-      consumes:
-      - application/json
-      description: Login สมาชิกของ Payso *** ไม่ได้ใช้แล้ว
-      parameters:
-      - description: Merchant credentials
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.MerchantCredentialAuthPayso'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Login successful
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Login member Payso *** ไม่ได้ใช้แล้ว
-      tags:
-      - merchant
-  /merchant/loginadmin:
-    post:
-      consumes:
-      - application/json
-      description: ไว้ใช้สำหรับการ login บัญชี admin หน้า login-admin
-      parameters:
-      - description: Admin credentials
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.AdminReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Login successful
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Login Admin
-      tags:
-      - admin
-  /merchant/loginline:
-    post:
-      consumes:
-      - application/json
-      description: Authenticate a merchant using Line credentials.
-      parameters:
-      - description: Merchant credentials for Line login
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.MerchantCredentialAuth'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Login successful
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Login with Line
-      tags:
-      - merchant
-  /merchant/profileemail/{email}:
+      - Bank
+  /bank2/get/{id}:
     get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูล Profile Data ด้วย email ใช้สำหรับ sub user *** ไม่ได้ใช้งานแล้ว
-        ใช้อีกตัวเป็นหลัก
       parameters:
-      - description: 'ID Merchant '
+      - description: Bank ID
         in: path
-        name: Id
+        name: id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
         "200":
-          description: Merchant retrieved successfully
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Profile Data with email  *** ไม่ได้ใช้งานแล้ว ใช้อีกตัวเป็นหลัก
-      tags:
-      - merchant
-  /merchant/profileid/{Id}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูล Profile Data ด้วย Id *** ใช้ตัวนี้เป็นหลัก
-      parameters:
-      - description: 'ID Merchant '
-        in: path
-        name: Id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Merchant retrieved successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "400":
-          description: Bad request
+          description: Bad Request
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Profile Data with Id *** ใช้ตัวนี้เป็นหลัก
+            $ref: '#/definitions/util.APIResponse'
+      summary: Get bank by ID
       tags:
-      - merchant
-  /merchant/profileline/{LineUserId}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูล User หลัก เมื่อมีการ login subuser **** ไม่ได้ใช้งานแล้ว
-      parameters:
-      - description: Line User ID / email คนที่ทำ
-        in: path
-        name: LineUserId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Merchant retrieved successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Get User Data main If login subuser **** ไม่ได้ใช้งานแล้ว
-      tags:
-      - merchant
-  /notification/send-notification-exprice:
-    post:
-      consumes:
-      - application/json
-      description: ส่งการแจ้งเตือนแจ้งวันหมดอายุว่าในอีก 3 วันแพ็กเกขของคนนี้จะมหดอายุโดยจะส่งเข้า
-        LineOA
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Success response with success message
-          schema:
-            $ref: '#/definitions/model.ResponseStatus'
-        "500":
-          description: Error response with error message
-          schema:
-            $ref: '#/definitions/model.ResponseStatus'
-      summary: Send  Notification to LineOA
-      tags:
-      - Notification
-  /notification/send-notification-expried-and-updatepkgId:
-    post:
-      consumes:
-      - application/json
-      description: ส่งการแจ้งเตือนเกี่ยวกับการหมดอายุและทำการอัปเดตแพ็จเกจ ID เป้น
-        null และ โควตาในการใช้เป็น 0
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Success response with success message
-          schema:
-            $ref: '#/definitions/model.ResponseStatus'
-        "500":
-          description: Error response with error message
-          schema:
-            $ref: '#/definitions/model.ResponseStatus'
-      summary: Send Expired Notification and Update Package
-      tags:
-      - Notification
-  /package/{packageId}/visibility/{visibility}:
+      - Bank
+  /bank2/update:
     put:
       consumes:
       - application/json
-      description: อัปเดตสถานะการมองเห็น (visibility) ของแพ็กเกจที่มี ID ระบุ ในส่วนนี้ถึงลูกค้าใช้งานอยู่ก็จะสามารถ
-        update ได้
+      parameters:
+      - description: Bank payload
+        in: body
+        name: bank
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureBank'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Update bank
+      tags:
+      - Bank
+  /healthcheck:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'version: 1.0.0'
+          schema:
+            type: string
+      summary: Healthcheck
+      tags:
+      - Health
+  /log/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Log payload
+        in: body
+        name: log
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureLog'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Create log
+      tags:
+      - Log
+  /log/delete/{id}:
+    delete:
+      parameters:
+      - description: Log ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Delete log by ID
+      tags:
+      - Log
+  /log/get:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: List logs
+      tags:
+      - Log
+  /log/get/{id}:
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Get log by user ID
+      tags:
+      - Log
+  /log/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Log payload
+        in: body
+        name: log
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureLog'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Update log
+      tags:
+      - Log
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Create user if not exists, otherwise return existing user
+      parameters:
+      - description: User payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Login or create user
+      tags:
+      - User
+  /order-package/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Order package payload
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureOrderPackage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Create order package
+      tags:
+      - OrderPackage
+  /order-package/delete/{id}:
+    delete:
+      parameters:
+      - description: Order package ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Delete order package by ID
+      tags:
+      - OrderPackage
+  /order-package/get:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: List order packages
+      tags:
+      - OrderPackage
+  /order-package/get/{id}:
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Get order package by user ID
+      tags:
+      - OrderPackage
+  /order-package/get/refno/{RefNo}:
+    get:
+      parameters:
+      - description: Reference No
+        in: path
+        name: RefNo
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Get order package by RefNo
+      tags:
+      - OrderPackage
+  /order-package/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Order package payload
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureOrderPackage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Update order package
+      tags:
+      - OrderPackage
+  /package/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Package payload
+        in: body
+        name: package
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSurePackage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Create package
+      tags:
+      - Package
+  /package/delete/{id}:
+    delete:
       parameters:
       - description: Package ID
         in: path
-        name: packageId
+        name: id
         required: true
         type: integer
-      - description: Visibility status (true or false)
-        in: path
-        name: visibility
-        required: true
-        type: boolean
       produces:
       - application/json
       responses:
         "200":
-          description: Successfully updated package visibility
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess'
-        "400":
-          description: Invalid request parameters
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
-      summary: Update Package Visibility
+            $ref: '#/definitions/util.APIResponse'
+      summary: Delete package by ID
       tags:
-      - ManagePackage
-  /package/create/packages:
-    post:
+      - Package
+  /package/get:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: List packages
+      tags:
+      - Package
+  /package/get/{id}:
+    get:
+      parameters:
+      - description: Package ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Get package by ID
+      tags:
+      - Package
+  /package/update:
+    put:
       consumes:
       - application/json
-      description: สร้างแพ็กเกจใหม่ในระบบ
       parameters:
-      - description: รายละเอียดของแพ็กเกจที่จะสร้าง คือ ชื่อ,ราคา,โควตาสูงสุด,สถานะ,การมองเห็น,จำนวนการขาย,เวลาของแพ็กเกจ
+      - description: Package payload
         in: body
         name: package
         required: true
         schema:
-          $ref: '#/definitions/model.CheckslipPackage'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Package created successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess'
-        "400":
-          description: Invalid request body or incorrect Content-Type
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
-      summary: Create Package
-      tags:
-      - ManagePackage
-  /package/packageactive:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูลแพ็กเกจทั้งหมดที่มีสถานะ Active และเปิดการมองเห็น
+          $ref: '#/definitions/model.SureSurePackage'
       produces:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved active packages
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess'
+            $ref: '#/definitions/util.APIResponse'
         "400":
-          description: Invalid request parameters
+          description: Bad Request
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
-      summary: Get All Active Packages
+            $ref: '#/definitions/util.APIResponse'
+      summary: Update package
       tags:
-      - ManagePackage
-  /package/search/getpackage:
-    get:
+      - Package
+  /room2/create:
+    post:
       consumes:
       - application/json
-      description: ฟังก์ชั่นดึงข้อมูลแพ็กเกจค้นหาข้อมูลแพ็กเกจ โดยสามารถกรองด้วยคำค้นหาเช่น
-        ชื่อแพ็กเกจ หรือ รหัสแพ็กเกจ
       parameters:
-      - description: คำค้นหาแพ็กเกจ (เช่น ชื่อแพ็กเกจหรือรหัสแพ็กเกจ)
-        in: query
-        name: searchpackage
-        type: string
-      - description: 'Pagination offset (ค่าเริ่มต้น: 0)'
-        in: query
-        name: offset
-        type: integer
-      - description: 'Pagination limit (ค่าเริ่มต้น: 10)'
-        in: query
-        name: limit
+      - description: Room payload
+        in: body
+        name: room
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureRoom'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Create room
+      tags:
+      - Room
+  /room2/delete/{id}:
+    delete:
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
         type: integer
       produces:
       - application/json
       responses:
         "200":
-          description: Success response with package data
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess'
-        "400":
-          description: Invalid request parameters
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
-      summary: Get Package
+            $ref: '#/definitions/util.APIResponse'
+      summary: Delete room by ID
       tags:
-      - ManagePackage
-  /payment/callback:
-    post:
-      consumes:
-      - application/json
-      description: อัพเดทสถานะของการชำระเงินใน CheckSlipReceipt เมื่อมีการชำระเงิน
-      parameters:
-      - description: Postback request
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.PostbackReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Update Success
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-      summary: อัพเดทสถานะของการชำระเงินใน CheckSlipReceipt เมื่อมีการชำระเงิน
-      tags:
-      - payment
-  /payment/create:
-    post:
-      consumes:
-      - application/json
-      description: ไว้สำหรับในการสร้างข้อมูลเมื่อมีการเลือก package ที่จะซื้อ.
-      parameters:
-      - description: Postback request
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.PostbackCreateReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Create Success
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-      summary: Create Receipt Payment
-      tags:
-      - payment
-  /payment/get:
-    post:
-      consumes:
-      - application/json
-      description: ดึงข้อมูล payment กำลังรอการชำระเงิน.
-      parameters:
-      - description: Postback request
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/model.PostbackCreateReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Postback retrieved successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response'
-      summary: Get Postback
-      tags:
-      - payment
-  /room/bank/{roomId}:
+      - Room
+  /room2/get:
     get:
-      consumes:
-      - application/json
-      description: Get the bank link associated with the specified room ID.
-      parameters:
-      - description: ID of the room
-        in: path
-        name: roomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Bank link retrieved successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Get Bank Link for Room by ID Room
-      tags:
-      - merchant
-  /roomdata/{Id}:
-    get:
-      consumes:
-      - application/json
-      description: Get the link associated with the specified room ID.
-      parameters:
-      - description: ID Merchant
-        in: path
-        name: Id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Room link retrieved successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Get Room Link with ID Merchant
-      tags:
-      - merchant
-  /trasaction/amount/{Id}/{Startdate}/{Enddate}/{roomId}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูลจำนวนเงินของ transaction แต่ละห้อง.
-      parameters:
-      - description: ID Merchant
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: Start date ที่ค้นหา
-        in: path
-        name: Startdate
-        type: string
-      - description: End date ที่ค้นหา
-        in: path
-        name: Enddate
-        type: string
-      - description: Room ID ใช้ในการค้นหาจำนวนประเภทสลิปแต่ละอันที่ใช้ไปในแต่ละห้องเมื่อมีการเลือกห้อง
-          (ถ้าไม่เลือกใส่ - )
-        in: path
-        name: roomId
-        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Get Transactions Amount by ID
+            $ref: '#/definitions/util.APIResponse'
+      summary: List rooms
       tags:
-      - transaction
-  /trasaction/exportexcel/{Id}/{Startdate}/{Enddate}:
+      - Room
+  /room2/get/{id}:
     get:
-      consumes:
-      - application/json
-      description: Export transaction data to an Excel file.
       parameters:
-      - description: ID Merchant
+      - description: Room ID
         in: path
-        name: Id
-        required: true
-        type: string
-      - description: Start date
-        in: path
-        name: Startdate
-        type: string
-      - description: End date
-        in: path
-        name: Enddate
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Excel file exported successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Export Transactions to Excel
-      tags:
-      - transaction
-  /trasaction/exportexcelline/{Uid}/{Startdate}/{Enddate}:
-    get:
-      consumes:
-      - application/json
-      description: ทำการสร้างไฟล์ excel เพื่อรายงานผลของ sub user ***ไม่ได้ใช้แล้ว.
-      parameters:
-      - description: Line User ID
-        in: path
-        name: Uid
-        required: true
-        type: string
-      - description: Start date เริ่มต้นการค้นหา
-        in: path
-        name: Startdate
-        type: string
-      - description: End date สิ้นสุดการค้นหา
-        in: path
-        name: Enddate
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Export Transactions to Excel by Line ***ไม่ได้ใช้แล้ว
-      tags:
-      - transaction
-  /trasaction/transactionmonth/{Id}/{Month}/{Year}/{roomId}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูลเพื่อนำไปสร้างกราฟแท่ง.
-      parameters:
-      - description: ID Merchant
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: Month ที่ต้องการค้น
-        in: path
-        name: Month
-        required: true
-        type: string
-      - description: Year ที่ต้องการค้น
-        in: path
-        name: Year
-        required: true
-        type: string
-      - description: Room ID ใช้ในการค้นหาจำนวนประเภทสลิปแต่ละอันที่ใช้ไปในแต่ละห้องเมื่อมีการเลือกห้อง(ถ้าไม่เลือกใส่
-          - )
-        in: path
-        name: roomId
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Get Transaction Month by ID
-      tags:
-      - transaction
-  /trasaction/transactionmonthline/{Uid}/{Month}/{Year}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูล trnsactions ที่เป็นของกราฟ sub user ***ไม่ได้ใช้งานแล้ว.
-      parameters:
-      - description: Line User ID
-        in: path
-        name: Uid
-        required: true
-        type: string
-      - description: Month ที่ต้องการค้นหา
-        in: path
-        name: Month
-        required: true
-        type: string
-      - description: Year ที่ต้องการค้นหา
-        in: path
-        name: Year
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Get Transaction Month by Line Sub user ***ไม่ได้ใช้งานแล้ว
-      tags:
-      - transaction
-  /trasaction/transactionstatus/{Id}/{Status}/{Startdate}/{Enddate}/{Offset}/{Limit}/{roomId}:
-    get:
-      consumes:
-      - application/json
-      description: Retrieve transactions by status and transaction ID.
-      parameters:
-      - description: ID Merchant
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: สถานะของtransaction ที่ต้องการค้นหา
-        in: path
-        name: Status
-        required: true
-        type: string
-      - description: Start date วันเรื่มต้นที่ต้องการค้นหา
-        in: path
-        name: Startdate
-        type: string
-      - description: End date วันสิ้นสุดที่ต้องการค้นหา
-        in: path
-        name: Enddate
-        type: string
-      - description: Offset
-        in: path
-        name: Offset
-        type: string
-      - description: Limit จำนวนในการดึงแต่ละครั้ง
-        in: path
-        name: Limit
-        type: string
-      - description: Room ID ใช้ในการค้นหาจำนวนประเภทสลิปแต่ละอันที่ใช้ไปในแต่ละห้องเมื่อมีการเลือกห้อง
-          (ถ้าไม่เลือกใส่ - )
-        in: path
-        name: roomId
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Transactions retrieved successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Get Transaction Status by ID
-      tags:
-      - transaction
-  /trasaction/transactionstatusline/{Uid}/{Status}/{Startdate}/{Enddate}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูล transactions ตาราง ของ Sub User. *** ไม่ได้ใช้แล้ว
-      parameters:
-      - description: Line User ID
-        in: path
-        name: Uid
-        required: true
-        type: string
-      - description: Transaction Status
-        in: path
-        name: Status
-        required: true
-        type: string
-      - description: Start date เริ่มต้นค้นหา
-        in: path
-        name: Startdate
-        type: string
-      - description: End date สิ้นสุดค้นหา
-        in: path
-        name: Enddate
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Get Transaction Status by Line Sub User *** ไม่ได้ใช้แล้ว
-      tags:
-      - transaction
-  /trasactionid/{Id}/{Startdate}/{Enddate}/{roomId}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูลจำนวนสลิปของแต่ละประเภทและข้อมูลเกี่ยวกับจำนวนโควต้าของผู้ใช้ทั้งหมด.
-      parameters:
-      - description: ID Merchant
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: Start date วันเรื่มต้นที่ต้องการค้นหา
-        in: path
-        name: Startdate
-        type: string
-      - description: End date วันสิ้นสุดที่ต้องการค้นหา
-        in: path
-        name: Enddate
-        type: string
-      - description: Room ID ใช้ในการค้นหาจำนวนประเภทสลิปแต่ละอันที่ใช้ไปในแต่ละห้องเมื่อมีการเลือกห้อง(ถ้าไม่เลือกใส่
-          - )
-        in: path
-        name: roomId
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Get Transaction by ID
-      tags:
-      - transaction
-  /trasactionline/{Uid}/{Startdate}/{Enddate}:
-    get:
-      consumes:
-      - application/json
-      description: ดึงข้อมูล transactions ที่แสดงจำนวนประเภทสลิปต่างๆ ของ sub user
-        ***ไม่ได้ใช้งาน.
-      parameters:
-      - description: Line User ID
-        in: path
-        name: Uid
-        required: true
-        type: string
-      - description: Start date ที่เริ่ทค้นหา
-        in: path
-        name: Startdate
-        type: string
-      - description: End date สิ้นสุดค้น
-        in: path
-        name: Enddate
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response'
-      summary: Get Transaction by sub User ***ไม่ได้ใช้งาน
-      tags:
-      - transaction
-  /update/bankdata/{Id}/{Status}/{Actor}/{Type}/{MerchantId}:
-    put:
-      consumes:
-      - application/json
-      description: อัพเดทสถานะของธนาคารที่เชื่อมต่อกับบัญชีถ้าเกิดบัญชีนั้นเชื่อมกับห้องอยู่
-        บัญชีในห้องนั้นก็จะถูกปิดไปด้วย
-      parameters:
-      - description: ID ธนาคาร
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: Status ที่ต้องการอัพเดท true/false
-        in: path
-        name: Status
-        required: true
-        type: string
-      - description: Actor เป็น Email / Line User Id ของคนที่ทำ
-        in: path
-        name: Actor
-        required: true
-        type: string
-      - description: ประเภท login ของคนที่ทำ
-        in: path
-        name: Type
-        required: true
-        type: string
-      - description: Merchant ID
-        in: path
-        name: MerchantId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Bank link updated successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Update status bank
-      tags:
-      - merchant
-  /update/linedata/{Id}/{Status}/{Actor}/{Type}:
-    put:
-      consumes:
-      - application/json
-      description: อัพเดทสถานะของsub user  inactive/active
-      parameters:
-      - description: ID Subuser ที่จะอัพเดท
-        in: path
-        name: Id
-        required: true
-        type: string
-      - description: Status ที่ต้องการอัพเดท
-        in: path
-        name: Status
-        required: true
-        type: string
-      - description: Actor เป็น Email / Line User Id ของคนที่ทำ
-        in: path
-        name: Actor
-        required: true
-        type: string
-      - description: ประเภท login ของคนที่ทำ
-        in: path
-        name: Type
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Link updated successfully
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Update Status sub user  inactive/active
-      tags:
-      - merchant
-  /update/package/{id}:
-    put:
-      consumes:
-      - application/json
-      description: อัปเดตข้อมูลแพ็กเกจตาม `ID` โดยรับข้อมูลใหม่ผ่าน JSON body แต่ว่าถ้ามีคนใช้งานจะไม่สามารถอัปเดตได้
-      parameters:
-      - description: Package ID to update
-        in: path
-        name: Id
+        name: id
         required: true
         type: integer
-      - description: ข้อมูลแพ็กเกจใหม่ที่จะอัปเดต
-        in: body
-        name: package
-        required: true
-        schema:
-          $ref: '#/definitions/model.CheckslipPackage'
       produces:
       - application/json
       responses:
         "200":
-          description: Package updated successfully
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess'
+            $ref: '#/definitions/util.APIResponse'
         "400":
-          description: Invalid package ID or request body
+          description: Bad Request
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError'
-      summary: Update Package by ID
+            $ref: '#/definitions/util.APIResponse'
+      summary: Get room by ID
       tags:
-      - ManagePackage
-  /updateline/roles/{Id}/{Roles}/{Actor}/{Type}:
+      - Room
+  /room2/howto/{id}/{user_id}:
+    get:
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: HowTo action for room
+      tags:
+      - Room
+  /room2/update:
     put:
       consumes:
       - application/json
-      description: อัปเดทสถานะ roles ของ sub user ว่าสามารถทำอะไรได้บ้าง.
       parameters:
-      - description: ID Subuser ที่จะอัพเดท
-        in: path
-        name: Id
+      - description: Room payload
+        in: body
+        name: room
         required: true
-        type: string
-      - description: Roles ที่จะอัพเดท
-        in: path
-        name: Roles
-        required: true
-        type: string
-      - description: Actor เป็น Email / Line User Id ของคนที่ทำ
-        in: path
-        name: Actor
-        required: true
-        type: string
-      - description: ประเภท login ของคนที่ทำ
-        in: path
-        name: Type
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/model.SureSureRoom'
       produces:
       - application/json
       responses:
         "200":
-          description: Roles updated successfully
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "400":
-          description: Bad request
+          description: Bad Request
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Update roles sub user
+            $ref: '#/definitions/util.APIResponse'
+      summary: Update room
       tags:
-      - merchant
-  /updateprofile:
+      - Room
+  /transaction/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Transaction payload
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureTransaction'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Create transaction
+      tags:
+      - Transaction
+  /transaction/delete/{id}:
+    delete:
+      parameters:
+      - description: Transaction ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Delete transaction by ID
+      tags:
+      - Transaction
+  /transaction/get:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: List transactions
+      tags:
+      - Transaction
+  /transaction/get/{id}:
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Get transaction by user ID
+      tags:
+      - Transaction
+  /transaction/update:
     put:
       consumes:
       - application/json
-      description: Update the merchant profile with the provided data.
       parameters:
-      - description: Profile data to update
+      - description: Transaction payload
         in: body
-        name: body
+        name: transaction
         required: true
         schema:
-          $ref: '#/definitions/model.UpdateProfile'
+          $ref: '#/definitions/model.SureSureTransaction'
       produces:
       - application/json
       responses:
         "200":
-          description: Profile updated successfully
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "400":
-          description: Bad request
+          description: Bad Request
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Update Profile
+            $ref: '#/definitions/util.APIResponse'
+      summary: Update transaction
       tags:
-      - merchant
-  /updateroom:
+      - Transaction
+  /user/category/get:
+    get:
+      description: Retrieve merchant categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: List categories
+      tags:
+      - User
+  /user/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Create user
+      tags:
+      - User
+  /user/delete/{id}:
+    delete:
+      parameters:
+      - description: User UID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Delete user by UID
+      tags:
+      - User
+  /user/get:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: List users
+      tags:
+      - User
+  /user/get/{id}:
+    get:
+      description: Retrieve a user record by UID
+      parameters:
+      - description: User UID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Get user by UID
+      tags:
+      - User
+  /user/update:
     put:
       consumes:
       - application/json
-      description: Update a room with the provided details based on the request body.
       parameters:
-      - description: Room details to update
+      - description: User payload
         in: body
-        name: body
+        name: user
         required: true
         schema:
-          $ref: '#/definitions/model.UpdateRoomRequest'
+          $ref: '#/definitions/model.SureSureUser'
       produces:
       - application/json
       responses:
         "200":
-          description: Room updated successfully
+          description: OK
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "400":
-          description: Bad request
+          description: Bad Request
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
+            $ref: '#/definitions/util.APIResponse'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            $ref: '#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response'
-      summary: Update Room by ID
+            $ref: '#/definitions/util.APIResponse'
+      summary: Update user
       tags:
-      - merchant
+      - User
+schemes:
+- http
+- https
 swagger: "2.0"

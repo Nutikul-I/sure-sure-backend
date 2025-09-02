@@ -25,6 +25,13 @@ func NewPackageController(packageService service.PackageService) PackageControll
 	return &packageController{packageService}
 }
 
+// GetPackageAll godoc
+// @Summary List packages
+// @Tags Package
+// @Produce json
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /package/get [get]
 func (ctrl *packageController) GetPackageAll(c *fiber.Ctx) error {
 	packages, err := ctrl.PackageService.GetPackageAll()
 	if err != nil {
@@ -35,6 +42,15 @@ func (ctrl *packageController) GetPackageAll(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetPackageByID godoc
+// @Summary Get package by ID
+// @Tags Package
+// @Produce json
+// @Param id path int true "Package ID"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /package/get/{id} [get]
 func (ctrl *packageController) GetPackageByID(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	pkg, err := ctrl.PackageService.GetPackageByID(id)
@@ -46,6 +62,16 @@ func (ctrl *packageController) GetPackageByID(c *fiber.Ctx) error {
 	return nil
 }
 
+// CreatePackage godoc
+// @Summary Create package
+// @Tags Package
+// @Accept json
+// @Produce json
+// @Param package body model.SureSurePackage true "Package payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /package/create [post]
 func (ctrl *packageController) CreatePackage(c *fiber.Ctx) error {
 	var pkg model.SureSurePackage
 	if err := c.BodyParser(&pkg); err != nil {
@@ -61,6 +87,16 @@ func (ctrl *packageController) CreatePackage(c *fiber.Ctx) error {
 	return nil
 }
 
+// UpdatePackage godoc
+// @Summary Update package
+// @Tags Package
+// @Accept json
+// @Produce json
+// @Param package body model.SureSurePackage true "Package payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /package/update [put]
 func (ctrl *packageController) UpdatePackage(c *fiber.Ctx) error {
 	var pkg model.SureSurePackage
 	if err := c.BodyParser(&pkg); err != nil {
@@ -75,6 +111,14 @@ func (ctrl *packageController) UpdatePackage(c *fiber.Ctx) error {
 	return nil
 }
 
+// DeletePackage godoc
+// @Summary Delete package by ID
+// @Tags Package
+// @Produce json
+// @Param id path int true "Package ID"
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /package/delete/{id} [delete]
 func (ctrl *packageController) DeletePackage(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	if err := ctrl.PackageService.DeletePackage(id); err != nil {

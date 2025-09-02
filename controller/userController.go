@@ -25,6 +25,14 @@ type userController struct {
 func NewUserController(userService service.UserService) UserController {
 	return &userController{userService}
 }
+
+// GetUserAll godoc
+// @Summary List users
+// @Tags User
+// @Produce json
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /user/get [get]
 func (ctrl *userController) GetUserAll(c *fiber.Ctx) error {
 	users, err := ctrl.UserService.GetUserAll()
 	if err != nil {
@@ -35,6 +43,16 @@ func (ctrl *userController) GetUserAll(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetUserByID godoc
+// @Summary Get user by UID
+// @Description Retrieve a user record by UID
+// @Tags User
+// @Produce json
+// @Param id path string true "User UID"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /user/get/{id} [get]
 func (ctrl *userController) GetUserByID(c *fiber.Ctx) error {
 	id := c.Params("id")
 	user, err := ctrl.UserService.GetUserByID(id)
@@ -46,6 +64,17 @@ func (ctrl *userController) GetUserByID(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetOrCreateUser godoc
+// @Summary Login or create user
+// @Description Create user if not exists, otherwise return existing user
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body model.SureSureUser true "User payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /login [post]
 func (ctrl *userController) GetOrCreateUser(c *fiber.Ctx) error {
 	var user model.SureSureUser
 
@@ -84,6 +113,16 @@ func (ctrl *userController) GetOrCreateUser(c *fiber.Ctx) error {
 	return nil
 }
 
+// CreateUser godoc
+// @Summary Create user
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body model.SureSureUser true "User payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /user/create [post]
 func (ctrl *userController) CreateUser(c *fiber.Ctx) error {
 	var user model.SureSureUser
 	if err := c.BodyParser(&user); err != nil {
@@ -91,7 +130,7 @@ func (ctrl *userController) CreateUser(c *fiber.Ctx) error {
 		return nil
 	}
 	id, err := ctrl.UserService.CreateUser(user)
-	log.Infof("id: %d", id)
+	log.Infof("id: %s", id)
 	if err != nil {
 		if err.Error() == "duplicate store" {
 			util.JSONResponse(c, fiber.StatusBadRequest, 4004, nil)
@@ -104,6 +143,16 @@ func (ctrl *userController) CreateUser(c *fiber.Ctx) error {
 	return nil
 }
 
+// UpdateUser godoc
+// @Summary Update user
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body model.SureSureUser true "User payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /user/update [put]
 func (ctrl *userController) UpdateUser(c *fiber.Ctx) error {
 	var user model.SureSureUser
 	if err := c.BodyParser(&user); err != nil {
@@ -122,6 +171,14 @@ func (ctrl *userController) UpdateUser(c *fiber.Ctx) error {
 	return nil
 }
 
+// DeleteUser godoc
+// @Summary Delete user by UID
+// @Tags User
+// @Produce json
+// @Param id path string true "User UID"
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /user/delete/{id} [delete]
 func (ctrl *userController) DeleteUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 
@@ -133,6 +190,14 @@ func (ctrl *userController) DeleteUser(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetCategoryAll godoc
+// @Summary List categories
+// @Description Retrieve merchant categories
+// @Tags User
+// @Produce json
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /user/category/get [get]
 func (ctrl *userController) GetCategoryAll(c *fiber.Ctx) error {
 	users, err := ctrl.UserService.GetCategoryAll()
 	if err != nil {

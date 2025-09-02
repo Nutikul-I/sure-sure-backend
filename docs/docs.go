@@ -9,280 +9,14 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "email": "fiber@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/getRoomMerchantReport": {
-            "get": {
-                "description": "ดึงข้อมูลรายชื่อห้องของลูกค้า โดยสามารถกรองด้วยคีย์เวิร์ดค้นหาเช่น ราชื่อห้องหรือรายชื่อลูกค้า",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ReportRoomMerchant"
-                ],
-                "summary": "GetRoomMerchant",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "คำค้นหา (ชื่อของลูกค้าหรือรายชื่อห้อง)",
-                        "name": "searchkeyword",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Pagination offset (ค่าเริ่มต้น: 1)",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Pagination limit (ค่าเริ่มต้น: 10)",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success response with room data and total count",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request parameters",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/getbankresandtransection": {
-            "get": {
-                "description": "เป็นการส่งค่าข้อมูลของการตอบกลับของ bank",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "BankResponse"
-                ],
-                "summary": "Get bank responses and transactions between dates",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Start date in RFC3339 format (e.g., 2024-01-01T00:00:00Z)",
-                        "name": "startDate",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date in RFC3339 format (e.g., 2024-01-01T23:59:59Z)",
-                        "name": "endDate",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by merchant name",
-                        "name": "merchantname",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by transaction status",
-                        "name": "transectionStatus",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Pagination offset (default: 0)",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Pagination limit (default: 10)",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success response with results and total count",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request parameters",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/logadmin/search": {
-            "get": {
-                "description": "เป็นการดึงข้อมูล log ทั้งหมดและมีตัวกรองระหว่างวันที่ที่กำหนดและตัวกรองอื่นๆ คือ action, actorName, และ actorRole",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Logs"
-                ],
-                "summary": "Get logs between dates",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Start date in RFC3339 format (e.g., 2024-01-01T00:00:00Z)",
-                        "name": "startDate",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date in RFC3339 format (e.g., 2024-01-01T23:59:59Z)",
-                        "name": "endDate",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by action method name",
-                        "name": "action",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by actor's name",
-                        "name": "actorName",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by actor's role",
-                        "name": "actorRole",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Pagination offset (default: 0)",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Pagination limit (default: 10)",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success response with logs data and total count",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request parameters",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/bankdata/{Id}/{Offset}/{Limit}": {
-            "get": {
-                "description": "ดึงข้อมูลธนาคารที่เชื่อมกับบัญชีหลัก",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Get Bank With Id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Merchant",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Offset ( กรณีไม่อยากจำกัดการแสดงผลให้ใส่ -1 ทั้ง Limitและ Offset)",
-                        "name": "Offset",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Limit จำนวนที่ต้องการดึง (กรณีไม่อยากจำกัดการแสดงผลให้ใส่ -1 ทั้ง Limitและ Offset)",
-                        "name": "Limit",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Bank link retrieved successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/createbanklink": {
+        "/bank2/create": {
             "post": {
-                "description": "สร้างธนาคารเพื่อเชื่อมกับบัญชีหลัก.",
                 "consumes": [
                     "application/json"
                 ],
@@ -290,701 +24,143 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "merchant"
+                    "Bank"
                 ],
-                "summary": "Create Bank",
+                "summary": "Create bank",
                 "parameters": [
                     {
-                        "description": "Bank link details",
-                        "name": "body",
+                        "description": "Bank payload",
+                        "name": "bank",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.CreateBankRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Bank link created successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/createroom": {
-            "post": {
-                "description": "Create a room with the provided details based on the request body.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Create Room by ID",
-                "parameters": [
-                    {
-                        "description": "Room details to create",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.UpdateRoomRequest"
+                            "$ref": "#/definitions/model.SureSureBank"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Room created successfully",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/createuid": {
-            "post": {
-                "description": "ทำการเชื่อม Line Sub User เข้ากับ บัญชีหลัก โดยทำงานอยู่ที่ปุ่ม login line หน้า profile",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Line Sub User เข้ากับ บัญชีหลัก",
-                "parameters": [
-                    {
-                        "description": "Update UID request",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.UpdateUIDReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "UID updated successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/delete/bankdata/{Id}/{Actor}/{Type}/{MerchantId}": {
+        "/bank2/delete/{id}": {
             "delete": {
-                "description": "Delete the bank link associated with the specified ID.",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "merchant"
+                    "Bank"
                 ],
-                "summary": "Delete Bank Link Account with ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Bank",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Line User ID ",
-                        "name": "Actor",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Type of Account (Line/facebook/google)",
-                        "name": "Type",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Merchant ID",
-                        "name": "MerchantId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Bank link deleted successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/delete/linedata/{Id}/{Actor}/{Type}": {
-            "delete": {
-                "description": "ลบ sub user ที่เชื่อมกับบัญชีหลัก",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Delete sub user with Id Merchant",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID sub user",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Actor เป็น Email / Line User Id ของคนที่ทำ",
-                        "name": "Actor",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Type login ของคนที่ทำ",
-                        "name": "Type",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Link deleted successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/freetrial/{Id}": {
-            "get": {
-                "description": "Get a free trial receipt based on the routing code parameter provided to indicate the purchase amount of the free trial package. By limiting page purchases to once a month..",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Get Free Trial Receipt",
+                "summary": "Delete bank by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID Merchant",
-                        "name": "Id",
+                        "description": "Bank ID",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Room created successfully",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/linedata/{Id}/{Role}": {
+        "/bank2/get": {
             "get": {
-                "description": "ดึงข้อมูล sub user ที่เชื่อมกับบัญชีตาม Id ที่ input",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "merchant"
+                    "Bank"
                 ],
-                "summary": "Get Sub User with Id Merchant",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID ของบัญชีที่ทำ",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Role ประเภทของบัญชีlogin",
-                        "name": "Role",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "List banks",
                 "responses": {
                     "200": {
-                        "description": "Link retrieved successfully",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/merchant/create": {
-            "post": {
-                "description": "สร้างบัญชีเมื่อมีการ login ครั้งแรก ของ facebook google loginPayso *** ไม่ได้ใช้งานแล้ว",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "CreateUser facebook google loginPayso *** ไม่ได้ใช้งานแล้ว",
-                "parameters": [
-                    {
-                        "description": "Merchant request",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.MerchantReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User  created successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/merchant/createwithLine": {
-            "post": {
-                "description": "เป็นเส้นที่ไว้สำหรับการสร้าง Merchant ที่ Login ด้วย Line ลงฐานข้อมูล",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Create account Line first login",
-                "parameters": [
-                    {
-                        "description": "User details",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.MerchantReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "User  created successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/merchant/login": {
-            "post": {
-                "description": "Login สำหรับ google *** ไม่ได้ใช้แล้ว.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Login google *** ไม่ได้ใช้แล้ว",
-                "parameters": [
-                    {
-                        "description": "Merchant credentials",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.MerchantCredentialAuth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Login successful",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/merchant/loginPayso": {
-            "post": {
-                "description": "Login สมาชิกของ Payso *** ไม่ได้ใช้แล้ว",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Login member Payso *** ไม่ได้ใช้แล้ว",
-                "parameters": [
-                    {
-                        "description": "Merchant credentials",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.MerchantCredentialAuthPayso"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Login successful",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/merchant/loginadmin": {
-            "post": {
-                "description": "ไว้ใช้สำหรับการ login บัญชี admin หน้า login-admin",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "admin"
-                ],
-                "summary": "Login Admin",
-                "parameters": [
-                    {
-                        "description": "Admin credentials",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.AdminReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Login successful",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/merchant/loginline": {
-            "post": {
-                "description": "Authenticate a merchant using Line credentials.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Login with Line",
-                "parameters": [
-                    {
-                        "description": "Merchant credentials for Line login",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.MerchantCredentialAuth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Login successful",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/merchant/profileemail/{email}": {
+        "/bank2/get/{id}": {
             "get": {
-                "description": "ดึงข้อมูล Profile Data ด้วย email ใช้สำหรับ sub user *** ไม่ได้ใช้งานแล้ว ใช้อีกตัวเป็นหลัก",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "merchant"
+                    "Bank"
                 ],
-                "summary": "Profile Data with email  *** ไม่ได้ใช้งานแล้ว ใช้อีกตัวเป็นหลัก",
+                "summary": "Get bank by ID",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "ID Merchant ",
-                        "name": "Id",
+                        "type": "integer",
+                        "description": "Bank ID",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Merchant retrieved successfully",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/merchant/profileid/{Id}": {
-            "get": {
-                "description": "ดึงข้อมูล Profile Data ด้วย Id *** ใช้ตัวนี้เป็นหลัก",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Profile Data with Id *** ใช้ตัวนี้เป็นหลัก",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Merchant ",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Merchant retrieved successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/merchant/profileline/{LineUserId}": {
-            "get": {
-                "description": "ดึงข้อมูล User หลัก เมื่อมีการ login subuser **** ไม่ได้ใช้งานแล้ว",
+        "/bank2/update": {
+            "put": {
                 "consumes": [
                     "application/json"
                 ],
@@ -992,43 +168,207 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "merchant"
+                    "Bank"
                 ],
-                "summary": "Get User Data main If login subuser **** ไม่ได้ใช้งานแล้ว",
+                "summary": "Update bank",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Line User ID / email คนที่ทำ",
-                        "name": "LineUserId",
+                        "description": "Bank payload",
+                        "name": "bank",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureBank"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/healthcheck": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Healthcheck",
+                "responses": {
+                    "200": {
+                        "description": "version: 1.0.0",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/log/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Log"
+                ],
+                "summary": "Create log",
+                "parameters": [
+                    {
+                        "description": "Log payload",
+                        "name": "log",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureLog"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/log/delete/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Log"
+                ],
+                "summary": "Delete log by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Log ID",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Merchant retrieved successfully",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/log/get": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Log"
+                ],
+                "summary": "List logs",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/log/get/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Log"
+                ],
+                "summary": "Get log by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/notification/send-notification-exprice": {
-            "post": {
-                "description": "ส่งการแจ้งเตือนแจ้งวันหมดอายุว่าในอีก 3 วันแพ็กเกขของคนนี้จะมหดอายุโดยจะส่งเข้า LineOA",
+        "/log/update": {
+            "put": {
                 "consumes": [
                     "application/json"
                 ],
@@ -1036,725 +376,376 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Notification"
+                    "Log"
                 ],
-                "summary": "Send  Notification to LineOA",
-                "responses": {
-                    "200": {
-                        "description": "Success response with success message",
-                        "schema": {
-                            "$ref": "#/definitions/model.ResponseStatus"
-                        }
-                    },
-                    "500": {
-                        "description": "Error response with error message",
-                        "schema": {
-                            "$ref": "#/definitions/model.ResponseStatus"
-                        }
-                    }
-                }
-            }
-        },
-        "/notification/send-notification-expried-and-updatepkgId": {
-            "post": {
-                "description": "ส่งการแจ้งเตือนเกี่ยวกับการหมดอายุและทำการอัปเดตแพ็จเกจ ID เป้น null และ โควตาในการใช้เป็น 0",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Notification"
-                ],
-                "summary": "Send Expired Notification and Update Package",
-                "responses": {
-                    "200": {
-                        "description": "Success response with success message",
-                        "schema": {
-                            "$ref": "#/definitions/model.ResponseStatus"
-                        }
-                    },
-                    "500": {
-                        "description": "Error response with error message",
-                        "schema": {
-                            "$ref": "#/definitions/model.ResponseStatus"
-                        }
-                    }
-                }
-            }
-        },
-        "/package/create/packages": {
-            "post": {
-                "description": "สร้างแพ็กเกจใหม่ในระบบ",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ManagePackage"
-                ],
-                "summary": "Create Package",
+                "summary": "Update log",
                 "parameters": [
                     {
-                        "description": "รายละเอียดของแพ็กเกจที่จะสร้าง คือ ชื่อ,ราคา,โควตาสูงสุด,สถานะ,การมองเห็น,จำนวนการขาย,เวลาของแพ็กเกจ",
+                        "description": "Log payload",
+                        "name": "log",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureLog"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "Create user if not exists, otherwise return existing user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login or create user",
+                "parameters": [
+                    {
+                        "description": "User payload",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order-package/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderPackage"
+                ],
+                "summary": "Create order package",
+                "parameters": [
+                    {
+                        "description": "Order package payload",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureOrderPackage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order-package/delete/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderPackage"
+                ],
+                "summary": "Delete order package by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Order package ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order-package/get": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderPackage"
+                ],
+                "summary": "List order packages",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order-package/get/refno/{RefNo}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderPackage"
+                ],
+                "summary": "Get order package by RefNo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Reference No",
+                        "name": "RefNo",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order-package/get/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderPackage"
+                ],
+                "summary": "Get order package by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order-package/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderPackage"
+                ],
+                "summary": "Update order package",
+                "parameters": [
+                    {
+                        "description": "Order package payload",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureOrderPackage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/package/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Package"
+                ],
+                "summary": "Create package",
+                "parameters": [
+                    {
+                        "description": "Package payload",
                         "name": "package",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.CheckslipPackage"
+                            "$ref": "#/definitions/model.SureSurePackage"
                         }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Package created successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or incorrect Content-Type",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/package/packageactive": {
-            "get": {
-                "description": "ดึงข้อมูลแพ็กเกจทั้งหมดที่มีสถานะ Active และเปิดการมองเห็น",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ManagePackage"
-                ],
-                "summary": "Get All Active Packages",
-                "responses": {
-                    "200": {
-                        "description": "Successfully retrieved active packages",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request parameters",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/package/search/getpackage": {
-            "get": {
-                "description": "ฟังก์ชั่นดึงข้อมูลแพ็กเกจค้นหาข้อมูลแพ็กเกจ โดยสามารถกรองด้วยคำค้นหาเช่น ชื่อแพ็กเกจ หรือ รหัสแพ็กเกจ",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ManagePackage"
-                ],
-                "summary": "Get Package",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "คำค้นหาแพ็กเกจ (เช่น ชื่อแพ็กเกจหรือรหัสแพ็กเกจ)",
-                        "name": "searchpackage",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Pagination offset (ค่าเริ่มต้น: 0)",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Pagination limit (ค่าเริ่มต้น: 10)",
-                        "name": "limit",
-                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success response with package data",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "400": {
-                        "description": "Invalid request parameters",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/package/{packageId}/visibility/{visibility}": {
-            "put": {
-                "description": "อัปเดตสถานะการมองเห็น (visibility) ของแพ็กเกจที่มี ID ระบุ ในส่วนนี้ถึงลูกค้าใช้งานอยู่ก็จะสามารถ update ได้",
-                "consumes": [
-                    "application/json"
-                ],
+        "/package/delete/{id}": {
+            "delete": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "ManagePackage"
+                    "Package"
                 ],
-                "summary": "Update Package Visibility",
+                "summary": "Delete package by ID",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "Package ID",
-                        "name": "packageId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Visibility status (true or false)",
-                        "name": "visibility",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successfully updated package visibility",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request parameters",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/payment/callback": {
-            "post": {
-                "description": "อัพเดทสถานะของการชำระเงินใน CheckSlipReceipt เมื่อมีการชำระเงิน",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "payment"
-                ],
-                "summary": "อัพเดทสถานะของการชำระเงินใน CheckSlipReceipt เมื่อมีการชำระเงิน",
-                "parameters": [
-                    {
-                        "description": "Postback request",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.PostbackReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Update Success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/payment/create": {
-            "post": {
-                "description": "ไว้สำหรับในการสร้างข้อมูลเมื่อมีการเลือก package ที่จะซื้อ.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "payment"
-                ],
-                "summary": "Create Receipt Payment",
-                "parameters": [
-                    {
-                        "description": "Postback request",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.PostbackCreateReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Create Success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/payment/get": {
-            "post": {
-                "description": "ดึงข้อมูล payment กำลังรอการชำระเงิน.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "payment"
-                ],
-                "summary": "Get Postback",
-                "parameters": [
-                    {
-                        "description": "Postback request",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.PostbackCreateReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Postback retrieved successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/room/bank/{roomId}": {
-            "get": {
-                "description": "Get the bank link associated with the specified room ID.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Get Bank Link for Room by ID Room",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID of the room",
-                        "name": "roomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Bank link retrieved successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/roomdata/{Id}": {
-            "get": {
-                "description": "Get the link associated with the specified room ID.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Get Room Link with ID Merchant",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Merchant",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Room link retrieved successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/trasaction/amount/{Id}/{Startdate}/{Enddate}/{roomId}": {
-            "get": {
-                "description": "ดึงข้อมูลจำนวนเงินของ transaction แต่ละห้อง.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Get Transactions Amount by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Merchant",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Start date ที่ค้นหา",
-                        "name": "Startdate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date ที่ค้นหา",
-                        "name": "Enddate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Room ID ใช้ในการค้นหาจำนวนประเภทสลิปแต่ละอันที่ใช้ไปในแต่ละห้องเมื่อมีการเลือกห้อง (ถ้าไม่เลือกใส่ - )",
-                        "name": "roomId",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/trasaction/exportexcel/{Id}/{Startdate}/{Enddate}": {
-            "get": {
-                "description": "Export transaction data to an Excel file.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Export Transactions to Excel",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Merchant",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Start date",
-                        "name": "Startdate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date",
-                        "name": "Enddate",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Excel file exported successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/trasaction/exportexcelline/{Uid}/{Startdate}/{Enddate}": {
-            "get": {
-                "description": "ทำการสร้างไฟล์ excel เพื่อรายงานผลของ sub user ***ไม่ได้ใช้แล้ว.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Export Transactions to Excel by Line ***ไม่ได้ใช้แล้ว",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Line User ID",
-                        "name": "Uid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Start date เริ่มต้นการค้นหา",
-                        "name": "Startdate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date สิ้นสุดการค้นหา",
-                        "name": "Enddate",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/trasaction/transactionmonth/{Id}/{Month}/{Year}/{roomId}": {
-            "get": {
-                "description": "ดึงข้อมูลเพื่อนำไปสร้างกราฟแท่ง.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Get Transaction Month by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Merchant",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Month ที่ต้องการค้น",
-                        "name": "Month",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Year ที่ต้องการค้น",
-                        "name": "Year",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Room ID ใช้ในการค้นหาจำนวนประเภทสลิปแต่ละอันที่ใช้ไปในแต่ละห้องเมื่อมีการเลือกห้อง(ถ้าไม่เลือกใส่ - )",
-                        "name": "roomId",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/trasaction/transactionmonthline/{Uid}/{Month}/{Year}": {
-            "get": {
-                "description": "ดึงข้อมูล trnsactions ที่เป็นของกราฟ sub user ***ไม่ได้ใช้งานแล้ว.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Get Transaction Month by Line Sub user ***ไม่ได้ใช้งานแล้ว",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Line User ID",
-                        "name": "Uid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Month ที่ต้องการค้นหา",
-                        "name": "Month",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Year ที่ต้องการค้นหา",
-                        "name": "Year",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -1763,479 +754,130 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/trasaction/transactionstatus/{Id}/{Status}/{Startdate}/{Enddate}/{Offset}/{Limit}/{roomId}": {
+        "/package/get": {
             "get": {
-                "description": "Retrieve transactions by status and transaction ID.",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "Package"
                 ],
-                "summary": "Get Transaction Status by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Merchant",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "สถานะของtransaction ที่ต้องการค้นหา",
-                        "name": "Status",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Start date วันเรื่มต้นที่ต้องการค้นหา",
-                        "name": "Startdate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date วันสิ้นสุดที่ต้องการค้นหา",
-                        "name": "Enddate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Offset",
-                        "name": "Offset",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Limit จำนวนในการดึงแต่ละครั้ง",
-                        "name": "Limit",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Room ID ใช้ในการค้นหาจำนวนประเภทสลิปแต่ละอันที่ใช้ไปในแต่ละห้องเมื่อมีการเลือกห้อง (ถ้าไม่เลือกใส่ - )",
-                        "name": "roomId",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Transactions retrieved successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/trasaction/transactionstatusline/{Uid}/{Status}/{Startdate}/{Enddate}": {
-            "get": {
-                "description": "ดึงข้อมูล transactions ตาราง ของ Sub User. *** ไม่ได้ใช้แล้ว",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Get Transaction Status by Line Sub User *** ไม่ได้ใช้แล้ว",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Line User ID",
-                        "name": "Uid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Transaction Status",
-                        "name": "Status",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Start date เริ่มต้นค้นหา",
-                        "name": "Startdate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date สิ้นสุดค้นหา",
-                        "name": "Enddate",
-                        "in": "path"
-                    }
-                ],
+                "summary": "List packages",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/trasactionid/{Id}/{Startdate}/{Enddate}/{roomId}": {
+        "/package/get/{id}": {
             "get": {
-                "description": "ดึงข้อมูลจำนวนสลิปของแต่ละประเภทและข้อมูลเกี่ยวกับจำนวนโควต้าของผู้ใช้ทั้งหมด.",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "Package"
                 ],
-                "summary": "Get Transaction by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Merchant",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Start date วันเรื่มต้นที่ต้องการค้นหา",
-                        "name": "Startdate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date วันสิ้นสุดที่ต้องการค้นหา",
-                        "name": "Enddate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Room ID ใช้ในการค้นหาจำนวนประเภทสลิปแต่ละอันที่ใช้ไปในแต่ละห้องเมื่อมีการเลือกห้อง(ถ้าไม่เลือกใส่ - )",
-                        "name": "roomId",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/trasactionline/{Uid}/{Startdate}/{Enddate}": {
-            "get": {
-                "description": "ดึงข้อมูล transactions ที่แสดงจำนวนประเภทสลิปต่างๆ ของ sub user ***ไม่ได้ใช้งาน.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "transaction"
-                ],
-                "summary": "Get Transaction by sub User ***ไม่ได้ใช้งาน",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Line User ID",
-                        "name": "Uid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Start date ที่เริ่ทค้นหา",
-                        "name": "Startdate",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "End date สิ้นสุดค้น",
-                        "name": "Enddate",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/update/bankdata/{Id}/{Status}/{Actor}/{Type}/{MerchantId}": {
-            "put": {
-                "description": "อัพเดทสถานะของธนาคารที่เชื่อมต่อกับบัญชีถ้าเกิดบัญชีนั้นเชื่อมกับห้องอยู่ บัญชีในห้องนั้นก็จะถูกปิดไปด้วย",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Update status bank",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID ธนาคาร",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Status ที่ต้องการอัพเดท true/false",
-                        "name": "Status",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Actor เป็น Email / Line User Id ของคนที่ทำ",
-                        "name": "Actor",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "ประเภท login ของคนที่ทำ",
-                        "name": "Type",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Merchant ID",
-                        "name": "MerchantId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Bank link updated successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/update/linedata/{Id}/{Status}/{Actor}/{Type}": {
-            "put": {
-                "description": "อัพเดทสถานะของsub user  inactive/active",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Update Status sub user  inactive/active",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID Subuser ที่จะอัพเดท",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Status ที่ต้องการอัพเดท",
-                        "name": "Status",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Actor เป็น Email / Line User Id ของคนที่ทำ",
-                        "name": "Actor",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "ประเภท login ของคนที่ทำ",
-                        "name": "Type",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Link updated successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/update/package/{id}": {
-            "put": {
-                "description": "อัปเดตข้อมูลแพ็กเกจตาม ` + "`" + `ID` + "`" + ` โดยรับข้อมูลใหม่ผ่าน JSON body แต่ว่าถ้ามีคนใช้งานจะไม่สามารถอัปเดตได้",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ManagePackage"
-                ],
-                "summary": "Update Package by ID",
+                "summary": "Get package by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Package ID to update",
-                        "name": "Id",
+                        "description": "Package ID",
+                        "name": "id",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/package/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Package"
+                ],
+                "summary": "Update package",
+                "parameters": [
                     {
-                        "description": "ข้อมูลแพ็กเกจใหม่ที่จะอัปเดต",
+                        "description": "Package payload",
                         "name": "package",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.CheckslipPackage"
+                            "$ref": "#/definitions/model.SureSurePackage"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Package updated successfully",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "400": {
-                        "description": "Invalid package ID or request body",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/updateline/roles/{Id}/{Roles}/{Actor}/{Type}": {
-            "put": {
-                "description": "อัปเดทสถานะ roles ของ sub user ว่าสามารถทำอะไรได้บ้าง.",
+        "/room2/create": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
@@ -2243,110 +885,184 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "merchant"
+                    "Room"
                 ],
-                "summary": "Update roles sub user",
+                "summary": "Create room",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "ID Subuser ที่จะอัพเดท",
-                        "name": "Id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Roles ที่จะอัพเดท",
-                        "name": "Roles",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Actor เป็น Email / Line User Id ของคนที่ทำ",
-                        "name": "Actor",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "ประเภท login ของคนที่ทำ",
-                        "name": "Type",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Roles updated successfully",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/updateprofile": {
-            "put": {
-                "description": "Update the merchant profile with the provided data.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "merchant"
-                ],
-                "summary": "Update Profile",
-                "parameters": [
-                    {
-                        "description": "Profile data to update",
-                        "name": "body",
+                        "description": "Room payload",
+                        "name": "room",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.UpdateProfile"
+                            "$ref": "#/definitions/model.SureSureRoom"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Profile updated successfully",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
             }
         },
-        "/updateroom": {
+        "/room2/delete/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Delete room by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Room ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/room2/get": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "List rooms",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/room2/get/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Get room by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Room ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/room2/howto/{id}/{user_id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "HowTo action for room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Room ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/room2/update": {
             "put": {
-                "description": "Update a room with the provided details based on the request body.",
                 "consumes": [
                     "application/json"
                 ],
@@ -2354,37 +1070,442 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "merchant"
+                    "Room"
                 ],
-                "summary": "Update Room by ID",
+                "summary": "Update room",
                 "parameters": [
                     {
-                        "description": "Room details to update",
-                        "name": "body",
+                        "description": "Room payload",
+                        "name": "room",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.UpdateRoomRequest"
+                            "$ref": "#/definitions/model.SureSureRoom"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Room updated successfully",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response"
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Create transaction",
+                "parameters": [
+                    {
+                        "description": "Transaction payload",
+                        "name": "transaction",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureTransaction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/delete/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Delete transaction by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Transaction ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/get": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "List transactions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/get/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get transaction by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update transaction",
+                "parameters": [
+                    {
+                        "description": "Transaction payload",
+                        "name": "transaction",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureTransaction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/category/get": {
+            "get": {
+                "description": "Retrieve merchant categories",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "List categories",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create user",
+                "parameters": [
+                    {
+                        "description": "User payload",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/delete/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete user by UID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User UID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/get": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "List users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/get/{id}": {
+            "get": {
+                "description": "Retrieve a user record by UID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user by UID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User UID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user",
+                "parameters": [
+                    {
+                        "description": "User payload",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SureSureUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.APIResponse"
                         }
                     }
                 }
@@ -2392,525 +1513,373 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseError": {
+        "model.SureSureBank": {
             "type": "object",
             "properties": {
-                "message": {
+                "account_no": {
                     "type": "string"
                 },
-                "result": {
-                    "description": "ใช้ interface{} สำหรับผลลัพธ์ที่ไม่แน่นอน"
-                },
-                "status": {
+                "account_type": {
                     "type": "string"
                 },
-                "status_code": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_bankrespone_model.ResponseSuccess": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "description": "ข้อความแจ้งเตือนหรือสถานะ",
+                "bank_code": {
                     "type": "string"
                 },
-                "result": {
-                    "description": "ผลลัพธ์ของข้อมูล"
-                },
-                "status": {
-                    "description": "สถานะข้อความ เช่น \"OK\"",
+                "created_date": {
                     "type": "string"
-                },
-                "status_code": {
-                    "description": "รหัสสถานะ HTTP",
-                    "type": "integer"
-                },
-                "total": {
-                    "description": "จำนวนข้อมูลทั้งหมด",
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseError": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "result": {
-                    "description": "ใช้ interface{} สำหรับผลลัพธ์ที่ไม่แน่นอน"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "status_code": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_log_model.ResponseSuccess": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "description": "ข้อความแจ้งเตือนหรือสถานะ",
-                    "type": "string"
-                },
-                "result": {
-                    "description": "ผลลัพธ์ของข้อมูล"
-                },
-                "status": {
-                    "description": "สถานะข้อความ เช่น \"OK\"",
-                    "type": "string"
-                },
-                "status_code": {
-                    "description": "รหัสสถานะ HTTP",
-                    "type": "integer"
-                },
-                "total": {
-                    "description": "จำนวนข้อมูลทั้งหมด",
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseError": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "result": {
-                    "description": "ใช้ interface{} สำหรับผลลัพธ์ที่ไม่แน่นอน"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "status_code": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_managepackage_model.ResponseSuccess": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "description": "ข้อความแจ้งเตือนหรือสถานะ",
-                    "type": "string"
-                },
-                "result": {
-                    "description": "ผลลัพธ์ของข้อมูล"
-                },
-                "status": {
-                    "description": "สถานะข้อความ เช่น \"OK\"",
-                    "type": "string"
-                },
-                "status_code": {
-                    "description": "รหัสสถานะ HTTP",
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.AdminReq": {
-            "type": "object",
-            "properties": {
-                "Password": {
-                    "type": "string"
-                },
-                "Username": {
-                    "type": "string"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_merchant_model.Response": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "result": {},
-                "status": {
-                    "type": "string"
-                },
-                "status_code": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_payment_model.Response": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "result": {},
-                "status": {
-                    "type": "string"
-                },
-                "status_code": {
-                    "type": "integer"
-                }
-            }
-        },
-        "github_com_textures1245_payso-check-slip-backend_internal_model_transaction_model.Response": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "result": {},
-                "status": {
-                    "type": "string"
-                },
-                "status_code": {
-                    "type": "integer"
-                }
-            }
-        },
-        "model.CheckslipPackage": {
-            "type": "object",
-            "properties": {
-                "AmountLimit": {
-                    "type": "integer"
-                },
-                "CreatedAt": {
-                    "type": "string"
-                },
-                "DaysDueDuration": {
-                    "type": "integer"
-                },
-                "Id": {
-                    "type": "integer"
-                },
-                "Name": {
-                    "type": "string"
-                },
-                "OrderAmount": {
-                    "description": "shouldn't be updated manually",
-                    "type": "integer"
-                },
-                "Price": {
-                    "type": "number"
-                },
-                "QuotaLimit": {
-                    "type": "integer"
-                },
-                "Status": {
-                    "type": "string"
-                },
-                "TotalCount": {
-                    "description": "utils",
-                    "type": "integer"
-                },
-                "UpdatedAt": {
-                    "type": "string"
-                },
-                "Visibility": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "model.CreateBankRequest": {
-            "type": "object",
-            "properties": {
-                "bank": {
-                    "$ref": "#/definitions/model.LinkBank"
-                },
-                "idroomall": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "rooms": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        "model.LinkBank": {
-            "type": "object",
-            "properties": {
-                "AccountNo": {
-                    "type": "string"
-                },
-                "Active": {
-                    "type": "boolean"
-                },
-                "BankCode": {
-                    "type": "string"
-                },
-                "Id": {
-                    "type": "string"
-                },
-                "MerchantId": {
-                    "type": "string"
-                },
-                "NameEN": {
-                    "type": "string"
-                },
-                "NameTH": {
-                    "type": "string"
-                },
-                "PPTYPE": {
-                    "type": "string"
-                },
-                "TotalCount": {
-                    "type": "integer"
-                },
-                "TypeAccount": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.MerchantCredentialAuth": {
-            "type": "object",
-            "properties": {
-                "Email": {
-                    "type": "string"
-                },
-                "MerchantName": {
-                    "type": "string"
-                },
-                "Type": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.MerchantCredentialAuthPayso": {
-            "type": "object",
-            "properties": {
-                "MerchantId": {
-                    "type": "string"
-                },
-                "MerchantName": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.MerchantReq": {
-            "type": "object",
-            "properties": {
-                "AvatarUrl": {
-                    "type": "string"
-                },
-                "Email": {
-                    "type": "string"
-                },
-                "MerchantId": {
-                    "type": "integer"
-                },
-                "MerchantName": {
-                    "type": "string"
-                },
-                "MerchantRole": {
-                    "type": "string"
-                },
-                "Name": {
-                    "type": "string"
-                },
-                "Roles": {
-                    "type": "string"
-                },
-                "Status": {
-                    "type": "string"
-                },
-                "SuperUserLineId": {
-                    "type": "string"
-                },
-                "Type": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.PostbackCreateReq": {
-            "type": "object",
-            "properties": {
-                "CreatedAt": {
-                    "type": "string"
-                },
-                "MerchantId": {
-                    "type": "string"
-                },
-                "ProductId": {
-                    "type": "string"
-                },
-                "ProductType": {
-                    "type": "string"
-                },
-                "RefNo": {
-                    "type": "string"
-                },
-                "Status": {
-                    "type": "string"
-                },
-                "Total": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.PostbackReq": {
-            "type": "object",
-            "properties": {
-                "CreatedAt": {
-                    "type": "string"
-                },
-                "MerchantId": {
-                    "type": "string"
-                },
-                "ProductId": {
-                    "type": "string"
-                },
-                "ProductType": {
-                    "type": "string"
-                },
-                "RefNo": {
-                    "type": "string"
-                },
-                "Status": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.ResponseStatus": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "description": "ข้อความที่ให้ข้อมูลเพิ่มเติมเกี่ยวกับการตอบกลับ",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "status (success หรือ error)",
-                    "type": "string"
-                }
-            }
-        },
-        "model.Room": {
-            "type": "object",
-            "properties": {
-                "bank": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "hideReceiverDetail": {
-                    "type": "boolean"
-                },
-                "hideSenderDetail": {
-                    "type": "boolean"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "lineGroupId": {
-                    "type": "string"
-                },
-                "merchantId": {
+                "is_active": {
                     "type": "integer"
                 },
-                "minAmountReceive": {
+                "name_en": {
+                    "type": "string"
+                },
+                "name_th": {
+                    "type": "string"
+                },
+                "prompt_pay_type": {
+                    "type": "string"
+                },
+                "updated_date": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.SureSureLog": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "created_date": {
+                    "type": "string"
+                },
+                "data_request": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "method_name": {
+                    "type": "string"
+                },
+                "name_th": {
+                    "type": "string"
+                },
+                "updated_date": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.SureSureOrderPackage": {
+            "type": "object",
+            "properties": {
+                "created_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "package_id": {
+                    "type": "integer"
+                },
+                "price": {
                     "type": "number"
                 },
-                "notiOnInvalid": {
+                "ref_no": {
                     "type": "string"
                 },
-                "notiOnInvalidMinAmount": {
+                "status": {
                     "type": "string"
                 },
-                "notiOnInvalidReceiverBankAccount": {
+                "updated_date": {
                     "type": "string"
                 },
-                "notiOnInvalidUnverified": {
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.SureSurePackage": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "created_date": {
                     "type": "string"
                 },
-                "notiOnLineGroupId": {
-                    "type": "string"
-                },
-                "notiOnQuotaLimitExceed": {
-                    "type": "string"
-                },
-                "notiOnSlipDuplicated": {
-                    "type": "string"
-                },
-                "notiOnValid": {
-                    "type": "string"
-                },
-                "qrToken": {
-                    "type": "string"
-                },
-                "registeredAt": {
-                    "type": "string"
-                },
-                "roomName": {
-                    "type": "string"
-                },
-                "totalQuotaUsed": {
+                "duration": {
                     "type": "integer"
                 },
-                "transactionSummary": {
+                "id": {
+                    "type": "integer"
+                },
+                "is_active": {
+                    "type": "integer"
+                },
+                "ordered": {
+                    "type": "integer"
+                },
+                "package_name": {
+                    "type": "string"
+                },
+                "package_price": {
+                    "type": "number"
+                },
+                "quota_limit": {
+                    "type": "integer"
+                },
+                "updated_date": {
                     "type": "string"
                 }
             }
         },
-        "model.UpdateProfile": {
+        "model.SureSureRoom": {
             "type": "object",
             "properties": {
-                "actor": {
+                "created_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "line_group_id": {
+                    "type": "string"
+                },
+                "list_bank": {
+                    "type": "string"
+                },
+                "min_receive": {
+                    "type": "number"
+                },
+                "qr_token": {
+                    "type": "string"
+                },
+                "quota_used": {
+                    "type": "integer"
+                },
+                "room_name": {
+                    "type": "string"
+                },
+                "show_recipient": {
+                    "type": "boolean"
+                },
+                "show_transferor": {
+                    "type": "boolean"
+                },
+                "updated_date": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.SureSureTransaction": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "created_date": {
+                    "type": "string"
+                },
+                "cstid": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "line_group_id": {
+                    "type": "string"
+                },
+                "line_user_id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "proxy_account_no": {
+                    "type": "string"
+                },
+                "qr_code": {
+                    "type": "string"
+                },
+                "receive_account_no": {
+                    "type": "string"
+                },
+                "receive_bank_code": {
+                    "type": "string"
+                },
+                "receive_name": {
+                    "type": "string"
+                },
+                "receive_name2": {
+                    "type": "string"
+                },
+                "ref1": {
+                    "type": "string"
+                },
+                "ref2": {
+                    "type": "string"
+                },
+                "ref_no": {
+                    "type": "string"
+                },
+                "rquid": {
+                    "type": "string"
+                },
+                "sender_account_no": {
+                    "type": "string"
+                },
+                "sender_bank_code": {
+                    "type": "string"
+                },
+                "sender_name": {
+                    "type": "string"
+                },
+                "sender_name2": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "string"
+                },
+                "trans_date": {
+                    "type": "string"
+                },
+                "trans_time": {
+                    "type": "string"
+                },
+                "txid": {
+                    "type": "string"
+                },
+                "updated_date": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.SureSureUser": {
+            "type": "object",
+            "properties": {
+                "access_token": {
                     "type": "string"
                 },
                 "address": {
                     "type": "string"
                 },
+                "bill_date": {
+                    "type": "string"
+                },
+                "created_date": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
-                "merchantId": {
+                "id": {
+                    "type": "integer"
+                },
+                "is_active": {
+                    "type": "integer"
+                },
+                "merchant_id": {
+                    "type": "integer"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_th": {
+                    "type": "string"
+                },
+                "package_change_date": {
+                    "type": "string"
+                },
+                "package_id": {
+                    "type": "integer"
+                },
+                "password": {
                     "type": "string"
                 },
                 "phone": {
                     "type": "string"
                 },
-                "storeName": {
+                "picture": {
+                    "type": "string"
+                },
+                "quota_all": {
+                    "type": "integer"
+                },
+                "quota_left": {
+                    "type": "integer"
+                },
+                "quota_usage": {
+                    "type": "integer"
+                },
+                "step": {
+                    "type": "integer"
+                },
+                "store_category_type": {
+                    "type": "string"
+                },
+                "store_email": {
+                    "type": "string"
+                },
+                "store_name": {
+                    "type": "string"
+                },
+                "store_phone": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "string"
+                },
+                "updated_date": {
+                    "type": "string"
+                },
+                "user_role": {
+                    "type": "string"
+                },
+                "user_type": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "website": {
                     "type": "string"
                 }
             }
         },
-        "model.UpdateRoomRequest": {
+        "util.APIResponse": {
             "type": "object",
             "properties": {
-                "bank": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "email": {
+                "data": {},
+                "message": {
                     "type": "string"
                 },
-                "rooms": {
-                    "$ref": "#/definitions/model.Room"
-                }
-            }
-        },
-        "model.UpdateUIDReq": {
-            "type": "object",
-            "properties": {
-                "AvatarUrl": {
-                    "type": "string"
+                "status_code": {
+                    "type": "integer"
                 },
-                "LineUserId": {
-                    "type": "string"
-                },
-                "MerchantId": {
-                    "type": "string"
-                },
-                "Roles": {
-                    "type": "string"
-                },
-                "UserName": {
+                "timestamp": {
                     "type": "string"
                 }
             }
@@ -2921,11 +1890,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:4567",
+	Host:             "",
 	BasePath:         "/api/v1",
-	Schemes:          []string{},
-	Title:            "Backend Dashboard",
-	Description:      "Backend Dashboard API for managing merchant transactions and services",
+	Schemes:          []string{"http", "https"},
+	Title:            "SureSure Public API",
+	Description:      "Public API for SureSure services",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -33,6 +33,13 @@ func (ctrl *orderPackageController) CheckPaymentTransaction() {
 	_ = ctrl.OrderPackageService.CheckPaymentTransaction()
 }
 
+// GetOrderPackageAll godoc
+// @Summary List order packages
+// @Tags OrderPackage
+// @Produce json
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /order-package/get [get]
 func (ctrl *orderPackageController) GetOrderPackageAll(c *fiber.Ctx) error {
 	orderPackages, err := ctrl.OrderPackageService.GetOrderPackageAll()
 	if err != nil {
@@ -43,6 +50,15 @@ func (ctrl *orderPackageController) GetOrderPackageAll(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetOrderPackageByID godoc
+// @Summary Get order package by user ID
+// @Tags OrderPackage
+// @Produce json
+// @Param id path int true "User ID"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /order-package/get/{id} [get]
 func (ctrl *orderPackageController) GetOrderPackageByID(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	pkg, err := ctrl.OrderPackageService.GetOrderPackageByID(id)
@@ -54,6 +70,15 @@ func (ctrl *orderPackageController) GetOrderPackageByID(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetOrderPackageByRefNo godoc
+// @Summary Get order package by RefNo
+// @Tags OrderPackage
+// @Produce json
+// @Param RefNo path string true "Reference No"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /order-package/get/refno/{RefNo} [get]
 func (ctrl *orderPackageController) GetOrderPackageByRefNo(c *fiber.Ctx) error {
 	RefNo := c.Params("RefNo")
 	pkg, err := ctrl.OrderPackageService.GetOrderPackageByRefNo(RefNo)
@@ -65,6 +90,16 @@ func (ctrl *orderPackageController) GetOrderPackageByRefNo(c *fiber.Ctx) error {
 	return nil
 }
 
+// CreateOrderPackage godoc
+// @Summary Create order package
+// @Tags OrderPackage
+// @Accept json
+// @Produce json
+// @Param order body model.SureSureOrderPackage true "Order package payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /order-package/create [post]
 func (ctrl *orderPackageController) CreateOrderPackage(c *fiber.Ctx) error {
 	var pkg model.SureSureOrderPackage
 	if err := c.BodyParser(&pkg); err != nil {
@@ -81,6 +116,16 @@ func (ctrl *orderPackageController) CreateOrderPackage(c *fiber.Ctx) error {
 	return nil
 }
 
+// UpdateOrderPackage godoc
+// @Summary Update order package
+// @Tags OrderPackage
+// @Accept json
+// @Produce json
+// @Param order body model.SureSureOrderPackage true "Order package payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /order-package/update [put]
 func (ctrl *orderPackageController) UpdateOrderPackage(c *fiber.Ctx) error {
 	var pkg model.SureSureOrderPackage
 	if err := c.BodyParser(&pkg); err != nil {
@@ -95,6 +140,14 @@ func (ctrl *orderPackageController) UpdateOrderPackage(c *fiber.Ctx) error {
 	return nil
 }
 
+// DeleteOrderPackage godoc
+// @Summary Delete order package by ID
+// @Tags OrderPackage
+// @Produce json
+// @Param id path int true "Order package ID"
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /order-package/delete/{id} [delete]
 func (ctrl *orderPackageController) DeleteOrderPackage(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	if err := ctrl.OrderPackageService.DeleteOrderPackage(id); err != nil {

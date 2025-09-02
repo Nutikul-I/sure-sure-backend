@@ -26,6 +26,13 @@ func NewTransactionController(transactionService service.TransactionService) Tra
 	return &transactionController{transactionService}
 }
 
+// GetTransactionAll godoc
+// @Summary List transactions
+// @Tags Transaction
+// @Produce json
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /transaction/get [get]
 func (ctrl *transactionController) GetTransactionAll(c *fiber.Ctx) error {
 	transactions, err := ctrl.TransactionService.GetTransactionAll()
 	if err != nil {
@@ -36,6 +43,15 @@ func (ctrl *transactionController) GetTransactionAll(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetTransactionByID godoc
+// @Summary Get transaction by user ID
+// @Tags Transaction
+// @Produce json
+// @Param id path int true "User ID"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /transaction/get/{id} [get]
 func (ctrl *transactionController) GetTransactionByID(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	transaction, err := ctrl.TransactionService.GetTransactionByID(id)
@@ -47,6 +63,16 @@ func (ctrl *transactionController) GetTransactionByID(c *fiber.Ctx) error {
 	return nil
 }
 
+// CreateTransaction godoc
+// @Summary Create transaction
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Param transaction body model.SureSureTransaction true "Transaction payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /transaction/create [post]
 func (ctrl *transactionController) CreateTransaction(c *fiber.Ctx) error {
 	var transaction model.SureSureTransaction
 	if err := c.BodyParser(&transaction); err != nil {
@@ -63,6 +89,16 @@ func (ctrl *transactionController) CreateTransaction(c *fiber.Ctx) error {
 	return nil
 }
 
+// UpdateTransaction godoc
+// @Summary Update transaction
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Param transaction body model.SureSureTransaction true "Transaction payload"
+// @Success 200 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /transaction/update [put]
 func (ctrl *transactionController) UpdateTransaction(c *fiber.Ctx) error {
 	var transaction model.SureSureTransaction
 	if err := c.BodyParser(&transaction); err != nil {
@@ -77,6 +113,14 @@ func (ctrl *transactionController) UpdateTransaction(c *fiber.Ctx) error {
 	return nil
 }
 
+// DeleteTransaction godoc
+// @Summary Delete transaction by ID
+// @Tags Transaction
+// @Produce json
+// @Param id path int true "Transaction ID"
+// @Success 200 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /transaction/delete/{id} [delete]
 func (ctrl *transactionController) DeleteTransaction(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 

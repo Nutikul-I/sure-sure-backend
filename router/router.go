@@ -89,21 +89,29 @@ func RouterInit(app *fiber.App) *fiber.App {
 	logs.Put("/update", log_service.UpdateLog)
 	logs.Delete("/delete/:id", log_service.DeleteLog)
 
-	api.Get("/api/v1/healthcheck", func(c *fiber.Ctx) error {
-		conn := repository.ConnectDB()
-		ctx := context.Background()
-		err := conn.PingContext(ctx)
-		if err != nil {
-			log.Error("HEALTH_CHECK_FAILED:" + err.Error())
-			log.Fatal("HEALTH_CHECK_FATAL: Closing the application")
-		}
-		return c.Status(fiber.StatusOK).JSON("version: 1.0.0")
-	})
+	api.Get("/api/v1/healthcheck", Healthcheck)
 
 	// Start the cron job
 	go StartCronJob()
 
 	return app
+}
+
+// Healthcheck godoc
+// @Summary Healthcheck
+// @Tags Health
+// @Produce json
+// @Success 200 {string} string "version: 1.0.0"
+// @Router /healthcheck [get]
+func Healthcheck(c *fiber.Ctx) error {
+	conn := repository.ConnectDB()
+	ctx := context.Background()
+	err := conn.PingContext(ctx)
+	if err != nil {
+		log.Error("HEALTH_CHECK_FAILED:" + err.Error())
+		log.Fatal("HEALTH_CHECK_FATAL: Closing the application")
+	}
+	return c.Status(fiber.StatusOK).JSON("version: 1.0.0")
 }
 
 func StartCronJob() {

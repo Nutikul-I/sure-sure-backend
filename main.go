@@ -1,10 +1,14 @@
+// @title SureSure Public API
+// @version 1.0
+// @description Public API for SureSure services
+// @BasePath /api/v1
+// @schemes http https
 package main
 
 import (
 	_ "image/jpeg"
 
 	"github.com/joho/godotenv"
-	_ "github.com/textures1245/payso-check-slip-backend/docs"
 	"github.com/textures1245/payso-check-slip-backend/router"
 
 	"github.com/gofiber/fiber/v2"
@@ -29,6 +33,27 @@ func main() {
 
 	// Swagger UI Route
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
+
+	// ReDoc UI Route
+	app.Get("/docs", func(c *fiber.Ctx) error {
+		html := `<!DOCTYPE html>
+		<html>
+		  <head>
+		    <meta charset="utf-8" />
+		    <meta name="viewport" content="width=device-width, initial-scale=1">
+		    <title>SureSure Public API Docs</title>
+		    <style>body { margin: 0; padding: 0; } #redoc { height: 100vh; }</style>
+		  </head>
+		  <body>
+		    <div id="redoc"></div>
+		    <script src="https://cdn.jsdelivr.net/npm/redoc@latest/bundles/redoc.standalone.js"></script>
+		    <script>
+		      Redoc.init('/swagger/doc.json', { expandResponses: '200,201' }, document.getElementById('redoc'))
+		    </script>
+		  </body>
+		</html>`
+		return c.Type("html").SendString(html)
+	})
 
 	log.Info("-= Start External Service =-")
 	router.RouterInit(app)

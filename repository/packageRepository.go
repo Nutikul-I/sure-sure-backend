@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/blockloop/scan"
 	log "github.com/sirupsen/logrus"
 	"github.com/textures1245/payso-check-slip-backend/model"
 )
@@ -70,14 +69,21 @@ func GetPackageByID(id int) (model.SureSurePackage, error) {
 	if err != nil {
 		return model.SureSurePackage{}, err
 	}
-	rows, err := conn.QueryContext(ctx, model.SQL_PACKAGE_GET_BYID, id)
-	if err != nil {
-		log.Errorf("Error executing query: %v", err)
-		return model.SureSurePackage{}, err
-	}
+	row := conn.QueryRowContext(ctx, model.SQL_PACKAGE_GET_BYID, id)
+
 	var pkg model.SureSurePackage
-	err = scan.Row(&pkg, rows)
-	defer rows.Close()
+	err = row.Scan(
+		&pkg.ID,
+		&pkg.PackageName,
+		&pkg.PackagePrice,
+		&pkg.QuotaLimit,
+		&pkg.Amount,
+		&pkg.Ordered,
+		&pkg.Duration,
+		&pkg.IsActive,
+		&pkg.CreatedDate,
+		&pkg.UpdatedDate,
+	)
 	if err != nil {
 		log.Errorf("Error scanning row: %v", err)
 		return model.SureSurePackage{}, err

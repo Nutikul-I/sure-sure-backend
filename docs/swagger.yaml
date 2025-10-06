@@ -537,6 +537,36 @@ paths:
       summary: Login or create user
       tags:
       - User
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account
+      parameters:
+      - description: User payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.SureSureUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.APIResponse'
+      summary: Register user
+      tags:
+      - User
   /order-package/create:
     post:
       consumes:

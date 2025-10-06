@@ -138,6 +138,8 @@ billdate AS billdate,
 createddate AS createddate, 
 updateddate AS updateddate FROM suresureuser WHERE username = $1 AND password = $2`
 
+var SQL_USER_COUNT_BY_USERNAME = "SELECT COUNT(1) FROM suresureuser WHERE username = $1"
+
 var SQL_USER_DELETE = "DELETE FROM suresureuser WHERE uid = $1"
 
 var SQL_USER_GET_DUPLICATE = "SELECT COUNT(storename) FROM suresureuser ssu WHERE storename = $1 AND storephone = $2 AND storeemail = $3 AND id != $4"

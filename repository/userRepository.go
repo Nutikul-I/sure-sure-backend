@@ -78,6 +78,52 @@ func GetOrCreateUser(user model.SureSureUser) (model.SureSureUser, error) {
 	return result, nil
 }
 
+func RegisterUser(user model.SureSureUser) (model.SureSureUser, error) {
+	conn := ConnectDB()
+	ctx := context.Background()
+	if err := conn.PingContext(ctx); err != nil {
+		log.Errorf("Database ping error: %v", err)
+		return model.SureSureUser{}, err
+	}
+
+	var usernameCount int
+	if err := conn.QueryRowContext(ctx, model.SQL_USER_COUNT_BY_USERNAME, user.Username).Scan(&usernameCount); err != nil {
+		log.Errorf("Error checking username duplication: %v", err)
+		return model.SureSureUser{}, err
+	}
+	if usernameCount > 0 {
+		log.Warnf("Username already exists: %s", user.Username)
+		return model.SureSureUser{}, fmt.Errorf("duplicate username")
+	}
+
+	uid, err := CreateUser(user)
+	if err != nil {
+		log.Errorf("CreateUser error: %v", err)
+		return model.SureSureUser{}, err
+	}
+
+	createdUser, err := GetUserByID(uid)
+	if err != nil {
+		log.Errorf("GetUserByID error: %v", err)
+		return model.SureSureUser{}, err
+	}
+
+	token, err := generateJWT(createdUser.ID, createdUser.Username)
+	if err != nil {
+		log.Errorf("JWT generation error: %v", err)
+		return model.SureSureUser{}, err
+	}
+	log.Infof("JWT token generated for user: %s", token)
+	createdUser.Token = token
+
+	if err := UpdateUser(createdUser); err != nil {
+		log.Errorf("UpdateUser error while registering: %v", err)
+		return model.SureSureUser{}, err
+	}
+
+	return createdUser, nil
+}
+
 func GetUserAll() ([]model.SureSureUser, error) {
 	conn := ConnectDB()
 	ctx := context.Background()

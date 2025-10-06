@@ -36,6 +36,7 @@ func RouterInit(app *fiber.App) *fiber.App {
 	// ------------------------------------------------------------------------------------------------------------------------------
 
 	api.Post("/api/v1/login", user_service.GetOrCreateUser)
+	api.Post("/api/v1/register", user_service.RegisterUser)
 
 	user := api.Group("/api/v1/user")
 	user.Get("/get", user_service.GetUserAll)

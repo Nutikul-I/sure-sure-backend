@@ -9,6 +9,7 @@ import (
 type UserService interface {
 	GetUserAll() ([]model.SureSureUser, error)
 	GetOrCreateUser(user model.SureSureUser) (model.SureSureUser, error)
+	RegisterUser(user model.SureSureUser) (model.SureSureUser, error)
 	GetUserByID(id string) (model.SureSureUser, error)
 	CreateUser(user model.SureSureUser) (string, error)
 	UpdateUser(user model.SureSureUser) error
@@ -30,6 +31,10 @@ func (s *userService) GetUserAll() ([]model.SureSureUser, error) {
 
 func (s *userService) GetOrCreateUser(user model.SureSureUser) (model.SureSureUser, error) {
 	return repository.GetOrCreateUser(user)
+}
+
+func (s *userService) RegisterUser(user model.SureSureUser) (model.SureSureUser, error) {
+	return repository.RegisterUser(user)
 }
 
 func (s *userService) GetUserByID(id string) (model.SureSureUser, error) {

@@ -12,6 +12,7 @@ type UserController interface {
 	GetUserAll(c *fiber.Ctx) error
 	GetUserByID(c *fiber.Ctx) error
 	GetOrCreateUser(c *fiber.Ctx) error
+	RegisterUser(c *fiber.Ctx) error
 	CreateUser(c *fiber.Ctx) error
 	UpdateUser(c *fiber.Ctx) error
 	DeleteUser(c *fiber.Ctx) error
@@ -110,6 +111,44 @@ func (ctrl *userController) GetOrCreateUser(c *fiber.Ctx) error {
 	// ล็อกการเสร็จสิ้นการทำงาน
 	log.Println("User successfully created or fetched")
 
+	return nil
+}
+
+// RegisterUser godoc
+// @Summary Register user
+// @Description Create a new user account
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body model.SureSureUser true "User payload"
+// @Success 201 {object} util.APIResponse
+// @Failure 400 {object} util.APIResponse
+// @Failure 500 {object} util.APIResponse
+// @Router /register [post]
+func (ctrl *userController) RegisterUser(c *fiber.Ctx) error {
+	var user model.SureSureUser
+	log.Println("Received registration request")
+
+	if err := c.BodyParser(&user); err != nil {
+		log.Printf("Error parsing body: %v", err)
+		util.JSONResponse(c, fiber.StatusBadRequest, 4000, nil)
+		return nil
+	}
+
+	log.Printf("Registration attempt for user: %s", user.Username)
+
+	result, err := ctrl.UserService.RegisterUser(user)
+	if err != nil {
+		log.Printf("Registration error: %v", err)
+		if err.Error() == "duplicate username" {
+			util.JSONResponse(c, fiber.StatusBadRequest, 4004, nil)
+			return nil
+		}
+		util.JSONResponse(c, fiber.StatusInternalServerError, 5000, nil)
+		return nil
+	}
+
+	util.JSONResponse(c, fiber.StatusCreated, 2006, result)
 	return nil
 }
 

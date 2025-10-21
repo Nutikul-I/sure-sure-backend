@@ -1,14 +1,65 @@
 package repository
 
 import (
-	"context"
-	"fmt"
+    "context"
+    "encoding/base64"
+    "fmt"
 
-	"github.com/textures1245/payso-check-slip-backend/model"
+    "github.com/textures1245/payso-check-slip-backend/model"
+    "github.com/textures1245/payso-check-slip-backend/util"
 
-	"github.com/blockloop/scan"
-	log "github.com/sirupsen/logrus"
+    "github.com/blockloop/scan"
+    log "github.com/sirupsen/logrus"
+    "github.com/spf13/viper"
 )
+
+// getEncKey reads ACCOUNT_ENC_KEY from viper/env. If empty, returns nil.
+func getEncKey() []byte {
+    key := viper.GetString("ACCOUNT_ENC_KEY")
+    if key == "" {
+        return nil
+    }
+    return []byte(key)
+}
+
+func encryptAccountNo(plain string) string {
+    if plain == "" {
+        return plain
+    }
+    key := getEncKey()
+    if key == nil {
+        // No key configured; store as-is
+        return plain
+    }
+    b, err := util.TripleEcbDesEncrypt([]byte(plain), key)
+    if err != nil {
+        log.Warnf("account encrypt failed, store plain: %v", err)
+        return plain
+    }
+    return base64.StdEncoding.EncodeToString(b)
+}
+
+func decryptAccountNo(enc string) string {
+    if enc == "" {
+        return enc
+    }
+    key := getEncKey()
+    if key == nil {
+        // No key configured; treat as plain
+        return enc
+    }
+    // Try base64 decode; if fails, assume plaintext
+    raw, err := base64.StdEncoding.DecodeString(enc)
+    if err != nil {
+        return enc
+    }
+    out, err := util.TripleEcbDesDecrypt(raw, key)
+    if err != nil {
+        // Not an encrypted value (or wrong key); return original
+        return enc
+    }
+    return string(out)
+}
 
 func GetAllBank() ([]model.SureSureBank, error) {
 	conn := ConnectDB()
@@ -24,12 +75,16 @@ func GetAllBank() ([]model.SureSureBank, error) {
 		return []model.SureSureBank{}, err
 	}
 
-	var bankAccounts []model.SureSureBank
-	err = scan.Rows(&bankAccounts, rows)
+    var bankAccounts []model.SureSureBank
+    err = scan.Rows(&bankAccounts, rows)
 
-	defer rows.Close()
-	log.Infof("bankAccounts: %d", len(bankAccounts))
-	return bankAccounts, nil
+    defer rows.Close()
+    // Decrypt account numbers for display/use
+    for i := range bankAccounts {
+        bankAccounts[i].AccountNo = decryptAccountNo(bankAccounts[i].AccountNo)
+    }
+    log.Infof("bankAccounts: %d", len(bankAccounts))
+    return bankAccounts, nil
 }
 
 func GetBankByID(id int) ([]model.SureSureBank, error) {
@@ -44,10 +99,14 @@ func GetBankByID(id int) ([]model.SureSureBank, error) {
 		log.Errorf("Error executing query: %v", err)
 		return []model.SureSureBank{}, err
 	}
-	var bankAccount []model.SureSureBank
-	err = scan.Rows(&bankAccount, rows)
-	defer rows.Close()
-	return bankAccount, nil
+    var bankAccount []model.SureSureBank
+    err = scan.Rows(&bankAccount, rows)
+    defer rows.Close()
+    // Decrypt account numbers
+    for i := range bankAccount {
+        bankAccount[i].AccountNo = decryptAccountNo(bankAccount[i].AccountNo)
+    }
+    return bankAccount, nil
 }
 
 func CreateBank(account model.SureSureBank) (int, error) {
@@ -84,12 +143,13 @@ func CreateBank(account model.SureSureBank) (int, error) {
 		counter++
 	}
 
-	if account.AccountNo != "" {
-		query += "AccountNo, "
-		values += fmt.Sprintf("$%d, ", counter)
-		params = append(params, account.AccountNo)
-		counter++
-	}
+    if account.AccountNo != "" {
+        query += "AccountNo, "
+        values += fmt.Sprintf("$%d, ", counter)
+        // Encrypt before storing
+        params = append(params, encryptAccountNo(account.AccountNo))
+        counter++
+    }
 
 	if account.AccountType != "" {
 		query += "AccountType, "
@@ -181,11 +241,12 @@ func UpdateBank(account model.SureSureBank) error {
 		counter++
 	}
 
-	if account.AccountNo != "" {
-		query += fmt.Sprintf("AccountNo = $%d, ", counter)
-		params = append(params, account.AccountNo)
-		counter++
-	}
+    if account.AccountNo != "" {
+        query += fmt.Sprintf("AccountNo = $%d, ", counter)
+        // Encrypt before storing
+        params = append(params, encryptAccountNo(account.AccountNo))
+        counter++
+    }
 
 	if account.AccountType != "" {
 		query += fmt.Sprintf("AccountType = $%d, ", counter)
